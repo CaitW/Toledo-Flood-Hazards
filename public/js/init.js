@@ -29,7 +29,7 @@ $(document).on('ready', function(){
 $(window).on('load', function(){
 	// if(serverVariables.publicPath!="/"){
 		delay(function(){
-			$('[data-target="#aboutModal"]').trigger('click');
+			// $('[data-target="#aboutModal"]').trigger('click');
 		},1500)
 
 	// }

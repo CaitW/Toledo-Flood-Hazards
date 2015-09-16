@@ -5,8 +5,8 @@ var fs = require('fs-extra');
 var archiver = require('archiver');
 var pg = require('pg')
 var _ =require('underscore')
-var conString = "connectionString";
-var floodviewConn = "connectionString";
+var conString = "postgres://toledo_user:ge2Rapa@localhost/toledo_db";
+var floodviewConn = "postgres://floodview_user:8pust8PHEb5a@localhost/floodview_db";
 
 router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

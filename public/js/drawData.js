@@ -243,7 +243,7 @@ function style(){
 		d3.selectAll('.mainChartX')
 			.transition().duration(500)
 			.attr('opacity', 0)
-			.text("Parcels in the Silver Creek watershed")
+			.text("Parcels in the Chester Creek watershed")
 			.attr("transform", function(){return "translate("+(chartWidth/2)+","+(chartHeight+chartMargin.top)+")"})
 			.transition().delay(2000).duration(1000)
 			.attr('opacity', 1);

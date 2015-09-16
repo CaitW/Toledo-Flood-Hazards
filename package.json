@@ -1,9 +1,9 @@
 {
   "author": "Lizzi Slivinski",
   "name": "ToledoFloodHazards",
-  "version": "0.00.01",
+  "version": "1.01.03",
   "private": true,
-  "date": "03-11-2015",
+  "date": "01-30-2015",
   "scripts": {
     "start": "node ./bin/www"
   },

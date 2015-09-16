@@ -1,10 +1,3 @@
-/*
-    Created By Lizzi Slivinski, 2014 - 2015
-    eSlivinski@gmail.com
-
-    prototypes.js  Document defines prototype functions and other helper functions utilized by the toledo flood hazard visualizer
-*/
-
 
 // GLOBALS
 var colors= {

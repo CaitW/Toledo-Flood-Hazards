@@ -7,17 +7,17 @@
 
 
 // Site Specific Variables
-var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/Toledo_MapServiceFinal/MapServer/";
+var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService/MapServer/";
 var siteBounds = L.latLngBounds(sW, nE);
-var maxBounds = L.latLngBounds(L.latLng(41.47668911274522, -84.12162780761719), L.latLng(41.96204305667252, -83.00926208496094)),
-    fullExtent = L.latLngBounds([41.7055362786694, -83.63419532775879], [41.73378888605136, -83.49686622619629]);
+// var maxBounds = L.latLngBounds(L.latLng(41.47668911274522, -84.12162780761719), L.latLng(41.96204305667252, -83.00926208496094)),
+//     fullExtent = L.latLngBounds([41.7055362786694, -83.63419532775879], [41.73378888605136, -83.49686622619629]);
 
 // Map Definition
 var map = L.map('map', {
     zoomControl: false,
     maxZoom: 16,
-    minZoom: 11,
-    maxBounds: maxBounds,
+    minZoom: 2,
+    // maxBounds: maxBounds,
     attributionControl: false,
     trackResize: true
 }).fitBounds(siteBounds);
@@ -381,7 +381,7 @@ function getLink(obj){
 
     // Place export string in input box
     $(obj).attr('value',function(){
-       linkPlace = (window.location.hostname==="localhost") ?  "/":"/toledofloodhazards/"
+       linkPlace = (window.location.hostname==="localhost") ?  "/":"/duluthfloodhazards/"
         return ''+location.origin+''+linkPlace+'mapView/'+exportString+''
     })
 

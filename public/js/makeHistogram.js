@@ -290,7 +290,7 @@ yearKeys=null
 scenarioData=null
 
 function makeLine(){
-	floods= ['2yr','5yr','10yr','25yr','50yr','100yr','2yr','5yr','10yr','25yr','50yr','100yr','2yr','5yr','10yr','25yr','50yr','100yr','2yr','5yr','10yr','25yr','50yr','100yr']
+	floods= ['2yr','5yr','10yr','25yr','50yr','100yr', '500yr','2yr','5yr','10yr','25yr','50yr','100yr', '500yr','2yr','5yr','10yr','25yr','50yr','100yr', '500yr','2yr','5yr','10yr','25yr','50yr','100yr', '500yr']
 	chartColors= ['#fcc200', '#000080', '#14cad3', '#d1e231']
 	scenarios = ['1. Current Precipitation & Land Use', '2. Future Precipitation & Land Use', '3. Current Precipitation with Green Infrastructure', '4. Future Precipitation with Green Infrastructure']
 

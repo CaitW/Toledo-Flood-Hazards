@@ -23,7 +23,7 @@ var helpData={
 	"scenario":{
 		selector : "#scenario-list",
 		popOptions: {
-			content : "The report analyzed the affect of different climate / landuse scenarios on flood events in Toledo. Choose any of the scenarios listed in this menu to view that dataset on the map.",
+			content : "The report analyzed the affect of different climate / landuse scenarios on flood events in Duluth. Choose any of the scenarios listed in this menu to view that dataset on the map.",
 			placement : "bottom",
 			title : "Changing the Scenario",
 			delay: { "show": 1000, "hide": 0 }
@@ -85,7 +85,7 @@ var helpData={
 	"share":{
 		selector : "#shareBody",
 		popOptions: {
-			content : "Share the findings displayed on the Toledo Flood Hazard Visualizer with the world!<br>Print or Export your custom map view, or export the data and do your own analysis",
+			content : "Share the findings displayed on the Duluth Flood Hazard Visualizer with the world!<br>Print or Export your custom map view",
 			placement : (startingValues.mobileDevice==true) ? "top" : "left",
 			delay: { "show": 1000, "hide": 0 }
 		},
@@ -168,7 +168,7 @@ var helpData={
 	"mode":{
 		selector : "#modeBody .list-group",
 		popOptions: {
-			content : "The Toledo Flood Hazard Visualizer allows you to interact with the data in two different ways: <ul><li><strong>Discover</strong>&mdash; allows new users to learn more about the dataset</li><li><strong>Analyze</strong>&mdash; allows experienced users draw conclusions based on the data</li></ul> Select either option from the mode menu to change the Visualizer's settings.",
+			content : "The Duluth Flood Hazard Visualizer allows you to interact with the data in two different ways: <ul><li><strong>Discover</strong>&mdash; allows new users to learn more about the dataset</li><li><strong>Analyze</strong>&mdash; allows experienced users draw conclusions based on the data</li></ul> Select either option from the mode menu to change the Visualizer's settings.",
 			placement : "left",
 			delay: { "show": 1000, "hide": 0 }
 		},

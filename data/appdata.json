@@ -34,53 +34,59 @@
          "value":6,
          "floodEvent":100,
          "annualChance":1,
+         "defaultValue": false
+      },
+      {
+         "value":7,
+         "floodEvent":500,
+         "annualChance":0.2,
          "defaultValue": true
       }
    ],
    "scenarios":[
       {
          "value":1,
-         "width":6,
-         "dg":9,
+         "width":7,
+         "dg":13,
          "compare":32,
          "compare-landuse":32,
          "compare-climate":17,
          "compare-opposite":47,
-         "udf":2,
+         "udf":5,
          "text":"Current Precipitation and Land Use",
          "defaultValue":true
       },
       {
          "value":2,
-         "width":6,
-         "dg":24,
+         "width":7,
+         "dg":30,
          "compare":47,
          "compare-landuse":47,
          "compare-climate":2,
          "compare-opposite":32,
-         "udf":17,
+         "udf":22,
          "text":"Future 2035 Precipitation and Land Use"
       },
       {
          "value":3,
-         "width":6,
-         "dg":39,
+         "width":7,
+         "dg":64,
          "compare":3,
          "compare-landuse":2,
          "compare-climate":47,
          "compare-opposite":17,
-         "udf":32,
+         "udf":56,
          "text":"Current Precipitation with Green Infrastructure"
       },
       {
          "value":4,
-         "width":6,
-         "dg":54,
+         "width":7,
+         "dg":81,
          "compare":17,
          "compare-landuse":17,
          "compare-climate":32,
          "compare-opposite":2,
-         "udf":47,
+         "udf":73,
          "text":"Future 2035 Precipitation with Green Infrastructure"
       }
    ],
@@ -142,51 +148,6 @@
          "name":"depthGrid",
          "longName":"Depth Grid",
          "value":1
-      },
-      {
-         "name":"stormDrains",
-         "longName":"Storm Water Network",
-         "value":2,
-         "sublayerID":"stormWaterSublayers",
-         "sublayerName":"stormWaterCheckboxes",
-         "sublayers":[
-
-            {
-               "longName":"Storm Water Mains",
-               "value":"mains",
-               "type": "checkbox"
-            },
-            {
-               "longName":"Storm Water Ditches",
-               "value":"ditches",
-               "type": "checkbox"
-            }
-         ]
-      },
-      {
-         "name":"landUse",
-         "longName":"Land Use",
-         "value":3,
-         "sublayerID":"landUseSublayers",
-         "sublayerName":"landUseRadios",
-         "sublayers":[
-
-            {
-               "longName":"Current Land Use",
-               "value":"CLU",
-               "type": "radio"
-            },
-            {
-               "longName":"Future Land Use",
-               "value":"FLU",
-               "type": "radio"
-            }
-         ]
-      },
-      {
-         "name":"watershed",
-         "longName":"Watershed Boundary",
-         "value":5
       },
       {
          "name":"fema",
