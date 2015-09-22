@@ -26,7 +26,7 @@ app.locals.allYearData = require('./data/allYearData.json');
 app.locals.dataByYear = require('./data/dataByYear.json');
 app.locals.databyID = require('./data/databyID.json');
 app.locals.fullList = require('./data/fullList.json');
-app.locals.silverCreekWatershed_topo = require('./data/silverCreekWatershed_topo.json');
+app.locals.chesterCreekWatershed_topo = require('./data/chesterCreek_watershed_topo.json');
 app.locals.futureLandUse_topo = require('./data/FLU_Reduced.json');
 app.locals.currentLandUse_topo = require('./data/CLU_Reduced.json');
 console.log(app.get('env'))

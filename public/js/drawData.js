@@ -464,7 +464,7 @@ function resetTopoJson(t) {
 function drawWatershed(){
 
 	var watershed = mapsvg.selectAll(".watersheds")
-		.data(topojson.feature(silverCreekWatershed_topo, silverCreekWatershed_topo.objects.watershed).features)
+		.data(topojson.feature(chesterCreekWatershed_topo, chesterCreekWatershed_topo.objects.chesterCreek_watershed).features)
 		.enter().append("path")
 		.attr("d", path)
 		.attr("class", "watershed")
