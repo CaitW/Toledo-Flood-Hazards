@@ -22,12 +22,6 @@ $('input[name="layerCheckboxes"]').on('change', function() {
 
 });
 
-/*CHANGES TO FEMA SUBLAYER*/
-$('input[name="FemaCheckboxes"]').on('change', function() {
-       var activeSublayers = $('[name="FemaCheckboxes"]:checked').map(function() { return parseInt($(this).val()) }).get()
-       fema.setLayers(activeSublayers);
-
-})
 $('input[name="stormWaterCheckboxes"]').on('change', toggleStormWaterSublayers)
 
 $('input[name="landUseRadios"]').on('change', function(){

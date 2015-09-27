@@ -56,21 +56,8 @@ var depth = new L.esri.dynamicMapLayer(serviceURL, {
         position: "back"
     }).addTo(map);
 
-var fema = L.esri.dynamicMapLayer('http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer', {
-        layers: [28, 27, 12, 20],
-        className: '3',
-        opacity: ($('[name="layerCheckboxes"]:eq(6)').is(':checked')) ? 1 :0,
-        position: "back"
-    }).addTo(map);
-
-// Changes in FEMA Sublayer
-$('input[name="FemaCheckboxes"]').on('change', function() {
-       var activeSublayers = $('[name="FemaCheckboxes"]:checked').map(function() { return parseInt($(this).val()) }).get();
-       fema.setLayers(activeSublayers);
-})
-
 //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-var allLayersList = ['floods', depth, 'stormWater', 'xx','landUse', 'watershed', fema]
+var allLayersList = ['floods', depth, 'stormWater', 'xx','landUse', 'watershed', 'xx']
 
 // Storm water Layer Group
 var stormWater = L.layerGroup().addTo(map);
@@ -122,7 +109,6 @@ function attributionText (ouputLocation){
         outputAttributionText = (ouputLocation=='map') ? outputAttributionText.concat("<a href='http://leafletjs.com/'>Leaflet</a>  <a href='#' onclick='$(\"#fullAttribution\").slideToggle()'><i class='flaticon-info20'></i></a><div id='fullAttribution' style='display: none;'>") : outputAttributionText
         outputAttributionText = outputAttributionText.concat(""+currentBasemap.options.attribution+"")
         outputAttributionText = (depth.options.opacity!=0) ? (outputAttributionText.concat("<br>Depth Grid &mdash; ASFPM Flood Science Center")) : outputAttributionText
-        outputAttributionText = (fema.options.opacity!=0) ? (outputAttributionText.concat("<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS")) : outputAttributionText
         outputAttributionText = outputAttributionText.concat("<br>Icons <a href='http://fontawesome.io'>Font Awesome</a> by Dave Gandy")
         outputAttributionText = outputAttributionText.concat("<br>Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>")
         outputAttributionText = (ouputLocation=='map') ? outputAttributionText.concat("</div>") : outputAttributionText
@@ -214,21 +200,6 @@ function printMap(){
         make(chesterCreekWatershed_topo)
     }
 
-    // Create FEMA Layer for printable map
-    FEMA = function(){
-        // Detect which sublayers are checked
-        var activeSubs = $('#FEMASublayers input:checked').map(function(){ return parseInt($(this).val())}).get()
-
-        var FEMA = L.esri.dynamicMapLayer('http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer', {
-            layers: activeSubs,
-            className: '3',
-            opacity: 0.8,
-            position: "back"
-        }).addTo(printMap).on('load', test);
-
-        return FEMA
-    }
-
     // Create landuse layer for printable map
     LANDUSE = function(){
 
@@ -303,7 +274,7 @@ function printMap(){
     }
 
     // Lists all possible overlay Layers--XX=Stand-in to maintain layer indexes
-    var possibleLayers=[SYMBOLS, DG, STORMWATER, LANDUSE, "xx", WATERSHED, FEMA]
+    var possibleLayers=[SYMBOLS, DG, STORMWATER, LANDUSE, "xx", WATERSHED, "xx"]
 
     // For each layer that is checked call the function that adds it to the print map
     var createActiveLayers = $('[name="layerCheckboxes"]:checked').each(function(i,d) {

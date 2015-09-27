@@ -148,35 +148,6 @@
          "name":"depthGrid",
          "longName":"Depth Grid",
          "value":1
-      },
-      {
-         "name":"fema",
-         "longName":"FEMA National Flood Hazard Layer",
-         "value":6,
-         "sublayerID":"FEMASublayers",
-         "sublayerName":"FemaCheckboxes",
-         "sublayers":[
-            {
-               "longName":"Flood Hazard Zones",
-               "value":28,
-               "type": "checkbox"
-            },
-            {
-               "longName":"Flood Hazard Boundaries",
-               "value":27,
-               "type": "checkbox"
-            },
-            {
-               "longName":"High Water Marks",
-               "value":12,
-               "type": "checkbox"
-            },
-            {
-               "longName":"Water Lines",
-               "value":20,
-               "type": "checkbox"
-            }
-         ]
       }
    ],
    "floodAttributes":[
