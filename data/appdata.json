@@ -148,6 +148,11 @@
          "name":"depthGrid",
          "longName":"Depth Grid",
          "value":1
+      },
+      {
+         "name":"watershed",
+         "longName":"Watershed Boundary",
+         "value":5
       }
    ],
    "floodAttributes":[
