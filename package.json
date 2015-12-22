@@ -1,11 +1,12 @@
 {
   "author": "Lizzi Slivinski",
-  "name": "ToledoFloodHazards",
-  "version": "1.01.03",
+  "name": "DuluthFloodHazards",
+  "version": "1.01.04",
   "private": true,
-  "date": "01-30-2015",
+  "date": "12-22-2015",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "stop": "pkill --signal SIGINT floodHazards"
   },
   "dependencies": {
     "express": "~4.9.0",
