@@ -51,9 +51,10 @@ router.get('/dataPortal', function(req, res) {
 	  	 	query.on('row', function(row,result) { result.addRow(row); });
 	  		query.on('end', function(result) {
 	  			x['myResult'] = result;
-	  			x['desc'] = _.uniq( _.map(result.rows, function(val, key){ return val.name }) )
-
-	  			x['title'] = 'Data Portal'
+	  			notBatch = ((result.rows).filter(function(d, i){ return d.batch!=true }) ).map(function(d, i){ return d.title})
+	  			console.log(notBatch)
+	  			x['headings'] = _.uniq(notBatch)
+	  			x['title'] = 'Data Portal';
 
 
       		res.render('dataPortal', x)
