@@ -44,7 +44,7 @@
 							<%(myResult.rows).forEach(function(row){%>
 								<% if(row.format==".shp"){%>
 									<li class="media">
-										<a class="media-right media-top" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>">
+										<a class="media-right media-top" href="http://floodatlas.org/asfpm/data/duluth/<%= row.path%>">
 											<img class= ""src="<%=theLoc%>img/<%- (row.name).split('Scenario ')[1] %>_Symbols.png" style="margin-right:5px;border:1px solid black;height: 77px;">
 										</a>
 										<div class="media-body">
@@ -57,7 +57,7 @@
 												</li>
 												<li>
 													<i class="fa fa-download"></i>
-													<a class="fileLocation" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>" title="download file">Download </a>
+													<a class="fileLocation" href="http://floodatlas.org/asfpm/data/duluth/<%= row.path%>" title="download file">Download </a>
 												</li>
 											</ul>
 										</div>
@@ -78,7 +78,7 @@
 							<%(myResult.rows).forEach(function(row){%>
 								<% if(row.format==".tiff"){%>
 									<li class="media">
-										<a class="media-right media-top" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>">
+										<a class="media-right media-top" href="http://floodatlas.org/asfpm/data/duluth/<%= row.path%>">
 											<img class= ""src="<%=theLoc%>img/<%- (row.name).split('Scenario ')[1] %>_DG.png"style="margin-right:5px;border:1px solid black; height: 77px;">
 										</a>
 										<div class="media-body">
@@ -90,7 +90,7 @@
 												</li>
 												<li>
 													<i class="fa fa-download"></i>
-													<a class="fileLocation" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>" title="download file">Download </a>
+													<a class="fileLocation" href="http://floodatlas.org/asfpm/data/duluth/<%= row.path%>" title="download file">Download </a>
 												</li>
 											</ul>
 										</div>
@@ -108,13 +108,13 @@
 				<div class="col-md-4">
 					<div class="affix-top sidenav mobile-<%=mobileDevice%>" role="complementary">
 						<div>
-							<a class="btn btn-primary btn-block" id="downloadAll" href="http://floodatlas.org/asfpm/data/toledo/ToledoFloodHazards.zip">
+							<a class="btn btn-primary btn-block" id="downloadAll" href="http://floodatlas.org/asfpm/data/duluth/DuluthFloodHazards.zip">
 								Download All Files
 							</a>
 							<hr>
 							<ul  class="nav nav-pills nav-stacked">
 								<li>
-									<a href="http://216.165.135.4:6080/arcgis/rest/services/ToledoFloodHazards_NOAAEcon/MapServer">
+									<a href="http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService/MapServer">
 										<i class="fa fa-fw fa-lg fa-terminal"></i>
 										Access our WMS Service
 									</a>
