@@ -125,6 +125,11 @@ img.bordered{
 	float: left;
 	margin-right: 10px;
 }
+img.project-circle
+{
+	width: 120px;
+    border: 1px solid orange;
+}
 
 /* Phones */
 @media (max-width: 767px){
