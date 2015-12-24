@@ -1,13 +1,12 @@
 
 function viewMeta(x){
-	$("#metaModal .modal-title").html(""+x.name+"")
+	$("#metaModal .modal-title").html(""+x.subtitle+"")
 	$("#metaModal #downloadBTN").attr("href","http://floodatlas.org/asfpm/data/toledo"+x.path+"")
 	$("#metaModal .modal-body").html(function(){
 		body = ""
 		body += ""+x.description+"<hr>"
 		body += "<dl class='dl-horizontal'>"
 		body += "<dt>Author</dt><dd>"+x.author+"</dd>"
-		body += "<dt>Credits</dt><dd>"+x.credits+"</dd>"
 		body += "<dt>Format</dt><dd>"+x.format+"</dd>"
 		body += "<dt>Geometry</dt><dd>"+x.geometry+"</dd>"
 		body += "<dt>Tags</dt><dd>"+x.tags+"</dd>"
