@@ -27,8 +27,8 @@ app.locals.dataByYear = require('./data/dataByYear.json');
 app.locals.databyID = require('./data/databyID.json');
 app.locals.fullList = require('./data/fullList.json');
 app.locals.chesterCreekWatershed_topo = require('./data/chesterCreek_watershed_topo.json');
-app.locals.futureLandUse_topo = require('./data/FLU_Reduced.json');
-app.locals.currentLandUse_topo = require('./data/CLU_Reduced.json');
+app.locals.futureLandUse_topo = require('./data/flu_topo.json');
+app.locals.currentLandUse_topo = require('./data/flu_topo.json'); // TO DO: change to CLU
 console.log(app.get('env'))
 
 

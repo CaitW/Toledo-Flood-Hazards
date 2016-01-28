@@ -153,6 +153,26 @@
          "name":"watershed",
          "longName":"Watershed Boundary",
          "value":5
+      },
+      {
+         "name":"landUse",
+         "longName":"Land Use",
+         "value":3,
+         "sublayerID":"landUseSublayers",
+         "sublayerName":"landUseRadios",
+         "sublayers":[
+
+            {
+               "longName":"Current Land Use",
+               "value":"CLU",
+               "type": "radio"
+            },
+            {
+               "longName":"Future Land Use",
+               "value":"FLU",
+               "type": "radio"
+            }
+         ]
       }
    ],
    "floodAttributes":[
