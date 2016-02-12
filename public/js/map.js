@@ -7,7 +7,7 @@
 
 
 // Site Specific Variables
-var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService/MapServer/";
+var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/duluth_mapservice_test/MapServer";
 var siteBounds = L.latLngBounds(sW, nE);
 // var maxBounds = L.latLngBounds(L.latLng(41.47668911274522, -84.12162780761719), L.latLng(41.96204305667252, -83.00926208496094)),
 //     fullExtent = L.latLngBounds([41.7055362786694, -83.63419532775879], [41.73378888605136, -83.49686622619629]);
