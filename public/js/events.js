@@ -22,8 +22,6 @@ $('input[name="layerCheckboxes"]').on('change', function() {
 
 });
 
-$('input[name="stormWaterCheckboxes"]').on('change', toggleStormWaterSublayers)
-
 $('input[name="landUseRadios"]').on('change', function(){
     return ($(landUseCheck).is(':checked')==true)? handleLandUse():null
 })

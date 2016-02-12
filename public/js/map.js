@@ -56,43 +56,23 @@ var depth = new L.esri.dynamicMapLayer(serviceURL, {
         position: "back"
     }).addTo(map);
 
+// Storm water Layer
+var stormWater =  new L.esri.dynamicMapLayer(serviceURL, {
+        className: '3',
+        layers: [1],
+        opacity:($('[name="layerCheckboxes"]:eq(2)').is(':checked')) ? 1 :0,
+        position: "back"
+    }).addTo(map);
+
 //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-var allLayersList = ['floods', depth, 'stormWater', 'xx','landUse', 'watershed', 'xx']
-
-// Storm water Layer Group
-var stormWater = L.layerGroup().addTo(map);
-
-// Custom Tile Mile Tiles
-var stormWaterDitches = L.tileLayer('http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterDitches_/Tiles/{z}/{x}/{y}.png', {
-        opacity: (($(stormWaterCheck).is(':checked'))&&($('[name="stormWaterCheckboxes"]:eq(1)')).is(':checked')) ? 1 :0,
-        bounds: [[41.4126,-83.8903],[41.7342,-83.1775]],
-        val: 'ditches'
-    }).addTo(stormWater);
-
-var stormWaterMains = L.tileLayer('http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterMains_/Tiles/{z}/{x}/{y}.png', {
-        opacity: (($(stormWaterCheck).is(':checked'))&&($('[name="stormWaterCheckboxes"]:eq(0)').is(':checked'))) ? 1 :0,
-        bounds: [[41.5823,-83.7008],[41.7362,-83.4439]],
-        val: 'mains'
-    }).addTo(stormWater);
-
-// Sets Opacity of all StormWater Sublayers According to parent checkbox value
-function toggleStormWater(){
-    function turnOff(){ stormWater.eachLayer(function(layer){layer.setOpacity(0)})}
-    return ($(stormWaterCheck).is(':checked')) ? toggleStormWaterSublayers() : turnOff()
-}
-// Sets the Opacity of StormWater Sublayers According to the child checkbox values
-function toggleStormWaterSublayers(){
-    stormWater.eachLayer(function(layer){ return ($('[value="'+layer.options.val+'"]').is(':checked')) ? layer.setOpacity(1) : layer.setOpacity(0) })
-}
-
-$('input[name="stormWaterCheckboxes"]').on('change', toggleStormWaterSublayers)
+var allLayersList = ['floods', depth, stormWater, 'xx','landUse', 'watershed', 'xx']
 
 // Dispatch Layer Display Changes on checkbox toggle
 function toggleLayers(checkbox){
     function opacity(){ return ($(checkbox).is(':checked')) ? 0.8 : 0}
     function changeOpacity(){return allLayersList[parseInt($(checkbox).val())].setOpacity(opacity()) }
     identifyLayer = (parseInt($(checkbox).val()) == 0) ? handleStyle() :
-        (parseInt($(checkbox).val()) == 2) ? toggleStormWater():
+        (parseInt($(checkbox).val()) == 2) ? changeOpacity() :
         ((parseInt($(checkbox).val()) == 1) || (parseInt($(checkbox).val()) == 6)) ? changeOpacity() :
         ((parseInt($(checkbox).val()) == 5) && ($('.watershed').length==0))? drawWatershed():
         ((parseInt($(checkbox).val()) == 3)) ? handleLandUse() :null;
@@ -255,22 +235,14 @@ function printMap(){
     // Create stormwater layer for printable map
     STORMWATER= function(){
 
-        // Define stormwater feature group
-        var stormWaterNetwork = L.featureGroup();
+        var SW = new L.esri.dynamicMapLayer(serviceURL, {
+            className: '3',
+            layers: [1],
+            opacity:($('[name="layerCheckboxes"]:eq(2)').is(':checked')) ? 1 :0,
+            position: "back"
+        }).addTo(printMap).on('load', test);
 
-        // Add the active storm water layers to the storm water feature group
-        $('input[name="stormWaterCheckboxes"]:checked').each(function(){
-            targetLength ++
-            targetLayerURL= ($(this).val()=="mains") ? 'http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterMains/Tiles/{z}/{x}/{y}.png' : 'http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterDitches/Tiles/{z}/{x}/{y}.png'
-            targetLayer = L.tileLayer(targetLayerURL).on('load', test);
-            stormWaterNetwork.addLayer(targetLayer);
-        })
-
-        // Add the storm water network feature layer to the print map
-        stormWaterNetwork.addTo(printMap);
-        test(stormWaterNetwork);
-
-        return stormWaterNetwork;
+        return SW
     }
 
     // Lists all possible overlay Layers--XX=Stand-in to maintain layer indexes

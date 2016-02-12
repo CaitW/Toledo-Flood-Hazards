@@ -150,6 +150,11 @@
          "value":1
       },
       {
+         "name":"stormDrains",
+         "longName":"Storm Water Network",
+         "value":2
+      },
+      {
          "name":"watershed",
          "longName":"Watershed Boundary",
          "value":5
