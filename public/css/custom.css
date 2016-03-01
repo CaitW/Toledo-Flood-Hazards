@@ -56,6 +56,7 @@
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+    z-index: 500;
 }
 #chart.chart-basic{
 	bottom: -25%;
@@ -80,7 +81,7 @@
 /* Custom Tools */
 .customTools{
 	position: absolute;
-  	z-index: 1;
+  	z-index: 500;
   	max-width: 300px;
 	/*padding: 5px;*/
 	text-align: left;
