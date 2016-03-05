@@ -52,6 +52,10 @@
   padding-right: 30px;
 }
 
+/* svg */
+.leaflet-overlay-pane svg {
+  overflow: visible;
+}
 
 
 /*Attribution*/

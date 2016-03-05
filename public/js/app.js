@@ -54,7 +54,9 @@ var helpData = {
             }
         },
         before: function() {
-            openUp = ($('#sidebar-wrapper').width() == 0) ? $('#menu-toggle').trigger('click') : null
+            openUp = ($('#sidebar-wrapper')
+                    .width() == 0) ? $('#menu-toggle')
+                .trigger('click') : null
         }
     },
     "scenario": {
@@ -70,7 +72,9 @@ var helpData = {
         },
         focusEl: "#scenario-list .list-group-item",
         before: function() {
-            return ($("#dataBody").is(":visible") != true) ? $("a[href='#dataBody']").trigger('click') : null
+            return ($("#dataBody")
+                    .is(":visible") != true) ? $("a[href='#dataBody']")
+                .trigger('click') : null
         }
     },
     "attribute": {
@@ -86,7 +90,9 @@ var helpData = {
         },
         focusEl: "#attributeBody .list-group-item",
         before: function() {
-            return ($("#attributeBody").is(":visible") != true) ? $("a[href='#attributeBody']").trigger('click') : null
+            return ($("#attributeBody")
+                    .is(":visible") != true) ? $("a[href='#attributeBody']")
+                .trigger('click') : null
         }
     },
     "floodevent": {
@@ -101,7 +107,9 @@ var helpData = {
         },
         focusEl: "#floodEventBody .list-group-item",
         before: function() {
-            return ($("#floodEventBody").is(":visible") != true) ? $("a[href='#floodEventBody']").trigger('click') : null
+            return ($("#floodEventBody")
+                    .is(":visible") != true) ? $("a[href='#floodEventBody']")
+                .trigger('click') : null
         }
     },
     "basemap": {
@@ -115,8 +123,11 @@ var helpData = {
             }
         },
         before: function() {
-            isVisible = ($("#basemapBody").is(":visible") != true) ? $('a[href="#basemapBody"]').trigger('click') : null
-            return $('#sidebar-wrapper').scrollTo("#basemapBody")
+            isVisible = ($("#basemapBody")
+                    .is(":visible") != true) ? $('a[href="#basemapBody"]')
+                .trigger('click') : null
+            return $('#sidebar-wrapper')
+                .scrollTo("#basemapBody")
         }
     },
     "layer": {
@@ -130,8 +141,11 @@ var helpData = {
             }
         },
         before: function() {
-            isVisible = ($("#layerBody").is(":visible") != true) ? $('a[href="#layerBody"]').trigger('click') : null
-            $('#sidebar-wrapper').scrollTo("#layerBody")
+            isVisible = ($("#layerBody")
+                    .is(":visible") != true) ? $('a[href="#layerBody"]')
+                .trigger('click') : null
+            $('#sidebar-wrapper')
+                .scrollTo("#layerBody")
         }
     },
     "share": {
@@ -145,7 +159,8 @@ var helpData = {
             }
         },
         before: function() {
-            $('#sidebar-wrapper').scrollTo("#shareBody")
+            $('#sidebar-wrapper')
+                .scrollTo("#shareBody")
         }
     },
     "map": {
@@ -160,9 +175,12 @@ var helpData = {
         },
         before: function() {},
         after: function() {
-            var y = $('.tourPop').attr('id')
-            $('#' + y + '').css('top', '30%')
-            $('#' + y + ' .arrow').addClass('invisible')
+            var y = $('.tourPop')
+                .attr('id')
+            $('#' + y + '')
+                .css('top', '30%')
+            $('#' + y + ' .arrow')
+                .addClass('invisible')
         }
     },
     "legend": {
@@ -177,7 +195,9 @@ var helpData = {
         },
         focusEl: "#hazardLegendSVG",
         before: function() {
-            return ($("#floodHazardsPanel").is(":visible") != true) ? $('a[href="#floodHazardsPanel"]').trigger('click') : null
+            return ($("#floodHazardsPanel")
+                    .is(":visible") != true) ? $('a[href="#floodHazardsPanel"]')
+                .trigger('click') : null
         }
     },
     "zoom": {
@@ -191,14 +211,19 @@ var helpData = {
             }
         },
         before: function() {
-            if ($('#wrapper').hasClass('toggled') && (startingValues.mobileDevice == true)) {
-                $('#menu-toggle').trigger('click')
+            if ($('#wrapper')
+                .hasClass('toggled') && (startingValues.mobileDevice == true)) {
+                $('#menu-toggle')
+                    .trigger('click')
             }
         },
         after: function() {
-            var y = $('.popover.tourPop').attr('id');
-            $('.popover.tourPop #' + y + '').css('top', '30%')
-            $('#' + y + ' .arrow').addClass('invisible')
+            var y = $('.popover.tourPop')
+                .attr('id');
+            $('.popover.tourPop #' + y + '')
+                .css('top', '30%')
+            $('#' + y + ' .arrow')
+                .addClass('invisible')
         }
     },
     "stat": {
@@ -213,8 +238,11 @@ var helpData = {
         },
         focusEl: "#statsBody",
         before: function() {
-            isVisible = ($("#statsBody").is(":visible") != true) ? $('a[href="#statsBody"]').trigger('click') : null
-            return $('#sidebar-wrapper').scrollTo("#statsBody")
+            isVisible = ($("#statsBody")
+                    .is(":visible") != true) ? $('a[href="#statsBody"]')
+                .trigger('click') : null
+            return $('#sidebar-wrapper')
+                .scrollTo("#statsBody")
         }
     },
     "charts": {
@@ -229,8 +257,11 @@ var helpData = {
         },
         focusEl: "#statsBody",
         before: function() {
-            isVisible = ($("#chartsBody").is(":visible") != true) ? $('a[href="#chartsBody"]').trigger('click') : null
-            return $('#sidebar-wrapper').scrollTo("#chartsBody")
+            isVisible = ($("#chartsBody")
+                    .is(":visible") != true) ? $('a[href="#chartsBody"]')
+                .trigger('click') : null
+            return $('#sidebar-wrapper')
+                .scrollTo("#chartsBody")
         }
     },
     "mode": {
@@ -245,7 +276,8 @@ var helpData = {
         },
         focusEl: "#modeBody .list-group",
         before: function() {
-            $('#sidebar-wrapper').scrollTo("#modeBody .list-group")
+            $('#sidebar-wrapper')
+                .scrollTo("#modeBody .list-group")
         }
     },
     "chart": {
@@ -260,7 +292,9 @@ var helpData = {
         },
         selector_standin: "#chart",
         before: function() {
-            return ($("#chart").is(":visible") != true) ? $('#dataDistributionHeading a').trigger('click') : null
+            return ($("#chart")
+                    .is(":visible") != true) ? $('#dataDistributionHeading a')
+                .trigger('click') : null
         }
     },
     "classbreak": {
@@ -274,10 +308,14 @@ var helpData = {
             }
         },
         before: function() {
-            return ($("#chart").is(":visible") != true) ? $('#dataDistributionHeading a').trigger('click') : null
+            return ($("#chart")
+                    .is(":visible") != true) ? $('#dataDistributionHeading a')
+                .trigger('click') : null
         },
         after: function() {
-            (startingValues.mobileDevice == false) ? $('.tourPop').css("left", ($("#chartsvg").width() / 2)): null
+            (startingValues.mobileDevice == false) ? $('.tourPop')
+                .css("left", ($("#chartsvg")
+                    .width() / 2)): null
         }
     },
     "bar": {
@@ -291,7 +329,9 @@ var helpData = {
             }
         },
         before: function() {
-            return ($("#chart").is(":visible") != true) ? $('#dataDistributionHeading a').trigger('click') : null
+            return ($("#chart")
+                    .is(":visible") != true) ? $('#dataDistributionHeading a')
+                .trigger('click') : null
         }
     },
     "circle": {
@@ -305,11 +345,17 @@ var helpData = {
             }
         },
         before: function() {
-            t = parseInt($('.colorful.symbols[r!=0]:first').attr('id').split('ID_')[1])
+            t = parseInt($('.colorful.symbols[r!=0]:first')
+                .attr('id')
+                .split('ID_')[1])
             map.setView(databyID[t].LatLng, 14)
         },
         after: function() {
-            $('.tourPop').css("left", "" + (parseFloat($('.tourPop').position().left) + parseFloat($('.colorful.symbols[r!=0]:first').attr("r"))) + "px")
+            $('.tourPop')
+                .css("left", "" + (parseFloat($('.tourPop')
+                    .position()
+                    .left) + parseFloat($('.colorful.symbols[r!=0]:first')
+                    .attr("r"))) + "px")
         }
     },
     "pop": {
@@ -323,7 +369,9 @@ var helpData = {
             }
         },
         before: function() {
-            openPop(parseInt($('.colorful.symbols[r!=0]:eq(0)').attr('id').split('ID_')[1]))
+            openPop(parseInt($('.colorful.symbols[r!=0]:eq(0)')
+                .attr('id')
+                .split('ID_')[1]))
         },
         after: function() {
             drawBox('.symbolPop')
@@ -340,7 +388,9 @@ var helpData = {
             }
         },
         before: function() {
-            isVisible = ($("#floodHazardsPanel").is(":visible") != true) ? $('a[href="#floodHazardsPanel"]').trigger('click') : null
+            isVisible = ($("#floodHazardsPanel")
+                    .is(":visible") != true) ? $('a[href="#floodHazardsPanel"]')
+                .trigger('click') : null
         }
     },
     "displayPanel": {
@@ -355,7 +405,8 @@ var helpData = {
             placement: (startingValues.mobileDevice == true) ? "bottom" : "left",
         },
         before: function() {
-            $('#sidebar-wrapper').scrollTo("#displayPanel ")
+            $('#sidebar-wrapper')
+                .scrollTo("#displayPanel ")
         }
     },
     "analyzePanel": {
@@ -369,7 +420,8 @@ var helpData = {
             placement: (startingValues.mobileDevice == true) ? "top" : "left"
         },
         before: function() {
-            $('#sidebar-wrapper').scrollTo("#analyzePanel")
+            $('#sidebar-wrapper')
+                .scrollTo("#analyzePanel")
         }
     },
     "dataDistBtn": {
@@ -383,7 +435,8 @@ var helpData = {
             }
         },
         before: function() {
-            $('#sidebar-wrapper').scrollTo("#dataDistributionHeading")
+            $('#sidebar-wrapper')
+                .scrollTo("#dataDistributionHeading")
         }
     },
 };
@@ -427,35 +480,52 @@ var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, curr
 var landUseCheck, watershedCheck, stormWaterCheck;
 
 function resize() {
-    $("#map").css("height", function() {
-        return ($(window).height() - $('#navHeader').height())
-    })
+    $("#map")
+        .css("height", function() {
+            return ($(window)
+                .height() - $('#navHeader')
+                .height())
+        })
     map.invalidateSize()
     spotlight.attr('width', function() {
-        return $(document).width();
-    }).attr('height', function() {
-        return $(document).height();
-    })
+            return $(document)
+                .width();
+        })
+        .attr('height', function() {
+            return $(document)
+                .height();
+        })
     chartResize();
 }
 // Toggles Current Basemap
 function changeBasemap() {
     basemap.clearLayers()
-    currentBasemap = basemapList[$('[name="basemapRadios"]:checked').val()]
-    basemap['currentBaseMap'] = $('[name="basemapRadios"]:checked').val();
+    currentBasemap = basemapList[$('[name="basemapRadios"]:checked')
+        .val()]
+    basemap['currentBaseMap'] = $('[name="basemapRadios"]:checked')
+        .val();
     currentBasemap.addTo(basemap)
     stormWater.setZIndex(1)
 }
 // Dispatch Layer Display Changes on checkbox toggle
 function toggleLayers(checkbox) {
     function opacity() {
-        return ($(checkbox).is(':checked')) ? 0.8 : 0
+        return ($(checkbox)
+            .is(':checked')) ? 0.8 : 0
     }
 
     function changeOpacity() {
-        return allLayersList[parseInt($(checkbox).val())].setOpacity(opacity())
+        return allLayersList[parseInt($(checkbox)
+            .val())].setOpacity(opacity())
     }
-    identifyLayer = (parseInt($(checkbox).val()) == 0) ? handleStyle() : (parseInt($(checkbox).val()) == 2) ? changeOpacity() : ((parseInt($(checkbox).val()) == 1) || (parseInt($(checkbox).val()) == 6)) ? changeOpacity() : ((parseInt($(checkbox).val()) == 5) && ($('.watershed').length == 0)) ? drawWatershed() : ((parseInt($(checkbox).val()) == 3)) ? handleLandUse() : null;
+    identifyLayer = (parseInt($(checkbox)
+        .val()) == 0) ? handleStyle() : (parseInt($(checkbox)
+        .val()) == 2) ? changeOpacity() : ((parseInt($(checkbox)
+        .val()) == 1) || (parseInt($(checkbox)
+        .val()) == 6)) ? changeOpacity() : ((parseInt($(checkbox)
+        .val()) == 5) && ($('.watershed')
+        .length == 0)) ? drawWatershed() : ((parseInt($(checkbox)
+        .val()) == 3)) ? handleLandUse() : null;
     return identifyLayer
 }
 // Defines HTML for the custom attribution
@@ -471,15 +541,17 @@ function attributionText(ouputLocation) {
 }
 // Sets the Attribution for either the map or the print map base on attributionText()
 function applyAttributionText() {
-    $('.custom-attribution').html(function() {
-        return attributionText('map')
-    })
+    $('.custom-attribution')
+        .html(function() {
+            return attributionText('map')
+        })
 }
 
 function printMap() {
     // List to hold all the layers that have been added to the print map--length is checked against target legnth
     var loaded = [],
-        targetLength = ($('[name="layerCheckboxes"]:checked').length + 1);
+        targetLength = ($('[name="layerCheckboxes"]:checked')
+            .length + 1);
     // Empty String to be populated with landuse legend if the layer is active
     var legendla = "";
     // Identify the Url of the current basemap
@@ -498,12 +570,14 @@ function printMap() {
     // Initailize Svg pane
     printMap._initPathRoot();
     // ADD SVG OVERLAY TO PRINT MAP PANE
-    var printMapsvg = d3.select("#printHolder").select("svg"),
+    var printMapsvg = d3.select("#printHolder")
+        .select("svg"),
         printMapSymbolGroup = printMapsvg.append("g")
     var printTransform = d3.geo.transform({
             point: projectPoint
         }),
-        printPath = d3.geo.path().projection(printTransform);
+        printPath = d3.geo.path()
+        .projection(printTransform);
     // Project svg points on leaflet map
     function projectPoint(x, y) {
         var point = printMap.latLngToLayerPoint(new L.LatLng(y, x));
@@ -512,35 +586,66 @@ function printMap() {
     // Create depth grid layer on printable map
     DG = function() {
             var DG = L.esri.dynamicMapLayer(serviceURL, {
-                className: '2',
-                layers: [depthGridCurrent],
-                opacity: 1,
-                position: "back"
-            }).addTo(printMap).on('load', test)
+                    className: '2',
+                    layers: [depthGridCurrent],
+                    opacity: 1,
+                    position: "back"
+                })
+                .addTo(printMap)
+                .on('load', test)
             return DG
         }
         // Create Watershed layer for print map
     WATERSHED = function() {
             function make(topology) {
-                var watershed = printMapsvg.selectAll(".printwatersheds").data(topojson.feature(topology, topology.objects.watershed).features).enter().append("path").attr("d", printPath).attr("class", "watershed").attr("stroke-width", 5).attr("stroke", "turquoise").attr("fill-opacity", 0).attr("d", printPath).moveToBack().call(test)
+                var watershed = printMapsvg.selectAll(".printwatersheds")
+                    .data(topojson.feature(topology, topology.objects.watershed)
+                        .features)
+                    .enter()
+                    .append("path")
+                    .attr("d", printPath)
+                    .attr("class", "watershed")
+                    .attr("stroke-width", 5)
+                    .attr("stroke", "turquoise")
+                    .attr("fill-opacity", 0)
+                    .attr("d", printPath)
+                    .moveToBack()
+                    .call(test)
             }
             make(chesterCreekWatershed_topo)
         }
         // Create landuse layer for printable map
     LANDUSE = function() {
             // Land use scale
-            var landUseColors = d3.scale.ordinal().domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"]).range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
+            var landUseColors = d3.scale.ordinal()
+                .domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"])
+                .range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
                 // Detect which land use is active and the appropriate topology
-            var LU_TOPOLOGY = ($('[name=landUseRadios]:checked').val() == "FLU") ? futureLandUse_topo : currentLandUse_topo
+            var LU_TOPOLOGY = ($('[name=landUseRadios]:checked')
+                .val() == "FLU") ? futureLandUse_topo : currentLandUse_topo
 
             function make(topology) {
-                var printlandUse = printMapsvg.selectAll(".landUseZones").data(topojson.feature(topology, topology.objects.LU_TYPES).features).enter().append("path").attr("d", printPath).attr("class", "landUseZones").attr("fill", function(d) {
-                    return landUseColors(d.properties.Lu_Sum)
-                }).attr("fill-opacity", 0.8).moveToBack().call(test);
+                var printlandUse = printMapsvg.selectAll(".landUseZones")
+                    .data(topojson.feature(topology, topology.objects.LU_TYPES)
+                        .features)
+                    .enter()
+                    .append("path")
+                    .attr("d", printPath)
+                    .attr("class", "landUseZones")
+                    .attr("fill", function(d) {
+                        return landUseColors(d.properties.Lu_Sum)
+                    })
+                    .attr("fill-opacity", 0.8)
+                    .moveToBack()
+                    .call(test);
             }
             make(LU_TOPOLOGY);
             // Copy the already created landuse legend
-            legendla = "<div class='printLegend'>" + $('[name="landUseRadios"]:checked').parent().text() + "</h4>" + $('#landUsePanel svg').parent().html() + "</div>"
+            legendla = "<div class='printLegend'>" + $('[name="landUseRadios"]:checked')
+                .parent()
+                .text() + "</h4>" + $('#landUsePanel svg')
+                .parent()
+                .html() + "</div>"
         }
         // Create flood hazards layer for printable map
     SYMBOLS = function() {
@@ -548,38 +653,58 @@ function printMap() {
             var colorScale = ScaleEm('color'),
                 radiScale = ScaleEm('radius')
             pickData = getCurrent()
-            var printCircles = printMapSymbolGroup.selectAll('circle').data(allYearData.features).enter().append('circle');
+            var printCircles = printMapSymbolGroup.selectAll('circle')
+                .data(allYearData.features)
+                .enter()
+                .append('circle');
             printCircles.filter(function(d, i) {
-                return pickData(d) != 0
-            }).sort().sort(function(a, b) {
-                return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))
-            }).attr('fill', function(d) {
-                return colorScale(pickData(d))
-            }).attr('stroke', function(d) {
-                return colorScale(pickData(d))
-            }).attr('class', 'colorful printSymbols').attr('r', function(d) {
-                return ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') == true) ? (radiScale(pickData(d)) * 0.7) : 0
-            }).attr("cx", function(d) {
-                return printMap.latLngToLayerPoint(d.LatLng).x
-            }).attr("cy", function(d) {
-                return printMap.latLngToLayerPoint(d.LatLng).y
-            }).call(test);
+                    return pickData(d) != 0
+                })
+                .sort()
+                .sort(function(a, b) {
+                    return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))
+                })
+                .attr('fill', function(d) {
+                    return colorScale(pickData(d))
+                })
+                .attr('stroke', function(d) {
+                    return colorScale(pickData(d))
+                })
+                .attr('class', 'colorful printSymbols')
+                .attr('r', function(d) {
+                    return ($('input[name="layerCheckboxes"]:eq(0)')
+                        .is(':checked') == true) ? (radiScale(pickData(d)) * 0.7) : 0
+                })
+                .attr("cx", function(d) {
+                    return printMap.latLngToLayerPoint(d.LatLng)
+                        .x
+                })
+                .attr("cy", function(d) {
+                    return printMap.latLngToLayerPoint(d.LatLng)
+                        .y
+                })
+                .call(test);
         }
         // Create stormwater layer for printable map
     STORMWATER = function() {
             var SW = new L.esri.dynamicMapLayer(serviceURL, {
-                className: '3',
-                layers: [1],
-                opacity: ($('[name="layerCheckboxes"]:eq(2)').is(':checked')) ? 1 : 0,
-                position: "back"
-            }).addTo(printMap).on('load', test);
+                    className: '3',
+                    layers: [1],
+                    opacity: ($('[name="layerCheckboxes"]:eq(2)')
+                        .is(':checked')) ? 1 : 0,
+                    position: "back"
+                })
+                .addTo(printMap)
+                .on('load', test);
             return SW
         }
         // Lists all possible overlay Layers--XX=Stand-in to maintain layer indexes
     var possibleLayers = [SYMBOLS, DG, STORMWATER, LANDUSE, "xx", WATERSHED, "xx"]
         // For each layer that is checked call the function that adds it to the print map
-    var createActiveLayers = $('[name="layerCheckboxes"]:checked').each(function(i, d) {
-            x = possibleLayers[parseInt($(this).val())]
+    var createActiveLayers = $('[name="layerCheckboxes"]:checked')
+        .each(function(i, d) {
+            x = possibleLayers[parseInt($(this)
+                .val())]
             return (typeof x == "function") ? x.call(x) : null
         })
         // Called after each layer is loaded on the print map
@@ -592,22 +717,29 @@ function printMap() {
     // Add additional elements to the print document and call the print function
     function execute() {
         // Copy the attribution text
-        var attrText = $('#fullAttribution').html().replace(/<br>/g, "; ");
+        var attrText = $('#fullAttribution')
+            .html()
+            .replace(/<br>/g, "; ");
         // Create print document elements
         var sourceText = "<small style='font-size: xx-small'>" + attrText + "</small>",
-            legend = '<div class="printLegend" style="width:3in"><h4>Flood Hazards</h4>' + $('#baseText').html() + '' + $('#hazardLegendSVG').parent().html() + '</div>',
+            legend = '<div class="printLegend" style="width:3in"><h4>Flood Hazards</h4>' + $('#baseText')
+            .html() + '' + $('#hazardLegendSVG')
+            .parent()
+            .html() + '</div>',
             heading = '<h2>Flood Hazards</h2>',
             la = '' + legendla + '',
             legrow = '<br><br><div class="page-break"></div><div><span class="pull-left">' + legend + '</span><span class="pull-right">' + la + '</span></div>';
         // Call print
-        $('#printHolder').print({
+        $('#printHolder')
+            .print({
                 stylesheet: '' + serverVariables.publicPath + 'css/printing.css',
                 append: [sourceText, legrow],
                 prepend: heading
             })
             // After print function is called remove the printable map from the dom
         setTimeout(function() {
-            $('#printHolder').empty();
+            $('#printHolder')
+                .empty();
         }, 2000)
     }
 }
@@ -621,17 +753,32 @@ function getLink(obj) {
         sWlng = bounds._southWest.lng;
     // Object storing all global variable values to encode in link
     var domExports = {}
-    domExports['scenarioSelector'] = $('[name="scenarioRadios"]:checked').parent().parent().index()
-    domExports['scaleSelector'] = $('#scaleSelector option:selected').val()
-    domExports['layerCheckboxes'] = $('[name="layerCheckboxes"]:checked').map(function() {
-        return parseInt($(this).val())
-    }).get()
-    domExports['sublayers'] = $('.subLayer input:checked').map(function() {
-        return (isNaN($(this).val())) ? ($(this).val()) : (parseInt($(this).val()))
-    }).get()
-    domExports['basemapRadios'] = parseInt($('[name="basemapRadios"]:checked').val())
-    domExports['fieldSelector'] = $('[name="fieldRadios"]:checked').val()
-    domExports['floodEventRadios'] = parseInt($('[name="floodEventRadios"]:checked').val())
+    domExports['scenarioSelector'] = $('[name="scenarioRadios"]:checked')
+        .parent()
+        .parent()
+        .index()
+    domExports['scaleSelector'] = $('#scaleSelector option:selected')
+        .val()
+    domExports['layerCheckboxes'] = $('[name="layerCheckboxes"]:checked')
+        .map(function() {
+            return parseInt($(this)
+                .val())
+        })
+        .get()
+    domExports['sublayers'] = $('.subLayer input:checked')
+        .map(function() {
+            return (isNaN($(this)
+                .val())) ? ($(this)
+                .val()) : (parseInt($(this)
+                .val()))
+        })
+        .get()
+    domExports['basemapRadios'] = parseInt($('[name="basemapRadios"]:checked')
+        .val())
+    domExports['fieldSelector'] = $('[name="fieldRadios"]:checked')
+        .val()
+    domExports['floodEventRadios'] = parseInt($('[name="floodEventRadios"]:checked')
+        .val())
     domExports['showCompareFeatures'] = showCompareFeatures
     domExports['sW'] = [sWlat, sWlng]
     domExports['nE'] = [nElat, nElng]
@@ -639,25 +786,30 @@ function getLink(obj) {
     domExports['compareType'] = compareType
     var exportString = encodeURIComponent(JSON.stringify(domExports));
     // Place export string in input box
-    $(obj).attr('value', function() {
+    $(obj)
+        .attr('value', function() {
             linkPlace = (window.location.hostname === "localhost") ? "/" : "/duluthfloodhazards/"
             return '' + location.origin + '' + linkPlace + 'mapView/' + exportString + ''
         })
         // Show link input div
-    $("#mapViewLink").collapse('show')
+    $("#mapViewLink")
+        .collapse('show')
     var text_val = eval(obj);
     text_val.focus();
     text_val.select();
     // Hide link input div after copied
-    $("#mapViewLink input").on('blur', function() {
-        $("#mapViewLink").collapse('hide')
-    })
+    $("#mapViewLink input")
+        .on('blur', function() {
+            $("#mapViewLink")
+                .collapse('hide')
+        })
 }
 
 function ScaleEm(x, y, z) {
     scaleType = (showCompareFeatures == false) ? x : String(x) + 'Change'
     attribute = (((y == undefined) || (y == null)) && (showCompareFeatures == false)) ? currentAttribute : (((y == undefined) || (y == null)) && (showCompareFeatures == true)) ? String(currentAttribute) + '_change' : y
-    scaleName = ((z == undefined) || (z == null)) ? $('#scaleSelector option:selected').val() : z
+    scaleName = ((z == undefined) || (z == null)) ? $('#scaleSelector option:selected')
+        .val() : z
     population = fullList.map(function(d) {
             return +d[attribute];
         }) //(showCompareFeatures==false)? fullList.map(function(d) { return + d[attribute] ; }) : changeList
@@ -669,31 +821,41 @@ function ScaleEm(x, y, z) {
     var standardDeviation = function() {
         var serie = new geostats(population)
         var classes = serie.getClassStdDeviation(4)
-        var scale = d3.scale.threshold().domain(classes).range(jenksColors[attribute]);
+        var scale = d3.scale.threshold()
+            .domain(classes)
+            .range(jenksColors[attribute]);
         return scale
     }
     var equalInterval = function() {
         var serie = new geostats(population)
         var classes = serie.getClassEqInterval(4)
-        var scale = d3.scale.threshold().domain(classes).range(jenksColors[attribute]);
+        var scale = d3.scale.threshold()
+            .domain(classes)
+            .range(jenksColors[attribute]);
         return scale
     }
     var jenks = function() {
         dom = ss.jenks(population.map(function(d) {
             return +d;
         }), 4)
-        var scale = d3.scale.threshold().domain(dom).range(jenksColors[attribute]);
+        var scale = d3.scale.threshold()
+            .domain(dom)
+            .range(jenksColors[attribute]);
         return scale;
     }
     var custom = function() {
         var serie = new geostats(population)
         equalClasses = serie.getClassEqInterval(4)
         scaleDomain = (customExists[attribute] == undefined) ? equalClasses : customExists[attribute]
-        var scale = d3.scale.threshold().domain(scaleDomain).range(jenksColors[attribute])
+        var scale = d3.scale.threshold()
+            .domain(scaleDomain)
+            .range(jenksColors[attribute])
         return scale;
     }
     var linearHeight = function() {
-            var scale = d3.scale.linear().domain([Max, 0]).range([1, chartHeight]);
+            var scale = d3.scale.linear()
+                .domain([Max, 0])
+                .range([1, chartHeight]);
             return scale;
         }
         // var changeLinearHeight= function(){
@@ -703,13 +865,17 @@ function ScaleEm(x, y, z) {
         // 		return scale;
         // }
     var thresholdRadius = function() {
-        var scale = d3.scale.threshold().domain(ss.jenks(population.map(function(d) {
-            return +d;
-        }), 4)).range([2, 5, 12, 18, 29, 40]);
+        var scale = d3.scale.threshold()
+            .domain(ss.jenks(population.map(function(d) {
+                return +d;
+            }), 4))
+            .range([2, 5, 12, 18, 29, 40]);
         return scale
     }
     var linearRadius = function() {
-            var scale = d3.scale.linear().domain([0, Max]).range([0, 40]);
+            var scale = d3.scale.linear()
+                .domain([0, Max])
+                .range([0, 40]);
             return scale;
         }
         // var changeRadius = function(){
@@ -777,7 +943,8 @@ $.fn.scrollTo = function(target, options, callback) {
     return this.each(function() {
         var scrollPane = $(this);
         var scrollTarget = (typeof settings.scrollTarget == "number") ? settings.scrollTarget : $(settings.scrollTarget);
-        var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
+        var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset()
+            .top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
         scrollPane.animate({
             scrollTop: scrollY
         }, parseInt(settings.duration), settings.easing, function() {
@@ -793,108 +960,156 @@ function projectPoint(x, y) {
     this.stream.point(point.x, point.y);
 };
 
-function updateHazardSymbols() {
-    var bounds = path.bounds(hazardData),
-        topLeft = bounds[0],
-        bottomRight = bounds[1];
-    mapsvg.attr("width", bottomRight[0] - topLeft[0]).attr("height", bottomRight[1] - topLeft[1]).style("left", topLeft[0] + "px").style("top", topLeft[1] + "px");
-    mapSymbolGroup.attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
-};
 // Creates bar chart, legend, and proportional symbol elements when the map is first initialized
-function createSymbols(data) {
-    // Proportional symbols on map
-    hazardData = data.features;
-    hazardSymbols = mapSymbolGroup.selectAll('circle').data(data.features).enter().append('circle').attr('fill', colors[currentAttribute][0]).attr('stroke', function(d) {
-        d["prev"] = 0;
-        return 'white'
-    }).attr('stroke-width', 0).attr('width', 0).attr('height', 0).attr('class', 'colorful symbols').attr('id', function(d) {
-        return 'ID_' + d.id + ''
-    }).attr('r', 0).on('click', function(d) {
-        openPop(d.id)
-    });
-    updateHazardSymbols();
-    // Main Chart
-    var barGroup = chartsvg.append("g").attr('class', 'barGroup');
-    var bars = barGroup.selectAll("rect").data(data.features).enter().append('rect').attr('id', function(d) {
-        return 'ID_' + d.id + ''
-    }).attr('stroke-width', 0).attr("stroke", "white").attr('class', 'colorful bars').attr('width', 0).attr('height', 0).attr('x', function(d, i) {
-        return i * $(this).attr('width')
-    }).attr('y', function() {
-        return chartHeight - $(this).attr('height')
-    }).on('click', function(d) {
-        return map.setView(d.LatLng, 16)
-    });
-    // +/- Change Labels
-    /*
-    chartsvg.append("text")
-    	.attr('class', 'increasedDamages')
-    	.attr("text-anchor", "end")
-    	.attr('opacity', 0)
-    chartsvg.append("text")
-    	.attr('class', 'decreasedDamages')
-    	.attr("text-anchor", "begining")
-    	.attr('opacity', 0)
-    */
-    // BreakLines
-    var breakLineGroup = chartsvg.append("g").attr('class', 'breakLineGroup');
-    var breakLines = breakLineGroup.selectAll(".breakLines").data(d3.range(5)).enter().append("rect").attr("class", "draggable").call(drag);
-    // Main Chart Axis Labels
-    chartsvg.append("text").attr('class', 'mainChartY').attr("text-anchor", "middle").attr('opacity', 0)
-    chartsvg.append("text").attr('class', 'mainChartX').attr("text-anchor", "middle").attr('opacity', 0);
-    chartsvg.append("text").attr('class', 'mainChartTitle').attr("text-anchor", "middle").attr('opacity', 0);
-    // Attach coordinated highlighting between symbols and bars
-    d3.selectAll('.colorful').on("mouseover", function(event) {
-        var target = $(this).attr('id');
-        d3.selectAll('#' + target + '').classed({
-            'hover': true
-        })
-        return (dragging == false) ? d3.selectAll('#' + target + '.bars').moveToFront() : null
-    }).on("mouseout", function(event) {
-        var target = $(this).attr('id');
-        d3.selectAll('#' + target + '').classed({
-            'hover': false
-        })
-    });
-    // flood hazards legend elements explaining color symbology
-    var colorLegend = hazSVG.append('g').attr('class', 'colorLegend').selectAll('.colorGroup').data(function() {
-        return d3.range(5).reverse()
-    }).enter().append('g').attr('transform', function(d, i) {
-        return 'translate(' + ((haz_w / 5) * i) + ',0)'
-    });
-    colorLegend.append('rect').attr('width', 0).attr('height', 50).attr('class', 'legendSymbols');
-    colorLegend.append('text').attr('class', 'halo');
-    colorLegend.append('text').attr('class', 'stroke');
-    // flood hazards legend elements explaining size symbology
-    var sizeLegend = hazSVG.append('g').attr('class', 'sizeLegend').selectAll('.sizeLegendGroup').data(function() {
-        return d3.range(5).reverse()
-    }).enter().append('g').attr('transform', function(d, i) {
-        return 'translate(' + ((haz_w / 6) * (i + 1)) + ',' + (haz_h * .75) + ')'
-    });
-    sizeLegend.append('circle').attr('r', 0).attr('class', 'legendSymbols');
-    sizeLegend.append('text').attr('y', (haz_h * .25));
-    // legendHeadings
-    var headings = hazSVG.append('g').attr('class', 'headings').selectAll('.heading').data(function() {
-        return d3.range(2).reverse()
-    }).enter().append('text').attr('class', 'legendHeading').attr("transform", function(d, i) {
-        return "translate(" + (haz_w / 2) + "," + (((haz_h / 2) * i) - haz_m.top) + ")"
-    }).attr('dy', '1em');
-    handleStyle()
-    drawWater = ($(watershedCheck).is(':checked')) ? drawWatershed() : null
-    drawLand = ($(landUseCheck).is(':checked')) ? drawLandUse() : null
+function createSymbols(data){
+	// Proportional symbols on map
+	var symbols = mapSymbolGroup.selectAll('circle')
+		.data(data.features)
+		.enter().append('circle')
+		.attr('fill', colors[currentAttribute][0])
+		.attr('stroke', function(d){d["prev"]=0;return'white'})
+		.attr('stroke-width', 0)
+		.attr('width', 0)
+		.attr('height',0)
+		.attr('class', 'colorful symbols')
+		.attr('id', function(d){ return 'ID_'+d.id+''})
+		.attr('r', 0)
+		.on('click', function(d){ openPop(d.id) });
+	
+	// Reposition the symbols when mapview changes
+	function update(){
+		symbols.attr("cx",function(d) { return map.latLngToLayerPoint(d.LatLng).x})
+			.attr("cy",function(d) { return map.latLngToLayerPoint(d.LatLng).y});
+
+	}
+    map.on("moveend", update);
+	update();
+
+	// Main Chart
+	var barGroup= chartsvg.append("g")
+		.attr('class', 'barGroup');
+	var bars = barGroup.selectAll("rect")
+		.data(data.features)
+		.enter().append('rect')
+		.attr('id', function(d){ return 'ID_'+d.id+''})
+		.attr('stroke-width', 0)
+		.attr("stroke", "white")
+		.attr('class', 'colorful bars')
+		.attr('width', 0)
+		.attr('height', 0)
+		.attr('x',function(d,i){return i*$(this).attr('width') })
+		.attr('y',function(){return chartHeight - $(this).attr('height') })
+		.on('click', function(d){return map.setView(d.LatLng, 16)});
+
+	// +/- Change Labels
+	/*
+	chartsvg.append("text")
+		.attr('class', 'increasedDamages')
+		.attr("text-anchor", "end")
+		.attr('opacity', 0)
+	chartsvg.append("text")
+		.attr('class', 'decreasedDamages')
+		.attr("text-anchor", "begining")
+		.attr('opacity', 0)
+	*/
+
+	// BreakLines
+	var breakLineGroup = chartsvg.append("g")
+		.attr('class', 'breakLineGroup');
+	var breakLines= breakLineGroup.selectAll(".breakLines")
+		.data(d3.range(5))
+		.enter().append("rect")
+		.attr("class", "draggable")
+		.call(drag);
+
+
+	// Main Chart Axis Labels
+	chartsvg.append("text")
+		.attr('class', 'mainChartY')
+		.attr("text-anchor", "middle")
+		.attr('opacity', 0)
+	chartsvg.append("text")
+		.attr('class', 'mainChartX')
+		.attr("text-anchor", "middle")
+		.attr('opacity', 0);
+	chartsvg.append("text")
+		.attr('class', 'mainChartTitle')
+		.attr("text-anchor", "middle")
+		.attr('opacity', 0);
+
+
+
+	// Attach coordinated highlighting between symbols and bars
+	d3.selectAll('.colorful')
+		.on("mouseover", function(event){
+			var target= $(this).attr('id');
+			d3.selectAll('#'+target+'').classed({'hover':true})
+			return (dragging==false) ? d3.selectAll('#'+target+'.bars').moveToFront():null
+		})
+		.on("mouseout", function(event){
+			var target= $(this).attr('id');
+			d3.selectAll('#'+target+'').classed({'hover':false})
+		})
+
+	// flood hazards legend elements explaining color symbology
+	var colorLegend = hazSVG.append('g')
+		.attr('class', 'colorLegend')
+			.selectAll('.colorGroup')
+			.data(function(){ return d3.range(5).reverse()})
+			.enter().append('g')
+			.attr('transform', function(d,i){return 'translate('+((haz_w/5)*i)+',0)'});
+		colorLegend.append('rect')
+				.attr('width', 0)
+				.attr('height', 50)
+				.attr('class','legendSymbols')
+		colorLegend.append('text').attr('class', 'halo')
+		colorLegend.append('text').attr('class', 'stroke')
+
+	// flood hazards legend elements explaining size symbology
+	var sizeLegend = hazSVG.append('g')
+		.attr('class','sizeLegend')
+		.selectAll('.sizeLegendGroup')
+			.data(function(){ return d3.range(5).reverse()})
+			.enter().append('g')
+			.attr('transform', function(d,i){return 'translate('+((haz_w/6)*(i+1))+','+(haz_h*.75)+')'});
+		sizeLegend.append('circle')
+			.attr('r',0)
+			.attr('class', 'legendSymbols')
+		sizeLegend.append('text').attr('y',(haz_h*.25))
+
+	// legendHeadings
+	var headings = hazSVG.append('g')
+		.attr('class', 'headings')
+			.selectAll('.heading')
+			.data(function(){ return d3.range(2).reverse()})
+			.enter().append('text')
+				.attr('class', 'legendHeading')
+				.attr("transform", function(d,i){return "translate("+(haz_w/2)+","+(((haz_h/2)*i)-haz_m.top)+")"})
+				.attr('dy','1em');
+
+
+	handleStyle()
+	drawWater =($(watershedCheck).is(':checked'))? drawWatershed() : null
+	drawLand = ($(landUseCheck).is(':checked'))? drawLandUse() : null
 }
+
 
 function style() {
     // Defines function to expose the current data (ie. the dataset according the current scenario, flood event, and attribute selected)
     var pickData = getCurrent()
         // changeList=(showCompareFeatures==true) ? ($(allYearData.features).map(function(){return pickData(this)}).get()).sort(d3.descending) :[]
         // changeList.sort(d3.descending)
-    var selectedData = d3.selectAll('.bars').data().map(function(d) {
-        return pickData(d)
-    }).filter(function(d) {
-        return d != 0
-    }).sort(function(a, b) {
-        return d3.descending(Math.abs(a), Math.abs(b))
-    })
+    var selectedData = d3.selectAll('.bars')
+        .data()
+        .map(function(d) {
+            return pickData(d)
+        })
+        .filter(function(d) {
+            return d != 0
+        })
+        .sort(function(a, b) {
+            return d3.descending(Math.abs(a), Math.abs(b))
+        })
     maxWidth = chartWidth / (selectedData.length)
         // Retrieve scales from dispatcher function
     var colorScale = ScaleEm('color'),
@@ -902,9 +1117,15 @@ function style() {
         radiScale = ScaleEm('radius');
     var breaks = colorScale.domain();
     // Update y axis
-    var chartYaxis = d3.svg.axis().scale(linearHeight).orient("left").tickValues(breaks);
-    d3.select("#chartsvg .y.axis").remove();
-    chartsvg.append("g").attr("class", "y axis").call(chartYaxis);
+    var chartYaxis = d3.svg.axis()
+        .scale(linearHeight)
+        .orient("left")
+        .tickValues(breaks);
+    d3.select("#chartsvg .y.axis")
+        .remove();
+    chartsvg.append("g")
+        .attr("class", "y axis")
+        .call(chartYaxis);
 
     function updateLables() {
         // Update increase/decrease labels
@@ -923,67 +1144,127 @@ function style() {
         // 	.transition().duration(1000)//.delay(2000)
         // 	.attr('opacity', function(){return (showCompareFeatures==false)?0:1});
         // Update main chart labels
-        d3.selectAll('.mainChartY').transition().duration(500).attr('opacity', 0).text(function() {
-            return (showCompareFeatures == false) ? "Flood Damages" : "Change in Flood Damages"
-        }).attr("transform", function() {
-            return "translate(-30," + (chartHeight / 2) + ") rotate(270)"
-        }).transition().delay(2000).duration(1000).attr('opacity', 1);
-        d3.selectAll('.mainChartX').transition().duration(500).attr('opacity', 0).text("Parcels in the Chester Creek watershed").attr("transform", function() {
-            return "translate(" + (chartWidth / 2) + "," + (chartHeight + chartMargin.top) + ")"
-        }).transition().delay(2000).duration(1000).attr('opacity', 1);
-        d3.selectAll('.bars').sort(function(a, b) {
-            return (showCompareFeatures == false) ? d3.descending(pickData(a), pickData(b)) : d3.ascending(pickData(a), pickData(b))
-        }); //.sort(function(a,b){return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))})[0]
+        d3.selectAll('.mainChartY')
+            .transition()
+            .duration(500)
+            .attr('opacity', 0)
+            .text(function() {
+                return (showCompareFeatures == false) ? "Flood Damages" : "Change in Flood Damages"
+            })
+            .attr("transform", function() {
+                return "translate(-30," + (chartHeight / 2) + ") rotate(270)"
+            })
+            .transition()
+            .delay(2000)
+            .duration(1000)
+            .attr('opacity', 1);
+        d3.selectAll('.mainChartX')
+            .transition()
+            .duration(500)
+            .attr('opacity', 0)
+            .text("Parcels in the Chester Creek watershed")
+            .attr("transform", function() {
+                return "translate(" + (chartWidth / 2) + "," + (chartHeight + chartMargin.top) + ")"
+            })
+            .transition()
+            .delay(2000)
+            .duration(1000)
+            .attr('opacity', 1);
+        d3.selectAll('.bars')
+            .sort(function(a, b) {
+                return (showCompareFeatures == false) ? d3.descending(pickData(a), pickData(b)) : d3.ascending(pickData(a), pickData(b))
+            }); //.sort(function(a,b){return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))})[0]
         updateSymbology();
     }
     updateLables();
 
     function updateSymbology() {
         // Update main chart bar symbology
-        d3.selectAll('.bars').filter(function(d, i) {
+        d3.selectAll('.bars')
+            .filter(function(d, i) {
                 return pickData(d) != 0
-            }).attr('height', function(d) {
+            })
+            .attr('height', function(d) {
                 return (showCompareFeatures != true) ? (chartHeight - linearHeight(pickData(d))) : (Math.abs(linearHeight(pickData(d)) - linearHeight(0)))
-            }).transition().duration(2000).attr("fill", function(d) {
+            })
+            .transition()
+            .duration(2000)
+            .attr("fill", function(d) {
                 return colorScale(pickData(d))
-            }).attr("opacity", 1) //function(d){return ((showCompareFeatures==true)&&(d[damagesCurrent]==0))? 0.7 : ((showCompareFeatures==true)&&(d[damagesCompare]==0)) ? 0.7 : 1})
+            })
+            .attr("opacity", 1) //function(d){return ((showCompareFeatures==true)&&(d[damagesCurrent]==0))? 0.7 : ((showCompareFeatures==true)&&(d[damagesCompare]==0)) ? 0.7 : 1})
             .attr('y', function(d) {
                 return (showCompareFeatures != true) ? linearHeight(pickData(d)) : linearHeight(Math.max(0, pickData(d)))
-            }).transition().duration(1000) //.delay(1000)
+            })
+            .transition()
+            .duration(1000) //.delay(1000)
             .attr('width', function() {
                 return maxWidth
-            }).attr('x', function(d, i) {
+            })
+            .attr('x', function(d, i) {
                 return i * maxWidth
             });
-        d3.selectAll('.bars').filter(function(d, i) {
+        d3.selectAll('.bars')
+            .filter(function(d, i) {
                 return pickData(d) == 0
-            }).transition().duration(1000).attr('width', 0).attr('height', 0).transition().delay(1000).duration(1000) //
+            })
+            .transition()
+            .duration(1000)
+            .attr('width', 0)
+            .attr('height', 0)
+            .transition()
+            .delay(1000)
+            .duration(1000) //
             .attr('y', 0);
         // Update map symbol symbology
-        d3.selectAll('.symbols').filter(function(d, i) {
+        d3.selectAll('.symbols')
+            .filter(function(d, i) {
                 return pickData(d) != 0
-            }).sort().sort(function(a, b) {
+            })
+            .sort()
+            .sort(function(a, b) {
                 return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))
-            }).attr("stroke", function(d) {
-                return (d.prev < radiScale(pickData(d))) ? "white" : d3.lab(d3.select(this).attr("fill")).darker()
+            })
+            .attr("stroke", function(d) {
+                return (d.prev < radiScale(pickData(d))) ? "white" : d3.lab(d3.select(this)
+                        .attr("fill"))
+                    .darker()
             }) //<radiScale(pickData(d))) ? "white" : "black" })
-            .attr("stroke-width", 2).transition().duration(2000).attr("stroke", function(d) {
+            .attr("stroke-width", 2)
+            .transition()
+            .duration(2000)
+            .attr("stroke", function(d) {
                 return colorScale(pickData(d))
-            }).attr("stroke-width", 0).attr("r", function(d) {
+            })
+            .attr("stroke-width", 0)
+            .attr("r", function(d) {
                 d["prev"] = radiScale(pickData(d));
-                return ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') == true) ? radiScale(pickData(d)) : 0
-            }).attr("fill", function(d) {
+                return ($('input[name="layerCheckboxes"]:eq(0)')
+                    .is(':checked') == true) ? radiScale(pickData(d)) : 0
+            })
+            .attr("fill", function(d) {
                 return colorScale(pickData(d))
-            }).attr("fill-opacity", 0.7) //function(d){return ((showCompareFeatures==true)&&(d[damagesCurrent]==0))?0.4 : ((showCompareFeatures==true)&&(d[damagesCompare]==0)) ? 0.4 : 0.7});
+            })
+            .attr("fill-opacity", 0.7) //function(d){return ((showCompareFeatures==true)&&(d[damagesCurrent]==0))?0.4 : ((showCompareFeatures==true)&&(d[damagesCompare]==0)) ? 0.4 : 0.7});
             .attr("stroke-opacity", 1);
-        d3.selectAll('.symbols').filter(function(d, i) {
-            return pickData(d) == 0
-        }).attr("stroke-width", 2).attr("stroke", function(d) {
-            return d3.lab(d3.select(this).attr("fill")).darker()
-        }).transition().delay(1000).duration(2000).attr("r", function(d) {
-            d["prev"] = 0;
-            return 0
-        }).attr("stroke-width", 0);
+        d3.selectAll('.symbols')
+            .filter(function(d, i) {
+                return pickData(d) == 0
+            })
+            .attr("stroke-width", 2)
+            .attr("stroke", function(d) {
+                return d3.lab(d3.select(this)
+                        .attr("fill"))
+                    .darker()
+            })
+            .transition()
+            .delay(1000)
+            .duration(2000)
+            .attr("r", function(d) {
+                d["prev"] = 0;
+                return 0
+            })
+            .attr("stroke-width", 0);
         makeTicks();
     }
 }
@@ -992,65 +1273,124 @@ function makeTicks() {
     var colorScale = ScaleEm('color'),
         linearHeight = ScaleEm('height'),
         rScale = ScaleEm('radius');
-    var evenBreaks = ScaleEm('color', null, "equalInterval").domain()
-    var breaks = ($('#scaleSelector option:selected').val() == "quantile_Color") ? colorScale.quantiles() : colorScale.domain();
-    textScale = d3.scale.ordinal().domain([555, 333, 111, 4, 0]).range(['More Change', 'Less Change', 'More Change (-)', 'More Damages', 'Less Damages'])
-    d3.selectAll('.draggable').data(breaks).attr('x', 0).attr('height', 3).attr('fill', function(d, i) {
-        return colorScale(d)
-    }).transition().delay(500).duration(1000).attr('y', function(d) {
-        return linearHeight(d)
-    }).attr('width', chartWidth);
-    d3.selectAll('.colorLegend rect').transition().duration(500).attr('fill', function(d) {
-        return colorScale(breaks[d])
-    }).transition().duration(1000).attr('width', 50);
-    d3.selectAll('.sizeLegend g').sort(function(a, b) {
-        return d3.descending(Math.abs(breaks[a]), Math.abs(breaks[b]))
-    })
-    d3.selectAll('.sizeLegend circle').transition().duration(600).attr('r', function(d) {
-        return (rScale(evenBreaks[d]) > 3) ? rScale(evenBreaks[d]) : 3
-    }).attr('fill', function(d) {
-        return colorScale(breaks[d])
-    });
-    d3.selectAll('.colorLegend text').text('').attr('x', 25).attr('text-anchor', 'middle').attr("dy", '1.3em').transition().duration(500).text(function(d) {
-        return (breaks[d + 1] != undefined) ? (d3.round(breaks[d]) + ' - ' + (d3.round(breaks[d + 1]) - 1) + '%') : (d3.round(breaks[d]) + "% +")
-    });
-    d3.selectAll('.legendHeading').transition().delay(500).duration(1000).text(function(d) {
-        return (d == 0) ? 'Size' : 'Color'
-    });
-    d3.selectAll('.sizeLegend text').text('').attr('dy', '.5em').filter(function(d, i) {
-        return (showCompareFeatures == true) ? (d < 1 || d == 2 || d > 3) : (d < 1 || d > 3);
-    }).transition().delay(500).duration(1000).text(function(d, i) {
-        return (showCompareFeatures == true) ? textScale((d + 1) * 111) : textScale(d)
-    });
+    var evenBreaks = ScaleEm('color', null, "equalInterval")
+        .domain()
+    var breaks = ($('#scaleSelector option:selected')
+        .val() == "quantile_Color") ? colorScale.quantiles() : colorScale.domain();
+    textScale = d3.scale.ordinal()
+        .domain([555, 333, 111, 4, 0])
+        .range(['More Change', 'Less Change', 'More Change (-)', 'More Damages', 'Less Damages'])
+    d3.selectAll('.draggable')
+        .data(breaks)
+        .attr('x', 0)
+        .attr('height', 3)
+        .attr('fill', function(d, i) {
+            return colorScale(d)
+        })
+        .transition()
+        .delay(500)
+        .duration(1000)
+        .attr('y', function(d) {
+            return linearHeight(d)
+        })
+        .attr('width', chartWidth);
+    d3.selectAll('.colorLegend rect')
+        .transition()
+        .duration(500)
+        .attr('fill', function(d) {
+            return colorScale(breaks[d])
+        })
+        .transition()
+        .duration(1000)
+        .attr('width', 50);
+    d3.selectAll('.sizeLegend g')
+        .sort(function(a, b) {
+            return d3.descending(Math.abs(breaks[a]), Math.abs(breaks[b]))
+        })
+    d3.selectAll('.sizeLegend circle')
+        .transition()
+        .duration(600)
+        .attr('r', function(d) {
+            return (rScale(evenBreaks[d]) > 3) ? rScale(evenBreaks[d]) : 3
+        })
+        .attr('fill', function(d) {
+            return colorScale(breaks[d])
+        });
+    d3.selectAll('.colorLegend text')
+        .text('')
+        .attr('x', 25)
+        .attr('text-anchor', 'middle')
+        .attr("dy", '1.3em')
+        .transition()
+        .duration(500)
+        .text(function(d) {
+            return (breaks[d + 1] != undefined) ? (d3.round(breaks[d]) + ' - ' + (d3.round(breaks[d + 1]) - 1) + '%') : (d3.round(breaks[d]) + "% +")
+        });
+    d3.selectAll('.legendHeading')
+        .transition()
+        .delay(500)
+        .duration(1000)
+        .text(function(d) {
+            return (d == 0) ? 'Size' : 'Color'
+        });
+    d3.selectAll('.sizeLegend text')
+        .text('')
+        .attr('dy', '.5em')
+        .filter(function(d, i) {
+            return (showCompareFeatures == true) ? (d < 1 || d == 2 || d > 3) : (d < 1 || d > 3);
+        })
+        .transition()
+        .delay(500)
+        .duration(1000)
+        .text(function(d, i) {
+            return (showCompareFeatures == true) ? textScale((d + 1) * 111) : textScale(d)
+        });
 }
 
 function chooseCustom() {
     var linearHeight = clone(ScaleEm('height'));
-    var reverser = d3.scale.linear().domain(linearHeight.range()).range(linearHeight.domain());
-    var draggableValues = $('.draggable').map(function() {
-        return (reverser(parseInt($(this).attr('y'))))
-    }).get();
+    var reverser = d3.scale.linear()
+        .domain(linearHeight.range())
+        .range(linearHeight.domain());
+    var draggableValues = $('.draggable')
+        .map(function() {
+            return (reverser(parseInt($(this)
+                .attr('y'))))
+        })
+        .get();
     var suffix = (showCompareFeatures == true) ? '_change' : ''
     customExists[String(currentAttribute) + suffix] = draggableValues
-    $('#scaleSelector').selectpicker('val', 'custom');
-    $(".resetBreaks").show()
+    $('#scaleSelector')
+        .selectpicker('val', 'custom');
+    $(".resetBreaks")
+        .show()
     handleStyle();
 }
 
 function chartResize() {
-    chartWidth = $('#page-content-wrapper').width() - (chartMargin.left + chartMargin.right)
-    chartHeight = $("#chart").height() - chartMargin.top - chartMargin.bottom
-    d3.select('#chartsvg').attr('width', $('#page-content-wrapper').width()).attr('height', chartHeight + chartMargin.top + chartMargin.bottom)
-    chartsvg.transition().duration(1000).delay(200).attr('width', chartWidth).attr('height', chartHeight);
+    chartWidth = $('#page-content-wrapper')
+        .width() - (chartMargin.left + chartMargin.right)
+    chartHeight = $("#chart")
+        .height() - chartMargin.top - chartMargin.bottom
+    d3.select('#chartsvg')
+        .attr('width', $('#page-content-wrapper')
+            .width())
+        .attr('height', chartHeight + chartMargin.top + chartMargin.bottom)
+    chartsvg.transition()
+        .duration(1000)
+        .delay(200)
+        .attr('width', chartWidth)
+        .attr('height', chartHeight);
     handleStyle();
 }
 
 function handleStyle() {
     style();
     setTimeout(function() {
-        $('#baseText').html(function() {
-            return getBaseText()
-        });
+        $('#baseText')
+            .html(function() {
+                return getBaseText()
+            });
     }, 500);
     updateStatistics();
     // updateHighlights();
@@ -1058,11 +1398,12 @@ function handleStyle() {
 }
 // Creates Summary Stats for the population
 function updateStatistics(x) {
-    population = (x == undefined) ? d3.values(dataByYear[damagesCurrent]).map(function(d) {
-        return d.attributes[currentAttribute]
-    }) : x.map(function(d) {
-        return d[damagesCurrent].attributes[currentAttribute]
-    })
+    population = (x == undefined) ? d3.values(dataByYear[damagesCurrent])
+        .map(function(d) {
+            return d.attributes[currentAttribute]
+        }) : x.map(function(d) {
+            return d[damagesCurrent].attributes[currentAttribute]
+        })
     form = (currentAttribute == "BldgDmgPct") ? d3.format('%') : d3.format('$,')
     math = (currentAttribute == "BldgDmgPct") ? function(x) {
         return x / 100
@@ -1075,21 +1416,34 @@ function updateStatistics(x) {
         sum: form(math(d3.round(d3.sum(population)))),
         n: String(population.length)
     }
-    $('.stats-target').each(function() {
-        $(this).html(stats[$(this).attr('data')])
-    })
-    return (currentAttribute == "BldgDmgPct") ? $('.stats-target[data="sum"]').parent().slideUp() : $('.stats-target[data="sum"]').parent().slideDown()
+    $('.stats-target')
+        .each(function() {
+            $(this)
+                .html(stats[$(this)
+                    .attr('data')])
+        })
+    return (currentAttribute == "BldgDmgPct") ? $('.stats-target[data="sum"]')
+        .parent()
+        .slideUp() : $('.stats-target[data="sum"]')
+        .parent()
+        .slideDown()
 }
 // Returns the Explanatory Legend Text
 function getBaseText() {
-    var floodYear = $('[name="floodEventRadios"]:checked').attr("year")
-    scenario = String($('[name="scenarioRadios"]:checked').parent().text()).toLowerCase()
+    var floodYear = $('[name="floodEventRadios"]:checked')
+        .attr("year")
+    scenario = String($('[name="scenarioRadios"]:checked')
+            .parent()
+            .text())
+        .toLowerCase()
     attribute = (currentAttribute == "BldgLossUS") ? "thousands of dollars" : "percent damage"
     var scenarioText = getScenarios()
     var outputText = "<p class='legendDescText'>{&nbsp;displayed "
     outputText = (showCompareFeatures == true) ? outputText.concat("as the net difference ") : outputText
     outputText = outputText.concat("in <strong>" + attribute + "</strong> resulting from a <strong>" + floodYear + " year flood</strong>")
-    outputText = (showCompareFeatures == true) ? outputText.concat(" between scenario " + ($('.list-group-item.active').index() + 1) + " and scenario " + ($('.list-group-item.compare').index() + 1) + " }") : outputText.concat(", given <strong>" + scenario + "</strong>&nbsp;}</p>")
+    outputText = (showCompareFeatures == true) ? outputText.concat(" between scenario " + ($('.list-group-item.active')
+        .index() + 1) + " and scenario " + ($('.list-group-item.compare')
+        .index() + 1) + " }") : outputText.concat(", given <strong>" + scenario + "</strong>&nbsp;}</p>")
     return outputText
 }
 // Reposition the SVG to cover the features.
@@ -1098,33 +1452,60 @@ function resetTopoJson(t) {
 }
 // Creates the Watershed layer || Called When the watershed checkbox is first clicked
 function drawWatershed() {
-    var watershed = mapsvg.selectAll(".watersheds").data(topojson.feature(chesterCreekWatershed_topo, chesterCreekWatershed_topo.objects.chesterCreek_watershed).features).enter().append("path").attr("d", path).attr("class", "watershed").attr("stroke-width", 0).attr("stroke", "turquoise").attr("fill-opacity", 0).moveToBack().call(styleWatershed).call(resetTopoJson);
-    map.on("viewreset", function() {
+    var watershed = mapsvg.selectAll(".watersheds")
+        .data(topojson.feature(chesterCreekWatershed_topo, chesterCreekWatershed_topo.objects.chesterCreek_watershed)
+            .features)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("class", "watershed")
+        .attr("stroke-width", 0)
+        .attr("stroke", "turquoise")
+        .attr("fill-opacity", 0)
+        .moveToBack()
+        .call(styleWatershed)
+        .call(resetTopoJson);
+    map.on("moveend", function() {
         resetTopoJson(watershed)
     });
     watershedCheck.on('change', styleWatershed)
 }
 
 function handleLandUse() {
-    var LU = $('[name="landUseRadios"]:checked').val()
-    return ($("." + LU + "").length == 0) ? drawLandUse(LU) : styleLandUse(LU)
+    var LU = $('[name="landUseRadios"]:checked')
+        .val()
+    return ($("." + LU + "")
+        .length == 0) ? drawLandUse(LU) : styleLandUse(LU)
 }
 
 function drawLandUse(landUse) {
-    var landUseColors = d3.scale.ordinal().domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"]).range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
-    var landUseZones = mapsvg.selectAll("landUseZones").data(function() {
-        var x = (landUse == "FLU") ? futureLandUse_topo : currentLandUse_topo;
-        return topojson.feature(x, x.objects.LU_TYPES).features
-    }).enter().append("path").attr("d", path).attr("class", function() {
-        return "landUseZones " + landUse + ""
-    }).attr("fill", function(d) {
-        return landUseColors(d.properties.Lu_Sum)
-    }).attr("fill-opacity", 0).moveToBack().call(resetTopoJson);
+    var landUseColors = d3.scale.ordinal()
+        .domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"])
+        .range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
+    var landUseZones = mapsvg.selectAll("landUseZones")
+        .data(function() {
+            var x = (landUse == "FLU") ? futureLandUse_topo : currentLandUse_topo;
+            return topojson.feature(x, x.objects.LU_TYPES)
+                .features
+        })
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("class", function() {
+            return "landUseZones " + landUse + ""
+        })
+        .attr("fill", function(d) {
+            return landUseColors(d.properties.Lu_Sum)
+        })
+        .attr("fill-opacity", 0)
+        .moveToBack()
+        .call(resetTopoJson);
     styleLandUse(landUse);
-    map.on("viewreset", function() {
+    map.on("moveend", function() {
         resetTopoJson(landUseZones)
     });
-    var makeLegend = ($('#landUseLegendSVG').length == 0) ? makelandUseLegend() : null
+    var makeLegend = ($('#landUseLegendSVG')
+        .length == 0) ? makelandUseLegend() : null
 
     function makelandUseLegend() {
         var m = {
@@ -1135,42 +1516,79 @@ function drawLandUse(landUse) {
             },
             H = 15,
             W = 40;
-        var landUseLegendSVG = d3.select("#landUseLegend").append("svg").attr('height', function() {
-            return ((landUseColors.domain()).length * (H + m.top));
-        }).attr('width', 300).attr('id', 'landUseLegendSVG').append('g').attr("transform", "translate(" + m.left + "," + m.top + ")");
-        var legendGroup = landUseLegendSVG.selectAll('.legendGroup').data(landUseColors.domain()).enter().append('g').attr("transform", function(d, i) {
-            return "translate(0," + i * (H + m.top) + ")";
-        });
-        legendGroup.append('rect').attr("width", W).attr("height", H).attr("fill", function(d) {
-            return landUseColors(d)
-        });
-        legendGroup.append("text").attr("x", W + m.right).attr("y", H / 2).attr("dy", ".35em").text(function(d) {
-            return d;
-        });
+        var landUseLegendSVG = d3.select("#landUseLegend")
+            .append("svg")
+            .attr('height', function() {
+                return ((landUseColors.domain())
+                    .length * (H + m.top));
+            })
+            .attr('width', 300)
+            .attr('id', 'landUseLegendSVG')
+            .append('g')
+            .attr("transform", "translate(" + m.left + "," + m.top + ")");
+        var legendGroup = landUseLegendSVG.selectAll('.legendGroup')
+            .data(landUseColors.domain())
+            .enter()
+            .append('g')
+            .attr("transform", function(d, i) {
+                return "translate(0," + i * (H + m.top) + ")";
+            });
+        legendGroup.append('rect')
+            .attr("width", W)
+            .attr("height", H)
+            .attr("fill", function(d) {
+                return landUseColors(d)
+            });
+        legendGroup.append("text")
+            .attr("x", W + m.right)
+            .attr("y", H / 2)
+            .attr("dy", ".35em")
+            .text(function(d) {
+                return d;
+            });
     }
 }
 // Turns the land use layer on and off after it is created
 function styleLandUse(landUse) {
-    d3.selectAll('.landUseZones').attr('fill-opacity', 0).transition().duration(600)
-    d3.selectAll('.' + landUse + '').transition().duration(600).attr("fill-opacity", function() {
-        return ($(landUseCheck).is(':checked')) ? .8 : 0
-    })
-    var showLegend = ($(landUseCheck).is(':checked') == false) ? $('#landUsePanel').parents('.panel:first').slideUp() : $('#landUsePanel').parents('.panel:first').slideDown()
+    d3.selectAll('.landUseZones')
+        .attr('fill-opacity', 0)
+        .transition()
+        .duration(600)
+    d3.selectAll('.' + landUse + '')
+        .transition()
+        .duration(600)
+        .attr("fill-opacity", function() {
+            return ($(landUseCheck)
+                .is(':checked')) ? .8 : 0
+        })
+    var showLegend = ($(landUseCheck)
+            .is(':checked') == false) ? $('#landUsePanel')
+        .parents('.panel:first')
+        .slideUp() : $('#landUsePanel')
+        .parents('.panel:first')
+        .slideDown()
 }
 // Turns the watershed layer on and off after it is first created
 function styleWatershed(watershed) {
-    d3.selectAll('.watershed').transition().duration(600).attr('stroke-width', function() {
-        return watershedCheck.is(':checked') ? 5 : 0
-    })
+    d3.selectAll('.watershed')
+        .transition()
+        .duration(600)
+        .attr('stroke-width', function() {
+            return watershedCheck.is(':checked') ? 5 : 0
+        })
 }
 
 function getDamagesIndex() {
-    return String(parseInt($('[name="scenarioRadios"]:checked').attr("data-udf")) + parseInt($('input[name="floodEventRadios"]:checked').attr('value')))
+    return String(parseInt($('[name="scenarioRadios"]:checked')
+        .attr("data-udf")) + parseInt($('input[name="floodEventRadios"]:checked')
+        .attr('value')))
 }
 
 function getScenarios() {
-    var primaryScenario = $('[name="scenarioRadios"]:checked').val()
-    comScenario = $('.list-group-item.compare [name="scenarioRadios"]').val()
+    var primaryScenario = $('[name="scenarioRadios"]:checked')
+        .val()
+    comScenario = $('.list-group-item.compare [name="scenarioRadios"]')
+        .val()
     return {
         primaryScenario: primaryScenario,
         compareScenario: comScenario
@@ -1178,24 +1596,34 @@ function getScenarios() {
 }
 
 function getCompareDamagesIndex() {
-    DI = parseInt($('[name="scenarioRadios"]:checked').attr('data-compare-' + $('[name="comparisonRadios"]:checked').val() + ''))
-    return String(parseInt($('input[name="floodEventRadios"]:checked').attr('value')) + DI)
+    DI = parseInt($('[name="scenarioRadios"]:checked')
+        .attr('data-compare-' + $('[name="comparisonRadios"]:checked')
+            .val() + ''))
+    return String(parseInt($('input[name="floodEventRadios"]:checked')
+        .attr('value')) + DI)
 }
 
 function getDGIndex() {
-    return (parseInt($('[name="scenarioRadios"]:checked').attr("data-dg")) + parseInt($('input[name="floodEventRadios"]:checked').attr('value')));
+    return (parseInt($('[name="scenarioRadios"]:checked')
+        .attr("data-dg")) + parseInt($('input[name="floodEventRadios"]:checked')
+        .attr('value')));
 }
 
 function getCurrentAttribute() {
-    return $('#fieldSelector option:selected').val();
+    return $('#fieldSelector option:selected')
+        .val();
 }
 
 function setIndexValues(x) {
     x = (x == undefined) ? "checked" : "eq(" + x + ")"
-    baseline = parseInt($("[name='scenarioRadios']:" + x + "").attr("data-udf"))
-    damageIndexWidth = parseInt($("[name='scenarioRadios']:" + x + "").attr("data-width")),
-        minimumDamageIndex = parseInt($('input[name="floodEventRadios"]:eq(0)').attr('value')) + baseline,
-        maximumDamageIndex = (parseInt($('input[name="floodEventRadios"]:eq(' + (damageIndexWidth - 1) + ')').attr('value'))) + baseline;
+    baseline = parseInt($("[name='scenarioRadios']:" + x + "")
+        .attr("data-udf"))
+    damageIndexWidth = parseInt($("[name='scenarioRadios']:" + x + "")
+            .attr("data-width")),
+        minimumDamageIndex = parseInt($('input[name="floodEventRadios"]:eq(0)')
+            .attr('value')) + baseline,
+        maximumDamageIndex = (parseInt($('input[name="floodEventRadios"]:eq(' + (damageIndexWidth - 1) + ')')
+            .attr('value'))) + baseline;
     indexValues = {
         damageIndexWidth: damageIndexWidth,
         minimumDamageIndex: minimumDamageIndex,
@@ -1210,24 +1638,31 @@ function makeHistogram() {
         Max = d3.max(fullList, function(d, i) {
             return fullList[i][currentAttribute]
         });
-        return (allYearData.features).filter(function(d, i) {
-            return d[damagesCurrent] != 0
-        }).filter(function(d, i) {
-            return d[damagesCurrent].attributes[currentAttribute] > 0
-        }).map(function(d) {
-            return d[damagesCurrent].attributes[currentAttribute]
-        }).sort(d3.ascending)
+        return (allYearData.features)
+            .filter(function(d, i) {
+                return d[damagesCurrent] != 0
+            })
+            .filter(function(d, i) {
+                return d[damagesCurrent].attributes[currentAttribute] > 0
+            })
+            .map(function(d) {
+                return d[damagesCurrent].attributes[currentAttribute]
+            })
+            .sort(d3.ascending)
     }
     pickData = getCurrent()
     comparePopulation = function() {
         Max = d3.max(changeList, function(d, i) {
             return changeList[i]
         });
-        return (allYearData.features).filter(function(d, i) {
-            return d[damagesCompare] != 0
-        }).map(function(d) {
-            return pickData(d)
-        }).sort(d3.ascending)
+        return (allYearData.features)
+            .filter(function(d, i) {
+                return d[damagesCompare] != 0
+            })
+            .map(function(d) {
+                return pickData(d)
+            })
+            .sort(d3.ascending)
     }
     population = (showCompareFeatures == true) ? comparePopulation() : stdPopulation()
     var values = population
@@ -1238,92 +1673,186 @@ function makeHistogram() {
             bottom: 30,
             left: 40
         },
-        width = $('#chartHolder').parents('.modal-body').width() - margin.left - margin.right,
+        width = $('#chartHolder')
+        .parents('.modal-body')
+        .width() - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
     var x0 = Math.max(-d3.min(values), d3.max(values))
-    var x = d3.scale.linear().domain([d3.min(population), Max]).nice().range([0, width]);
-    var data = d3.layout.histogram().bins(x.ticks(Max))
+    var x = d3.scale.linear()
+        .domain([d3.min(population), Max])
+        .nice()
+        .range([0, width]);
+    var data = d3.layout.histogram()
+        .bins(x.ticks(Max))
         (values);
-    var y = d3.scale.linear().domain([0, d3.max(data, function(d) {
-        return d.y;
-    })]).range([height, 0]);
-    var xAxis = d3.svg.axis().scale(x).orient("bottom");
-    var yAxis = d3.svg.axis().scale(y).orient("left");
+    var y = d3.scale.linear()
+        .domain([0, d3.max(data, function(d) {
+            return d.y;
+        })])
+        .range([height, 0]);
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
     var colorScales = ScaleEm('color')
-    var svg = d3.select("#chartHolder").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    var bar = svg.selectAll(".bar").data(data).enter().append("g").attr("class", "bar").attr("transform", function(d) {
-        return "translate(" + x(d.x) + "," + y(d.y) + ")";
-    });
-    histobars = bar.append("rect").attr('class', 'histobars').attr("x", 1).attr("width", function() {
-        return x(data[0].x + data[0].dx) - 1
-    }).attr("height", 0).attr("fill", function(d) {
-        return colorScales(d[0]);
-    }).attr("y", function(d) {
-        return height - y(d.y);
-    });
-    bar.append("text").attr("dy", ".75em").attr("y", -7).attr("x", x(data[0].x + data[0].dx) / 2).attr("bin", function(d) {
-        return ("" + d.x + "-" + (d.x + d.dx) + "");
-    }).attr("text-anchor", "middle").text(function(d) {
-        return formatCount(d.y);
-    });
-    svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
-    svg.append("g").attr("class", "y axis").call(yAxis);
-    svg.append("text").attr("transform", "translate(0," + (height + margin.bottom) + ") rotate(0)").attr("x", (width / 2)).style("text-anchor", "center").attr("class", "axisLabel").text(function() {
-        return (showCompareFeatures == false) ? aliases[currentAttribute] : "Net Difference in " + aliases[currentAttribute]
-    });
-    svg.append("text").attr("transform", "translate(-" + (margin.left) + "," + margin.top + ") rotate(-90)").attr("x", -1 * (height / 2)).attr("y", 12).style("text-anchor", "center").attr("class", "axisLabel").text("Frequency")
-    var chartContents = d3.selectAll('text,.axis').attr('opacity', 0)
+    var svg = d3.select("#chartHolder")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var bar = svg.selectAll(".bar")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class", "bar")
+        .attr("transform", function(d) {
+            return "translate(" + x(d.x) + "," + y(d.y) + ")";
+        });
+    histobars = bar.append("rect")
+        .attr('class', 'histobars')
+        .attr("x", 1)
+        .attr("width", function() {
+            return x(data[0].x + data[0].dx) - 1
+        })
+        .attr("height", 0)
+        .attr("fill", function(d) {
+            return colorScales(d[0]);
+        })
+        .attr("y", function(d) {
+            return height - y(d.y);
+        });
+    bar.append("text")
+        .attr("dy", ".75em")
+        .attr("y", -7)
+        .attr("x", x(data[0].x + data[0].dx) / 2)
+        .attr("bin", function(d) {
+            return ("" + d.x + "-" + (d.x + d.dx) + "");
+        })
+        .attr("text-anchor", "middle")
+        .text(function(d) {
+            return formatCount(d.y);
+        });
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+    svg.append("text")
+        .attr("transform", "translate(0," + (height + margin.bottom) + ") rotate(0)")
+        .attr("x", (width / 2))
+        .style("text-anchor", "center")
+        .attr("class", "axisLabel")
+        .text(function() {
+            return (showCompareFeatures == false) ? aliases[currentAttribute] : "Net Difference in " + aliases[currentAttribute]
+        });
+    svg.append("text")
+        .attr("transform", "translate(-" + (margin.left) + "," + margin.top + ") rotate(-90)")
+        .attr("x", -1 * (height / 2))
+        .attr("y", 12)
+        .style("text-anchor", "center")
+        .attr("class", "axisLabel")
+        .text("Frequency")
+    var chartContents = d3.selectAll('text,.axis')
+        .attr('opacity', 0)
         // setTimeout(function(){
         // $('#chartHolder').slideDown()
     animateHisto()
         // }, 200)
     function animateHisto() {
-        chartContents.transition().delay(200).duration(600).attr('opacity', 1)
-        histobars.transition().delay(1000).duration(1000).attr('y', 0).attr('height', function(d) {
-            return height - y(d.y);
-        })
+        chartContents.transition()
+            .delay(200)
+            .duration(600)
+            .attr('opacity', 1)
+        histobars.transition()
+            .delay(1000)
+            .duration(1000)
+            .attr('y', 0)
+            .attr('height', function(d) {
+                return height - y(d.y);
+            })
     }
 }
 
 function makePie() {
-    currentColors = $('.draggable').map(function() {
-        return $(this).attr('fill')
-    }).get()
+    currentColors = $('.draggable')
+        .map(function() {
+            return $(this)
+                .attr('fill')
+        })
+        .get()
     pieData = [],
         totalPie = 0;
-    pieTextScale = d3.scale.ordinal().range($('.colorLegend').children().map(function() {
-        return $(this).children('.stroke').text()
-    }).get()).domain($('.colorLegend').children().map(function() {
-        return $(this).children('rect').attr('fill')
-    }).get())
-    $(currentColors).each(function() {
-        count = $('.colorful.symbols[fill="' + this + '"]').length
-        pieceOfPie = {
-            flavor: this,
-            count: count,
-            string: String(this)
-        }
-        pieData.push(pieceOfPie)
-        totalPie += count
-    })
+    pieTextScale = d3.scale.ordinal()
+        .range($('.colorLegend')
+            .children()
+            .map(function() {
+                return $(this)
+                    .children('.stroke')
+                    .text()
+            })
+            .get())
+        .domain($('.colorLegend')
+            .children()
+            .map(function() {
+                return $(this)
+                    .children('rect')
+                    .attr('fill')
+            })
+            .get())
+    $(currentColors)
+        .each(function() {
+            count = $('.colorful.symbols[fill="' + this + '"]')
+                .length
+            pieceOfPie = {
+                flavor: this,
+                count: count,
+                string: String(this)
+            }
+            pieData.push(pieceOfPie)
+            totalPie += count
+        })
     var margin = {
             top: 10,
             right: 10,
             bottom: 10,
             left: 10
         },
-        width = $('#chartHolder').parents('.modal-body').width() - margin.left - margin.right,
+        width = $('#chartHolder')
+        .parents('.modal-body')
+        .width() - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
     radius = Math.min(width, height) / 2.5;
-    var arc = d3.svg.arc().outerRadius(radius * 0.8).innerRadius(radius * 0.4);
-    var outerArc = d3.svg.arc().innerRadius(radius * 0.9).outerRadius(radius * 0.9);
-    var pie = d3.layout.pie().sort(null).value(function(d) {
-        return d.count;
-    });
-    var svg = d3.select("#chartHolder").append("svg").attr("width", width).attr("height", height).append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-    var g = svg.selectAll(".arc").data(pie(pieData)).enter().append("g").attr("class", "arc");
-    svg.append("g").attr("class", "labels");
-    svg.append("g").attr("class", "lines");
+    var arc = d3.svg.arc()
+        .outerRadius(radius * 0.8)
+        .innerRadius(radius * 0.4);
+    var outerArc = d3.svg.arc()
+        .innerRadius(radius * 0.9)
+        .outerRadius(radius * 0.9);
+    var pie = d3.layout.pie()
+        .sort(null)
+        .value(function(d) {
+            return d.count;
+        });
+    var svg = d3.select("#chartHolder")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    var g = svg.selectAll(".arc")
+        .data(pie(pieData))
+        .enter()
+        .append("g")
+        .attr("class", "arc");
+    svg.append("g")
+        .attr("class", "labels");
+    svg.append("g")
+        .attr("class", "lines");
     var key = function(d) {
         return d.data.flavor;
     };
@@ -1332,83 +1861,123 @@ function makePie() {
         return d.startAngle + (d.endAngle - d.startAngle) / 2;
     }
     var piedata = pie(pieData)
-    var slice = g.append("path").attr('class', 'pieSlice').attr("stroke-width", '0px').style("fill", function(d) {
-        return d.data.flavor;
-    }).transition().delay(function(d, i) {
-        return 500 + (i * 500);
-    }).duration(500).attrTween('d', function(d) {
-        var I = d3.interpolate(d.startAngle + 0.1, d.endAngle);
-        return function(t) {
-            d.endAngle = I(t);
-            return arc(d);
-        }
-    })
-    var text = svg.select(".labels").selectAll("text").data(pie(pieData), key);
-    text.enter().append("text").attr("dy", function(d) {
-        return (d.value < 3) ? "0" : ".35em"
-    }).text(function(d) {
-        return (d.data.count == 0) ? '' : pieTextScale(d.data.string);
-    });
-    text.transition().duration(1000).attrTween("transform", function(d) {
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            var d2 = interpolate(t);
-            var pos = outerArc.centroid(d2);
-            pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-            return "translate(" + pos + ")";
-        };
-    }).styleTween("text-anchor", function(d) {
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            var d2 = interpolate(t);
-            return midAngle(d2) < Math.PI ? "start" : "end";
-        };
-    }).attr('opacity', 0).transition().delay(function(d, i) {
-        return 500 + (i * 500);
-    }).duration(500).attr('opacity', function(d) {
-        return (d.data.count == 0) ? 0 : 1
-    });
-    var centerText = svg.append("text").text("" + totalPie + "").style({
-        'text-anchor': 'middle',
-        'font-size': 'xx-large'
-    }).attr('dy', '0.35em');
-    svg.append("text").text("parcels").style({
-        'text-anchor': 'middle',
-        'font-size': 'small'
-    }).attr('dy', '30px')
-    var polyline = svg.select(".lines").selectAll("polyline").data(pie(pieData), key);
+    var slice = g.append("path")
+        .attr('class', 'pieSlice')
+        .attr("stroke-width", '0px')
+        .style("fill", function(d) {
+            return d.data.flavor;
+        })
+        .transition()
+        .delay(function(d, i) {
+            return 500 + (i * 500);
+        })
+        .duration(500)
+        .attrTween('d', function(d) {
+            var I = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+            return function(t) {
+                d.endAngle = I(t);
+                return arc(d);
+            }
+        })
+    var text = svg.select(".labels")
+        .selectAll("text")
+        .data(pie(pieData), key);
+    text.enter()
+        .append("text")
+        .attr("dy", function(d) {
+            return (d.value < 3) ? "0" : ".35em"
+        })
+        .text(function(d) {
+            return (d.data.count == 0) ? '' : pieTextScale(d.data.string);
+        });
+    text.transition()
+        .duration(1000)
+        .attrTween("transform", function(d) {
+            this._current = this._current || d;
+            var interpolate = d3.interpolate(this._current, d);
+            this._current = interpolate(0);
+            return function(t) {
+                var d2 = interpolate(t);
+                var pos = outerArc.centroid(d2);
+                pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+                return "translate(" + pos + ")";
+            };
+        })
+        .styleTween("text-anchor", function(d) {
+            this._current = this._current || d;
+            var interpolate = d3.interpolate(this._current, d);
+            this._current = interpolate(0);
+            return function(t) {
+                var d2 = interpolate(t);
+                return midAngle(d2) < Math.PI ? "start" : "end";
+            };
+        })
+        .attr('opacity', 0)
+        .transition()
+        .delay(function(d, i) {
+            return 500 + (i * 500);
+        })
+        .duration(500)
+        .attr('opacity', function(d) {
+            return (d.data.count == 0) ? 0 : 1
+        });
+    var centerText = svg.append("text")
+        .text("" + totalPie + "")
+        .style({
+            'text-anchor': 'middle',
+            'font-size': 'xx-large'
+        })
+        .attr('dy', '0.35em');
+    svg.append("text")
+        .text("parcels")
+        .style({
+            'text-anchor': 'middle',
+            'font-size': 'small'
+        })
+        .attr('dy', '30px')
+    var polyline = svg.select(".lines")
+        .selectAll("polyline")
+        .data(pie(pieData), key);
     console.log(pie(pieData), key)
-    polyline.enter().append("polyline");
-    polyline.transition().duration(1000).attrTween("points", function(d) {
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            var d2 = interpolate(t);
-            var pos = outerArc.centroid(d2);
-            pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-            return [arc.centroid(d2), outerArc.centroid(d2), pos];
-        };
-    }).attr('opacity', 0).transition().delay(function(d, i) {
-        return 500 + (i * 500);
-    }).duration(500).attr('opacity', function(d) {
-        return (d.data.count == 0) ? 0 : 1
-    });
-    d3.selectAll('.pieSlice').on('mouseover', function(d) {
-        d3.select(this).attr("stroke-width", '3px')
-        centerText.text(function() {
-            return d.data.count
+    polyline.enter()
+        .append("polyline");
+    polyline.transition()
+        .duration(1000)
+        .attrTween("points", function(d) {
+            this._current = this._current || d;
+            var interpolate = d3.interpolate(this._current, d);
+            this._current = interpolate(0);
+            return function(t) {
+                var d2 = interpolate(t);
+                var pos = outerArc.centroid(d2);
+                pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+                return [arc.centroid(d2), outerArc.centroid(d2), pos];
+            };
         })
-    }).on('mouseout', function(d) {
-        d3.select(this).attr("stroke-width", '0px')
-        centerText.text(function() {
-            return totalPie
+        .attr('opacity', 0)
+        .transition()
+        .delay(function(d, i) {
+            return 500 + (i * 500);
         })
-    })
+        .duration(500)
+        .attr('opacity', function(d) {
+            return (d.data.count == 0) ? 0 : 1
+        });
+    d3.selectAll('.pieSlice')
+        .on('mouseover', function(d) {
+            d3.select(this)
+                .attr("stroke-width", '3px')
+            centerText.text(function() {
+                return d.data.count
+            })
+        })
+        .on('mouseout', function(d) {
+            d3.select(this)
+                .attr("stroke-width", '0px')
+            centerText.text(function() {
+                return totalPie
+            })
+        })
 }
 
 function makeLine() {
@@ -1421,107 +1990,170 @@ function makeLine() {
             bottom: 40,
             left: 40
         },
-        width = $('#chartHolder').parents('.modal-body').width() - margin.left - margin.right,
+        width = $('#chartHolder')
+        .parents('.modal-body')
+        .width() - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
-    var x = d3.scale.ordinal().domain(floods).rangePoints([0, width]);
-    var y = d3.scale.linear().range([height, 0]);
-    var xAxis = d3.svg.axis().scale(x).orient("bottom");
-    var yAxis = d3.svg.axis().scale(y).orient("left");
-    var line = d3.svg.line().x(function(d) {
-        return x(d.floodType);
-    }).y(function(d) {
-        return y(d3.max(d[currentAttribute]));
-    });
-    var sumline = d3.svg.line().x(function(d) {
-        return x(d.floodType);
-    }).y(function(d) {
-        return y(d3.sum(d[currentAttribute]));
-    });
-    var meanline = d3.svg.line().x(function(d) {
-        return x(d.floodType);
-    }).y(function(d) {
-        return y(d3.mean(d[currentAttribute]));
-    });
-    var straightline = d3.svg.line().x(function(d) {
-        return x(d.floodType);
-    }).y(function(d) {
-        return y(0);
-    });
-    var SVG = d3.select("#chartHolder").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom)
-    var svg = SVG.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    var xaxis = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis).append("text").attr("transform", "translate(0," + margin.bottom + ") rotate(0)").attr("x", width / 2).style("text-anchor", "center").attr("class", "axisLabel").text("Flood Event");
-    var scenarioLength = $('[name="scenarioRadios"]').length,
-        possibleAttributes = $('#fieldSelector option').map(function() {
-            return $(this).attr('value')
-        }).get()
+    var x = d3.scale.ordinal()
+        .domain(floods)
+        .rangePoints([0, width]);
+    var y = d3.scale.linear()
+        .range([height, 0]);
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+    var line = d3.svg.line()
+        .x(function(d) {
+            return x(d.floodType);
+        })
+        .y(function(d) {
+            return y(d3.max(d[currentAttribute]));
+        });
+    var sumline = d3.svg.line()
+        .x(function(d) {
+            return x(d.floodType);
+        })
+        .y(function(d) {
+            return y(d3.sum(d[currentAttribute]));
+        });
+    var meanline = d3.svg.line()
+        .x(function(d) {
+            return x(d.floodType);
+        })
+        .y(function(d) {
+            return y(d3.mean(d[currentAttribute]));
+        });
+    var straightline = d3.svg.line()
+        .x(function(d) {
+            return x(d.floodType);
+        })
+        .y(function(d) {
+            return y(0);
+        });
+    var SVG = d3.select("#chartHolder")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    var svg = SVG.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    var xaxis = svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .append("text")
+        .attr("transform", "translate(0," + margin.bottom + ") rotate(0)")
+        .attr("x", width / 2)
+        .style("text-anchor", "center")
+        .attr("class", "axisLabel")
+        .text("Flood Event");
+    var scenarioLength = $('[name="scenarioRadios"]')
+        .length,
+        possibleAttributes = $('#fieldSelector option')
+        .map(function() {
+            return $(this)
+                .attr('value')
+        })
+        .get()
     chartData = []
         //yearValues = d3.keys(dataByYear)
         //yearObjects = d3.map(dataByYear).entries()
         // d3.map(dataByYear[6]).entries().forEach(function(d){console.log(d['value'].attributes[currentAttribute])})
-    scenarioData = $('[name="scenarioRadios"]').map(function() {
-        start = parseInt($(this).attr('data-udf'))
-        Width = parseInt($(this).attr('data-width'))
-        end = start + Width
-        scenario = parseInt($(this).attr('value'))
-        scenarioI = scenario - 1
-        return ({
-            start: start,
-            end: end,
-            scenario: scenario,
-            scenarioI: scenarioI,
-            width: Width
+    scenarioData = $('[name="scenarioRadios"]')
+        .map(function() {
+            start = parseInt($(this)
+                .attr('data-udf'))
+            Width = parseInt($(this)
+                .attr('data-width'))
+            end = start + Width
+            scenario = parseInt($(this)
+                .attr('value'))
+            scenarioI = scenario - 1
+            return ({
+                start: start,
+                end: end,
+                scenario: scenario,
+                scenarioI: scenarioI,
+                width: Width
+            })
         })
-    }).get()
+        .get()
     max_BldgDmgPct = []
     max_BldgLossUS = []
     sum_BldgLossUS = []
     yearDataLists = []
     yearValues = d3.values(dataByYear)
     yearKeys = d3.keys(dataByYear)
-    formLists = (yearValues).forEach(function(d, i) {
-        percent = $(d3.values(d)).map(function() {
-            return this.attributes.BldgDmgPct
-        }).get()
-        dollars = $(d3.values(d)).map(function() {
-            return this.attributes.BldgLossUS
-        }).get()
-        max_BldgDmgPct.push(d3.max(percent))
-        max_BldgLossUS.push(d3.max(dollars))
-        sum_BldgLossUS.push(d3.sum(dollars))
-        yearIndex = yearKeys[i]
-        floodType = floods[i]
-        yearDataLists.push({
-            BldgDmgPct: percent,
-            BldgLossUS: dollars,
-            yearIndex: yearIndex,
-            floodType: floodType
+    formLists = (yearValues)
+        .forEach(function(d, i) {
+            percent = $(d3.values(d))
+                .map(function() {
+                    return this.attributes.BldgDmgPct
+                })
+                .get()
+            dollars = $(d3.values(d))
+                .map(function() {
+                    return this.attributes.BldgLossUS
+                })
+                .get()
+            max_BldgDmgPct.push(d3.max(percent))
+            max_BldgLossUS.push(d3.max(dollars))
+            sum_BldgLossUS.push(d3.sum(dollars))
+            yearIndex = yearKeys[i]
+            floodType = floods[i]
+            yearDataLists.push({
+                BldgDmgPct: percent,
+                BldgLossUS: dollars,
+                yearIndex: yearIndex,
+                floodType: floodType
+            })
         })
-    })
-    $(scenarioData).each(function() {
-        cutStart = (this.width * this.scenarioI)
-        cutEnd = (this.width * this.scenarioI) + this.width
-        s = (yearDataLists.slice(cutStart, cutEnd))
-        this['floodEventData'] = s
-        this['cutStart'] = cutStart
-        this['cutEnd'] = cutEnd
-    })
+    $(scenarioData)
+        .each(function() {
+            cutStart = (this.width * this.scenarioI)
+            cutEnd = (this.width * this.scenarioI) + this.width
+            s = (yearDataLists.slice(cutStart, cutEnd))
+            this['floodEventData'] = s
+            this['cutStart'] = cutStart
+            this['cutEnd'] = cutEnd
+        })
 
     function makeLegend() {
-        var legends = SVG.append("g").attr("width", width + margin.left + margin.right).attr("height", margin.top).attr("transform", "translate(" + margin.left + ",10)").attr("class", "lineChartLegend")
-        var label = legends.selectAll("labelGroups").data([0, 1, 2, 3]).enter().append("g").attr("transform", function(d) {
-            return "translate(0," + (d * 15) + ")"
-        });
-        label.append('text').attr('dy', '.7em').attr("transform", function(d) {
-            return "translate(25,0)"
-        }).text(function(d) {
-            return scenarios[d]
-        });
-        label.append('line').attr('x1', 0).attr('y1', 5).attr('x2', 20).attr('y2', 5).attr('stroke', function(d) {
-            return chartColors[d]
-        }).attr('stroke-width', 3)
+        var legends = SVG.append("g")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", margin.top)
+            .attr("transform", "translate(" + margin.left + ",10)")
+            .attr("class", "lineChartLegend")
+        var label = legends.selectAll("labelGroups")
+            .data([0, 1, 2, 3])
+            .enter()
+            .append("g")
+            .attr("transform", function(d) {
+                return "translate(0," + (d * 15) + ")"
+            });
+        label.append('text')
+            .attr('dy', '.7em')
+            .attr("transform", function(d) {
+                return "translate(25,0)"
+            })
+            .text(function(d) {
+                return scenarios[d]
+            });
+        label.append('line')
+            .attr('x1', 0)
+            .attr('y1', 5)
+            .attr('x2', 20)
+            .attr('y2', 5)
+            .attr('stroke', function(d) {
+                return chartColors[d]
+            })
+            .attr('stroke-width', 3)
         makeLine()
     }
-    if ($('.lineChartLegend').length == 0) {
+    if ($('.lineChartLegend')
+        .length == 0) {
         makeLegend()
     }
     else {
@@ -1530,15 +2162,32 @@ function makeLine() {
 
     function makeLine() {
         setDomain = (currentAttribute == 'BldgLossUS') ? y.domain([0, d3.max(max_BldgLossUS)]) : y.domain([0, d3.max(max_BldgDmgPct)])
-        var yaxis = svg.append("g").attr("class", "y axis line-yAxis").call(yAxis).append("text").attr("transform", "translate(-" + margin.left + "," + height / 2 + "), rotate(-90)").attr('dy', '.7em').attr('text-anchor', 'middle').attr("class", "axisLabel").text(function() {
-            return (currentAttribute == 'BldgLossUS') ? "Flood Damages (thousands of $)" : "Flood Damages (%)"
-        });
-        var lineGroup = svg.selectAll(".lineGroup").data(scenarioData).enter().append("g").attr("class", "lineGroup")
-        lines = lineGroup.append("path").attr("class", "line").attr('d', function(d) {
-            return straightline(d.floodEventData)
-        }).attr('stroke', function(d, i) {
-            return chartColors[i]
-        }).attr('stroke-opacity', .8).call(styleLines)
+        var yaxis = svg.append("g")
+            .attr("class", "y axis line-yAxis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "translate(-" + margin.left + "," + height / 2 + "), rotate(-90)")
+            .attr('dy', '.7em')
+            .attr('text-anchor', 'middle')
+            .attr("class", "axisLabel")
+            .text(function() {
+                return (currentAttribute == 'BldgLossUS') ? "Flood Damages (thousands of $)" : "Flood Damages (%)"
+            });
+        var lineGroup = svg.selectAll(".lineGroup")
+            .data(scenarioData)
+            .enter()
+            .append("g")
+            .attr("class", "lineGroup")
+        lines = lineGroup.append("path")
+            .attr("class", "line")
+            .attr('d', function(d) {
+                return straightline(d.floodEventData)
+            })
+            .attr('stroke', function(d, i) {
+                return chartColors[i]
+            })
+            .attr('stroke-opacity', .8)
+            .call(styleLines)
     }
 
     function styleLines(lines) {
@@ -1562,31 +2211,55 @@ function makeLine() {
             function getMed(x) {
                 return d3.median(x)
             }
-            return ($("#select-stats option:selected").val() == "mean") ? getMean : ($("#select-stats option:selected").val() == "max") ? getMax : ($("#select-stats option:selected").val() == "med") ? getMed : ($("#select-stats option:selected").val() == "n") ? getN : getSum
+            return ($("#select-stats option:selected")
+                .val() == "mean") ? getMean : ($("#select-stats option:selected")
+                .val() == "max") ? getMax : ($("#select-stats option:selected")
+                .val() == "med") ? getMed : ($("#select-stats option:selected")
+                .val() == "n") ? getN : getSum
         }
         doMath = currentStat()
         newDomain = d3.max(yearDataLists.map(function(d, i) {
             return doMath(d[currentAttribute]);
         }))
         y.domain([0, newDomain])
-        d3.selectAll('.line-yAxis').remove();
-        var yaxis = svg.append("g").attr("class", "y axis line-yAxis").call(yAxis).append("text").attr("transform", "translate(-" + margin.left + "," + height / 2 + "), rotate(-90)").attr('dy', '.7em').attr('text-anchor', 'middle').attr("class", "axisLabel").text(function() {
-            return ($("#select-stats option:selected").val() == "n") ? "Total Number of Innundated Parcels" : (currentAttribute == 'BldgLossUS') ? "" + $('#select-stats option:selected').html() + " (thousands of $)" : "" + $('#select-stats option:selected').html() + " (% Damage)"
-        });
-        $('#helpText .statistic-help').html(function() {
-            return ($("#select-stats option:selected").val() == "n") ? "Total Number of Innundated Parcels" : (currentAttribute == 'BldgLossUS') ? "" + $('#select-stats option:selected').html() + " (measured in thousands of dollars)" : "" + $('#select-stats option:selected').html() + " (measured in percent damage)"
-        })
+        d3.selectAll('.line-yAxis')
+            .remove();
+        var yaxis = svg.append("g")
+            .attr("class", "y axis line-yAxis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "translate(-" + margin.left + "," + height / 2 + "), rotate(-90)")
+            .attr('dy', '.7em')
+            .attr('text-anchor', 'middle')
+            .attr("class", "axisLabel")
+            .text(function() {
+                return ($("#select-stats option:selected")
+                        .val() == "n") ? "Total Number of Innundated Parcels" : (currentAttribute == 'BldgLossUS') ? "" + $('#select-stats option:selected')
+                    .html() + " (thousands of $)" : "" + $('#select-stats option:selected')
+                    .html() + " (% Damage)"
+            });
+        $('#helpText .statistic-help')
+            .html(function() {
+                return ($("#select-stats option:selected")
+                        .val() == "n") ? "Total Number of Innundated Parcels" : (currentAttribute == 'BldgLossUS') ? "" + $('#select-stats option:selected')
+                    .html() + " (measured in thousands of dollars)" : "" + $('#select-stats option:selected')
+                    .html() + " (measured in percent damage)"
+            })
         line.y(function(d) {
             return y(doMath(d[currentAttribute]));
         });
-        lines.transition().duration(1000).delay(1000).attr('d', function(d) {
-            return line(d.floodEventData)
-        })
+        lines.transition()
+            .duration(1000)
+            .delay(1000)
+            .attr('d', function(d) {
+                return line(d.floodEventData)
+            })
     }
-    $("#select-stats").on("change", function() {
-        console.log("change")
-        styleLines(d3.selectAll('.line'))
-    })
+    $("#select-stats")
+        .on("change", function() {
+            console.log("change")
+            styleLines(d3.selectAll('.line'))
+        })
 }
 
 function keepInView() {
@@ -1595,28 +2268,55 @@ function keepInView() {
         maxtop = (navHeaderHeight + popPadding);
 
     function moveDown() {
-        return ($('.symbolPop').position().top < maxtop) ? $('.symbolPop').position().top - maxtop : 0;
+        return ($('.symbolPop')
+                .position()
+                .top < maxtop) ? $('.symbolPop')
+            .position()
+            .top - maxtop : 0;
     }
 
     function moveRight() {
-        return ($('#page-content-wrapper').position().left - $('.symbolPop').position().left > 0) ? -1 * ($('#page-content-wrapper').position().left - $('.symbolPop').position().left) : 0
+        return ($('#page-content-wrapper')
+            .position()
+            .left - $('.symbolPop')
+            .position()
+            .left > 0) ? -1 * ($('#page-content-wrapper')
+            .position()
+            .left - $('.symbolPop')
+            .position()
+            .left) : 0
     }
 
     function moveLeft() {
-        return (($('.symbolPop').position().left + $('.symbolPop').outerWidth()) > $('#page-content-wrapper').width()) ? (($('.symbolPop').position().left + $('.symbolPop').outerWidth()) - $('#page-content-wrapper').width()) : 0
+        return (($('.symbolPop')
+                .position()
+                .left + $('.symbolPop')
+                .outerWidth()) > $('#page-content-wrapper')
+            .width()) ? (($('.symbolPop')
+                .position()
+                .left + $('.symbolPop')
+                .outerWidth()) - $('#page-content-wrapper')
+            .width()) : 0
     }
     moveDown = moveDown()
     moveRight = moveRight()
     moveLeft = moveLeft()
     if (moveDown != 0) {
-        $('.symbolPop').css('top', maxtop)
+        $('.symbolPop')
+            .css('top', maxtop)
     }
     if (moveRight != 0) {
-        $('.symbolPop').css('left', $('#page-content-wrapper').position().left)
+        $('.symbolPop')
+            .css('left', $('#page-content-wrapper')
+                .position()
+                .left)
     }
     if (moveLeft != 0) {
         moveRight = moveLeft
-        $('.symbolPop').css('left', ($('.symbolPop').position().left - moveLeft))
+        $('.symbolPop')
+            .css('left', ($('.symbolPop')
+                .position()
+                .left - moveLeft))
     }
     change = [moveRight, moveDown]
     map.panBy(change)
@@ -1636,24 +2336,52 @@ function popupLineChart(allPointData, popAttr) {
         },
         width = 250 - margin.left - margin.right,
         height = 235 - margin.top - margin.bottom;
-    var x = d3.scale.ordinal().domain(floods).rangePoints([0, width]);
-    var y = d3.scale.linear().range([height, 0]);
-    var xAxis = d3.svg.axis().scale(x).orient("bottom");
-    var yAxis = d3.svg.axis().scale(y).orient("left");
-    var line = d3.svg.line().x(function(d) {
-        return x(d['index']);
-    }).y(function(d) {
-        return y(d[popAttr]);
-    });
-    var straightline = d3.svg.line().x(function(d) {
-        return x(d['index']);
-    }).y(function(d) {
-        return y(0);
-    });
-    var svg = d3.select(".popupChart").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).attr('id', allPointData["id"]).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")").attr('class', 'lineChart');
-    scenarioLength = $('[name="scenarioRadios"]').length
+    var x = d3.scale.ordinal()
+        .domain(floods)
+        .rangePoints([0, width]);
+    var y = d3.scale.linear()
+        .range([height, 0]);
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+    var line = d3.svg.line()
+        .x(function(d) {
+            return x(d['index']);
+        })
+        .y(function(d) {
+            return y(d[popAttr]);
+        });
+    var straightline = d3.svg.line()
+        .x(function(d) {
+            return x(d['index']);
+        })
+        .y(function(d) {
+            return y(0);
+        });
+    var svg = d3.select(".popupChart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr('id', allPointData["id"])
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr('class', 'lineChart');
+    scenarioLength = $('[name="scenarioRadios"]')
+        .length
     chartData = []
-    svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis).append("text").attr("transform", "translate(0," + margin.bottom + ") rotate(0)").attr("x", width / 2).style("text-anchor", "center").attr("class", "axisLabel").text("Flood Event");
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .append("text")
+        .attr("transform", "translate(0," + margin.bottom + ") rotate(0)")
+        .attr("x", width / 2)
+        .style("text-anchor", "center")
+        .attr("class", "axisLabel")
+        .text("Flood Event");
     for (i = 0; i < scenarioLength; i++) {
         scenarioData = []
         scenarioIndexes = setIndexValues(i)
@@ -1675,18 +2403,32 @@ function popupLineChart(allPointData, popAttr) {
         }
         chartData.push(scenarioData)
     }
-    var lineGroup = svg.selectAll(".lineGroup").data(chartData).enter().append("g").attr("class", "lineGroup")
-    lineGroup.append("path").attr("class", "line").attr('d', function(d) {
-        return straightline(d)
-    }).attr('stroke', function(d, i) {
-        return chartColors[i]
-    }).attr("stroke-width", "2.5px").attr('stroke-opacity', 1)
-    var pointGuides = svg.append("g").attr("class", "pointGuides");
-    var circleMarkers = svg.append("g").attr("class", "circleMarkers");
+    var lineGroup = svg.selectAll(".lineGroup")
+        .data(chartData)
+        .enter()
+        .append("g")
+        .attr("class", "lineGroup")
+    lineGroup.append("path")
+        .attr("class", "line")
+        .attr('d', function(d) {
+            return straightline(d)
+        })
+        .attr('stroke', function(d, i) {
+            return chartColors[i]
+        })
+        .attr("stroke-width", "2.5px")
+        .attr('stroke-opacity', 1)
+    var pointGuides = svg.append("g")
+        .attr("class", "pointGuides");
+    var circleMarkers = svg.append("g")
+        .attr("class", "circleMarkers");
     chartData.forEach(function(group, groupIndex) {
-        var scenarioGuideGroup = pointGuides.append("g").attr("class", "scenario" + (groupIndex + 1) + "");
-        var xGuides = scenarioGuideGroup.append("g").attr("class", "xGuides");
-        var yGuides = scenarioGuideGroup.append("g").attr("class", "yGuides");
+        var scenarioGuideGroup = pointGuides.append("g")
+            .attr("class", "scenario" + (groupIndex + 1) + "");
+        var xGuides = scenarioGuideGroup.append("g")
+            .attr("class", "xGuides");
+        var yGuides = scenarioGuideGroup.append("g")
+            .attr("class", "yGuides");
         // xGuides.selectAll("circleGuides_X")
         // 	.data(group).enter()
         // 	.append('line')
@@ -1707,96 +2449,186 @@ function popupLineChart(allPointData, popAttr) {
         // 	.attr("stroke", "black")
         // 	.attr("stroke-width", "1px")
         // 	.attr("class", "circleGuides_Y")
-        circleMarkers.selectAll(".linecircle").data(group).enter().append("circle").attr("class", function(d) {
-            return (d.damageId == damagesCurrent) ? "linecircles popCurrent" : "linecircles"
-        }).attr("id", function(d) {
-            return "circleMarker_" + d.damageId + ""
-        }).attr("cx", function(d) {
-            d[groupIndex] = groupIndex;
-            return x(d['index'])
-        }).attr("cy", function(d) {
-            return height + 10
-        }).attr("stroke", chartColors[groupIndex]).attr("stroke-width", 1).attr("fill", function(d) {
-            return (d.damageId == damagesCurrent) ? chartColors[groupIndex] : "white";
-        }).attr("r", 0).style("cursor", "pointer").on("mouseover", function(d) {
-            d3.select(this).attr("fill", function(d) {
-                return chartColors[d.groupId]
-            }).attr("stroke-width", "4px")
-        }).on("mouseout", function(d) {
-            d3.selectAll('[class="linecircles"]').attr("fill", "white").attr("stroke-width", 1)
-        }).on("mousedown", function(d) {
-            $(".BldgDmgPct_value,.BldgLossUS_value").css("color", function() {
-                return chartColors[groupIndex]
+        circleMarkers.selectAll(".linecircle")
+            .data(group)
+            .enter()
+            .append("circle")
+            .attr("class", function(d) {
+                return (d.damageId == damagesCurrent) ? "linecircles popCurrent" : "linecircles"
             })
-        }).on("mouseup", function() {
-            $(".BldgDmgPct_value,.BldgLossUS_value").css("color", "black")
-        }).on("click", function(d) {
-            d3.selectAll('.linecircles').classed("popCurrent", false)
-            d3.select(this).classed("popCurrent", true).attr("fill", function(d) {
-                return chartColors[d.groupId]
-            }).attr("stroke-width", 1)
-            d3.selectAll('[class="linecircles"]').attr("fill", "white")
-            $(".BldgDmgPct_value").html(formatAttr("BldgDmgPct", d.BldgDmgPct).formattedVal)
-            $(".BldgLossUS_value").html(formatAttr("BldgLossUS", d.BldgLossUS).formattedVal)
-            $(".popover-content .small-link").removeClass("invisible")
-            $('.keyItem text, .tick text').css('font-weight', 'normal')
-            $('.keyItem:eq(' + groupIndex + ') text').css('font-weight', 'bold')
-            $('.tick text:contains("' + d.index + '")').css('font-weight', 'bold')
+            .attr("id", function(d) {
+                return "circleMarker_" + d.damageId + ""
+            })
+            .attr("cx", function(d) {
+                d[groupIndex] = groupIndex;
+                return x(d['index'])
+            })
+            .attr("cy", function(d) {
+                return height + 10
+            })
+            .attr("stroke", chartColors[groupIndex])
+            .attr("stroke-width", 1)
+            .attr("fill", function(d) {
+                return (d.damageId == damagesCurrent) ? chartColors[groupIndex] : "white";
+            })
+            .attr("r", 0)
+            .style("cursor", "pointer")
+            .on("mouseover", function(d) {
+                d3.select(this)
+                    .attr("fill", function(d) {
+                        return chartColors[d.groupId]
+                    })
+                    .attr("stroke-width", "4px")
+            })
+            .on("mouseout", function(d) {
+                d3.selectAll('[class="linecircles"]')
+                    .attr("fill", "white")
+                    .attr("stroke-width", 1)
+            })
+            .on("mousedown", function(d) {
+                $(".BldgDmgPct_value,.BldgLossUS_value")
+                    .css("color", function() {
+                        return chartColors[groupIndex]
+                    })
+            })
+            .on("mouseup", function() {
+                $(".BldgDmgPct_value,.BldgLossUS_value")
+                    .css("color", "black")
+            })
+            .on("click", function(d) {
+                d3.selectAll('.linecircles')
+                    .classed("popCurrent", false)
+                d3.select(this)
+                    .classed("popCurrent", true)
+                    .attr("fill", function(d) {
+                        return chartColors[d.groupId]
+                    })
+                    .attr("stroke-width", 1)
+                d3.selectAll('[class="linecircles"]')
+                    .attr("fill", "white")
+                $(".BldgDmgPct_value")
+                    .html(formatAttr("BldgDmgPct", d.BldgDmgPct)
+                        .formattedVal)
+                $(".BldgLossUS_value")
+                    .html(formatAttr("BldgLossUS", d.BldgLossUS)
+                        .formattedVal)
+                $(".popover-content .small-link")
+                    .removeClass("invisible")
+                $('.keyItem text, .tick text')
+                    .css('font-weight', 'normal')
+                $('.keyItem:eq(' + groupIndex + ') text')
+                    .css('font-weight', 'bold')
+                $('.tick text:contains("' + d.index + '")')
+                    .css('font-weight', 'bold')
+            })
+    })
+    $(".popover-content .small-link")
+        .on("click", function() {
+            d3.selectAll('.linecircles')
+                .classed("popCurrent", false)
+            d3.selectAll('.linecircles')
+                .attr("fill", "white")
+            d3.select("#circleMarker_" + damagesCurrent + "")
+                .classed("popCurrent", true)
+                .attr("fill", function(d) {
+                    return chartColors[d.groupId]
+                })
+                .attr("stroke-width", 1)
+            currentData = d3.select("#circleMarker_" + damagesCurrent + "")
+                .data()[0]
+            $(".BldgDmgPct_value")
+                .html(formatAttr("BldgDmgPct", currentData.BldgDmgPct)
+                    .formattedVal)
+            $(".BldgLossUS_value")
+                .html(formatAttr("BldgLossUS", currentData.BldgLossUS)
+                    .formattedVal)
+            $(".popover-content .small-link")
+                .addClass("invisible")
+            $('.keyItem text, .tick text')
+                .css('font-weight', 'normal')
+            $('.keyItem text')
+                .filter(function(d, i) {
+                    return (d == (parseFloat($('[name="scenarioRadios"]:checked')
+                        .val()) - 1))
+                })
+                .css('font-weight', 'bold')
+            $('.popupChart .x.axis .tick:eq(' + (parseFloat($('[name="floodEventRadios"]:checked')
+                    .val()) - 1) + ') text')
+                .css('font-weight', 'bold')
         })
-    })
-    $(".popover-content .small-link").on("click", function() {
-        d3.selectAll('.linecircles').classed("popCurrent", false)
-        d3.selectAll('.linecircles').attr("fill", "white")
-        d3.select("#circleMarker_" + damagesCurrent + "").classed("popCurrent", true).attr("fill", function(d) {
-            return chartColors[d.groupId]
-        }).attr("stroke-width", 1)
-        currentData = d3.select("#circleMarker_" + damagesCurrent + "").data()[0]
-        $(".BldgDmgPct_value").html(formatAttr("BldgDmgPct", currentData.BldgDmgPct).formattedVal)
-        $(".BldgLossUS_value").html(formatAttr("BldgLossUS", currentData.BldgLossUS).formattedVal)
-        $(".popover-content .small-link").addClass("invisible")
-        $('.keyItem text, .tick text').css('font-weight', 'normal')
-        $('.keyItem text').filter(function(d, i) {
-            return (d == (parseFloat($('[name="scenarioRadios"]:checked').val()) - 1))
-        }).css('font-weight', 'bold')
-        $('.popupChart .x.axis .tick:eq(' + (parseFloat($('[name="floodEventRadios"]:checked').val()) - 1) + ') text').css('font-weight', 'bold')
-    })
     var keyMargin = {
         top: 0,
         right: 15,
         bottom: 10,
         left: 20
     }
-    var key = d3.select(".popupChart svg").append("g").attr("transform", "translate(" + margin.left + "," + keyMargin.top + ")").attr('class', 'key');
-    var keyItem = key.selectAll('.keyItem').data(chartColors).enter().append("g").attr("transform", function(d, i) {
-        return "translate(0," + (i * 11) + ")";
-    }).attr('class', 'keyItem');
-    keyItem.append('rect').attr("x", -30).attr("y", 2).attr("width", 20).attr("height", 2.5).attr("fill", function(d) {
-        return d
-    });
-    keyItem.append("text").attr("x", 0).attr("y", 3).attr("dy", ".35em").style("text-anchor", "start").style("font-weight", function(d, i) {
-        return (i == (parseFloat($('[name="scenarioRadios"]:checked').val()) - 1)) ? "bold" : "normal"
-    }).html(function(d) {
-        return "<i class='fa fa-home'></i>" + scenarios[chartColors.indexOf(d)];
-    });
+    var key = d3.select(".popupChart svg")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + keyMargin.top + ")")
+        .attr('class', 'key');
+    var keyItem = key.selectAll('.keyItem')
+        .data(chartColors)
+        .enter()
+        .append("g")
+        .attr("transform", function(d, i) {
+            return "translate(0," + (i * 11) + ")";
+        })
+        .attr('class', 'keyItem');
+    keyItem.append('rect')
+        .attr("x", -30)
+        .attr("y", 2)
+        .attr("width", 20)
+        .attr("height", 2.5)
+        .attr("fill", function(d) {
+            return d
+        });
+    keyItem.append("text")
+        .attr("x", 0)
+        .attr("y", 3)
+        .attr("dy", ".35em")
+        .style("text-anchor", "start")
+        .style("font-weight", function(d, i) {
+            return (i == (parseFloat($('[name="scenarioRadios"]:checked')
+                .val()) - 1)) ? "bold" : "normal"
+        })
+        .html(function(d) {
+            return "<i class='fa fa-home'></i>" + scenarios[chartColors.indexOf(d)];
+        });
     stylePop(popAttr)
 
     function stylePop(pATTR) {
         y.domain([0, d3.max(fullList, function(d) {
             return +d[pATTR]
         })]);
-        d3.selectAll('.popupChart .y.axis').remove()
-        svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "translate(-" + margin.left + ",0) rotate(-90)").attr("y", 8).attr("class", "axisLabel").style("text-anchor", "end").text(function() {
-            return aliases[pATTR]
-        });
+        d3.selectAll('.popupChart .y.axis')
+            .remove()
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "translate(-" + margin.left + ",0) rotate(-90)")
+            .attr("y", 8)
+            .attr("class", "axisLabel")
+            .style("text-anchor", "end")
+            .text(function() {
+                return aliases[pATTR]
+            });
         line.y(function(d) {
             return y(d[pATTR]);
         });
-        var graphline = d3.selectAll('.line').transition().delay(1000).attr('d', function(d) {
-            return line(d)
-        })
-        d3.selectAll(".linecircles").transition().delay(1000).attr("cx", function(d) {
+        var graphline = d3.selectAll('.line')
+            .transition()
+            .delay(1000)
+            .attr('d', function(d) {
+                return line(d)
+            })
+        d3.selectAll(".linecircles")
+            .transition()
+            .delay(1000)
+            .attr("cx", function(d) {
                 return x(d['index'])
-            }).attr("cy", function(d) {
+            })
+            .attr("cy", function(d) {
                 return y(d[pATTR])
             })
             //.transition().delay(1200)
@@ -1810,15 +2642,22 @@ function popupLineChart(allPointData, popAttr) {
         // 	.transition().delay(1000)
         // 	.attr("y1",function(d){return y(d[pATTR])})
         // 	.attr("y2",function(d){return y(d[pATTR])})
-        $('[name="floodEventRadios"]:checked').val()
-        $('.popupChart .x.axis .tick:eq(' + (parseFloat($('[name="floodEventRadios"]:checked').val()) - 1) + ')').attr('font-weight', 'bold')
+        $('[name="floodEventRadios"]:checked')
+            .val()
+        $('.popupChart .x.axis .tick:eq(' + (parseFloat($('[name="floodEventRadios"]:checked')
+                .val()) - 1) + ')')
+            .attr('font-weight', 'bold')
     }
-    $('.fieldToggle').on('click', function() {
-        $('.fieldToggle').removeClass('nowShowing')
-        $(this).addClass('nowShowing')
-        var field = $(this).attr('data')
-        stylePop(field)
-    })
+    $('.fieldToggle')
+        .on('click', function() {
+            $('.fieldToggle')
+                .removeClass('nowShowing')
+            $(this)
+                .addClass('nowShowing')
+            var field = $(this)
+                .attr('data')
+            stylePop(field)
+        })
 }
 
 function formatAttr(attr, val) {
@@ -1840,30 +2679,34 @@ function formatAttr(attr, val) {
 }
 
 function destroyPop() {
-    $('.symbolPop').popover('destroy')
-    d3.select(".popOpen.symbols").attr('class', function() {
-        return 'colorful symbols'
-    })
-    d3.select(".popOpen.bars").attr('class', function() {
-        return 'colorful bars'
-    })
+    $('.symbolPop')
+        .popover('destroy')
+    d3.select(".popOpen.symbols")
+        .attr('class', function() {
+            return 'colorful symbols'
+        })
+    d3.select(".popOpen.bars")
+        .attr('class', function() {
+            return 'colorful bars'
+        })
 }
 
 function popupMaker(data) {
     var htmlContent = '<button type="button" class="close closePopup" onclick="destroyPop()">x</button>'
     var data = data;
     dataToExamine = (data[damagesCurrent] != 0) ? (data[damagesCurrent].attributes) : (data[damagesCompare].attributes)
-    $(dataToExamine).each(function() {
-        entries = this
-        for (x in entries) {
-            if (x != 'OBJECTID') {
-                pickData = getCurrent(x);
-                formattedData = formatAttr(x, pickData(data))
-                htmlContent += "<a href='#' class='fieldToggle' id='" + x + "_link' data='" + x + "'>" + formattedData.attrText + "</a> : <span class='" + x + "_value'>" + formattedData.formattedVal + "</span><br>";
+    $(dataToExamine)
+        .each(function() {
+            entries = this
+            for (x in entries) {
+                if (x != 'OBJECTID') {
+                    pickData = getCurrent(x);
+                    formattedData = formatAttr(x, pickData(data))
+                    htmlContent += "<a href='#' class='fieldToggle' id='" + x + "_link' data='" + x + "'>" + formattedData.attrText + "</a> : <span class='" + x + "_value'>" + formattedData.formattedVal + "</span><br>";
+                }
             }
-        }
-        htmlContent += "<span class='pull-right small-link invisible'><a href='#'><i class='fa fa-refresh'></i>&nbsp;&nbsp; Show Current</a></span>"
-    })
+            htmlContent += "<span class='pull-right small-link invisible'><a href='#'><i class='fa fa-refresh'></i>&nbsp;&nbsp; Show Current</a></span>"
+        })
     htmlContent += '<div id="popupLinks"></div><div style="height:250px; width:250px;"><div class="popupChart"></div></div><div class="arrow">';
     setTimeout(function() {
         try {
@@ -1880,12 +2723,14 @@ function openPop(id) {
     destroyPop()
     delay(function() {
         var popHTML = popupMaker(databyID[id])
-        d3.select("#ID_" + id + ".symbols").attr('class', function() {
-            return 'colorful symbols popOpen'
-        })
-        d3.select("#ID_" + id + ".bars").attr('class', function() {
-            return 'colorful bars popOpen'
-        })
+        d3.select("#ID_" + id + ".symbols")
+            .attr('class', function() {
+                return 'colorful symbols popOpen'
+            })
+        d3.select("#ID_" + id + ".bars")
+            .attr('class', function() {
+                return 'colorful bars popOpen'
+            })
         pOptions = {
             container: 'body',
             content: popHTML,
@@ -1895,9 +2740,16 @@ function openPop(id) {
             template: '<div class="popover symbolPop" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
             trigger: 'manual'
         }
-        $('#ID_' + id + '').popover(pOptions).popover('show')
-        $('.symbolPop').css("left", "" + (parseFloat($('.symbolPop').position().left) + parseFloat($('#ID_' + id + '').attr("r"))) + "px")
-        $('#' + currentAttribute + '_link').addClass('nowShowing')
+        $('#ID_' + id + '')
+            .popover(pOptions)
+            .popover('show')
+        $('.symbolPop')
+            .css("left", "" + (parseFloat($('.symbolPop')
+                .position()
+                .left) + parseFloat($('#ID_' + id + '')
+                .attr("r"))) + "px")
+        $('#' + currentAttribute + '_link')
+            .addClass('nowShowing')
         setTimeout(function() {
             keepInView()
         }, 500)
@@ -1905,55 +2757,107 @@ function openPop(id) {
 }
 
 function nextHelpStep(stepNum) {
-    $('.popover.tourPop').popover('destroy')
+    $('.popover.tourPop')
+        .popover('destroy')
     helpStep(stepNum + 1)
 }
 
 function lastHelpStep(stepNum) {
-    $('.popover.tourPop').popover('destroy')
+    $('.popover.tourPop')
+        .popover('destroy')
     helpStep(stepNum - 1)
 }
 
 function skipToStep(stepNum) {
-    $('.popover.tourPop').popover('destroy')
+    $('.popover.tourPop')
+        .popover('destroy')
     helpStep(stepNum)
 }
 
 function highlighthide() {
     drawBox('body')
     delay(function() {
-        $('.helpHolder').hide()
+        $('.helpHolder')
+            .hide()
     }, 800)
 }
 
 function endTour() {
-    $('.focus').removeClass('focus')
-    $('.tourstep-active').removeClass('tourstep-active')
-    $('.popover.tourPop').popover('destroy')
-    $('.stepElement').remove()
+    $('.focus')
+        .removeClass('focus')
+    $('.tourstep-active')
+        .removeClass('tourstep-active')
+    $('.popover.tourPop')
+        .popover('destroy')
+    $('.stepElement')
+        .remove()
     highlighthide()
     currentTour = null
 }
 
 function afterStep(element) {
-    $('.tourstep-active').parents('.symbolPop').find('.close').trigger('click')
-    $('.tourstep-active').removeClass('tourstep-active')
-    $('.focus').removeClass('focus')
-    $('.tourPop').remove()
+    $('.tourstep-active')
+        .parents('.symbolPop')
+        .find('.close')
+        .trigger('click')
+    $('.tourstep-active')
+        .removeClass('tourstep-active')
+    $('.focus')
+        .removeClass('focus')
+    $('.tourPop')
+        .remove()
 }
 
 function drawBox(selector) {
     kk = $(selector)[0].getBoundingClientRect()
-    d3.select('.above-highlighter').attr('fill', 'black').attr('fill-opacity', 0.7).transition().duration(1000).attr('height', kk.top).attr('width', $(document).width()).attr('x', 0).attr('y', 0)
-    d3.select('.below-highlighter').attr('fill', 'black').attr('fill-opacity', 0.7).transition().duration(1000).attr('width', $(document).width()).attr('height', $(document).height() - kk.bottom).attr('x', 0).attr('y', function() {
-        return (kk.top + kk.height)
-    })
-    d3.select('.left-highlighter').attr('fill', 'black').attr('fill-opacity', 0.7).transition().duration(1000).attr('width', kk.left).attr('height', kk.height).attr('x', 0).attr('y', kk.top)
-    d3.select('.right-highlighter').attr('fill', 'black').attr('fill-opacity', 0.7).transition().duration(1000).attr('width', $(document).width() - kk.right).attr('height', kk.height).attr('x', kk.width + kk.left).attr('y', kk.top)
+    d3.select('.above-highlighter')
+        .attr('fill', 'black')
+        .attr('fill-opacity', 0.7)
+        .transition()
+        .duration(1000)
+        .attr('height', kk.top)
+        .attr('width', $(document)
+            .width())
+        .attr('x', 0)
+        .attr('y', 0)
+    d3.select('.below-highlighter')
+        .attr('fill', 'black')
+        .attr('fill-opacity', 0.7)
+        .transition()
+        .duration(1000)
+        .attr('width', $(document)
+            .width())
+        .attr('height', $(document)
+            .height() - kk.bottom)
+        .attr('x', 0)
+        .attr('y', function() {
+            return (kk.top + kk.height)
+        })
+    d3.select('.left-highlighter')
+        .attr('fill', 'black')
+        .attr('fill-opacity', 0.7)
+        .transition()
+        .duration(1000)
+        .attr('width', kk.left)
+        .attr('height', kk.height)
+        .attr('x', 0)
+        .attr('y', kk.top)
+    d3.select('.right-highlighter')
+        .attr('fill', 'black')
+        .attr('fill-opacity', 0.7)
+        .transition()
+        .duration(1000)
+        .attr('width', $(document)
+            .width() - kk.right)
+        .attr('height', kk.height)
+        .attr('x', kk.width + kk.left)
+        .attr('y', kk.top)
 }
 
 function helpStep(stepNum, tour) {
-    showg = ($('.helpHolder').is(':visible') != true) ? ($('.helpHolder').show()) : null
+    showg = ($('.helpHolder')
+            .is(':visible') != true) ? ($('.helpHolder')
+            .show()) : null
         // Close Previous Step
     afterStep(stepNum)
     var currentTour = ((tour == null) || (tour == undefined)) ? 'advanced' : tour;
@@ -1965,10 +2869,11 @@ function helpStep(stepNum, tour) {
         dismissBtn = "<button type='button' onclick='endTour()' class='close btn-endTour'><span aria-hidden='true'>&times;</span></button><br>";
     // TourPop Index Circles
     var circles = "<div class='row-fluid text-center' id='circle-row'>"
-    $(tours[currentTour]).each(function(i) {
-        var icon = (i != stepNum) ? 'fa-circle-o' : 'fa-circle';
-        circles += "<button onclick='skipToStep(" + i + ")'class='btn btn-link' style='padding:0px; font-size:xx-small'><i class='fa " + icon + "'></i></button>"
-    })
+    $(tours[currentTour])
+        .each(function(i) {
+            var icon = (i != stepNum) ? 'fa-circle-o' : 'fa-circle';
+            circles += "<button onclick='skipToStep(" + i + ")'class='btn btn-link' style='padding:0px; font-size:xx-small'><i class='fa " + icon + "'></i></button>"
+        })
     circles += "</div>";
     //circles+='<div><a href="#circle-row" data-toggle="collapse" class="btn btn-link pull-left" style="padding:0px;"><i class="fa fa-bars"></i></a><br>Step'+(stepNum+1)+'</div>';
     // Set Options for popup
@@ -1989,15 +2894,27 @@ function helpStep(stepNum, tour) {
 
     function beforeStep() {
         function defaultOpeners(delayShown) {
-            if (($("#sidebar-wrapper").find("" + x.selector + "").length != 0) && ($("#sidebar-wrapper").width() == 0)) {
-                $('#menu-toggle').trigger('click');
+            if (($("#sidebar-wrapper")
+                    .find("" + x.selector + "")
+                    .length != 0) && ($("#sidebar-wrapper")
+                    .width() == 0)) {
+                $('#menu-toggle')
+                    .trigger('click');
             }
-            if (($("#accordion_Data").find("" + x.selector + "").length != 0) && ($('#floodHazardsPanel').height() != 0) && (startingValues.mobileDevice != true)) {
-                $("a[href='#floodHazardsPanel']").trigger('click');
+            if (($("#accordion_Data")
+                    .find("" + x.selector + "")
+                    .length != 0) && ($('#floodHazardsPanel')
+                    .height() != 0) && (startingValues.mobileDevice != true)) {
+                $("a[href='#floodHazardsPanel']")
+                    .trigger('click');
             }
             if (startingValues.mobileDevice == true) {
-                if (($("#sidebar-wrapper").find("" + x.selector + "").length == 0) && ($("#sidebar-wrapper").width() != 0)) {
-                    $('#menu-toggle').trigger('click');
+                if (($("#sidebar-wrapper")
+                        .find("" + x.selector + "")
+                        .length == 0) && ($("#sidebar-wrapper")
+                        .width() != 0)) {
+                    $('#menu-toggle')
+                        .trigger('click');
                     popOptions["container"] = "body"
                     delayShown = (delayShown + 500)
                 }
@@ -2021,27 +2938,37 @@ function helpStep(stepNum, tour) {
     function showStep(delayShown) {
         delayShown = popOptions.delay.show
         setTimeout(function() {
-            $(x.selector).popover(popOptions)
-            $(x.selector).popover('show')
+            $(x.selector)
+                .popover(popOptions)
+            $(x.selector)
+                .popover('show')
             drawBox(x.selector)
                 //setTimeout(drawBox(x.selector),1000)
             var doAfter = (x.after != undefined) ? x.after.call() : null;
-            $(x.selector).addClass('tourstep-active')
-            $(x.selector_standin).addClass('tourstep-active')
-            $(focusEl).each(function(i, d) {
-                setTimeout(function() {
+            $(x.selector)
+                .addClass('tourstep-active')
+            $(x.selector_standin)
+                .addClass('tourstep-active')
+            $(focusEl)
+                .each(function(i, d) {
                     setTimeout(function() {
-                        $(focusEl).eq(i).removeClass('focus')
-                    }, 500);
-                    $(focusEl).eq(i).addClass('focus')
-                }, ((i * 500) + 400));
-            })
+                        setTimeout(function() {
+                            $(focusEl)
+                                .eq(i)
+                                .removeClass('focus')
+                        }, 500);
+                        $(focusEl)
+                            .eq(i)
+                            .addClass('focus')
+                    }, ((i * 500) + 400));
+                })
         }, delayShown)
     }
 }
 
 function helpTour(tour) {
-    $('.helpHolder').show()
+    $('.helpHolder')
+        .show()
         //tour = ((tour==null)||(tour==undefined)) ? mode : tour
     currentTour = 'advanced'
     drawBox('body')
@@ -2055,60 +2982,108 @@ function init() {
     // Init.js //
     /////////////
     // Initialize selectpicker
-    $('.selectpicker').selectpicker('render')
+    $('.selectpicker')
+        .selectpicker('render')
         // Detect what device the site is being viewed in
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-        $('.selectpicker').selectpicker('mobile');
+        $('.selectpicker')
+            .selectpicker('mobile');
         // If mobile--hide print options
-        $('.hide-mobile').hide();
+        $('.hide-mobile')
+            .hide();
     }
     else {
-        $('.toolTip').tooltip({
-            container: '#wrapper'
-        })
+        $('.toolTip')
+            .tooltip({
+                container: '#wrapper'
+            })
     }
     // Adjust map height
-    $("#map").css("height", function() {
-        return ($(window).height() - $('#navHeader').height())
-    });
+    $("#map")
+        .css("height", function() {
+            return ($(window)
+                .height() - $('#navHeader')
+                .height())
+        });
     // Call the resize function when the document is resized
-    $(window).on('resize', function() {
-        delay(function() {
-            resize();
-        }, 800)
-    });
+    $(window)
+        .on('resize', function() {
+            delay(function() {
+                resize();
+            }, 800)
+        });
     // Add Chrevrons in Side Bar
-    $('.expandPanel').each(function() {
-        iconClass = ($(this).parents('a').attr('aria-expanded') == 'true') ? 'fa-chevron-down' : 'fa-chevron-right'
-        $(this).append('<i class="fa ' + iconClass + ' pull-left arrow">')
-        $(this).parents('a').on('click', function() {
-            $(this).find('.arrow').toggleClass('fa-chevron-right fa-chevron-down')
-        })
-    });
+    $('.expandPanel')
+        .each(function() {
+            iconClass = ($(this)
+                .parents('a')
+                .attr('aria-expanded') == 'true') ? 'fa-chevron-down' : 'fa-chevron-right'
+            $(this)
+                .append('<i class="fa ' + iconClass + ' pull-left arrow">')
+            $(this)
+                .parents('a')
+                .on('click', function() {
+                    $(this)
+                        .find('.arrow')
+                        .toggleClass('fa-chevron-right fa-chevron-down')
+                })
+        });
     // Data Panel Collapse
-    $('#accordion_Data .collapse').on('show.bs.collapse', function() {
-        $(this).parents('.panel').find('.panel-subtitle').slideUp()
-        $(this).parents('.panel').find('.panel-title>i').toggleClass('fa-chevron-right fa-chevron-down')
-    })
-    $('#accordion_Data .collapse').on('hide.bs.collapse', function() {
-        $(this).parents('.panel').find('.panel-subtitle').slideDown()
-        $(this).parents('.panel').find('.panel-title>i').toggleClass('fa-chevron-right fa-chevron-down')
-    })
-    $('#accordion_Data input[type="radio"]').on("change", function() {
-        $(this).parents('.panel').find('.panel-subtitle').html("" + $(this).parents('label').text() + "")
-    });
+    $('#accordion_Data .collapse')
+        .on('show.bs.collapse', function() {
+            $(this)
+                .parents('.panel')
+                .find('.panel-subtitle')
+                .slideUp()
+            $(this)
+                .parents('.panel')
+                .find('.panel-title>i')
+                .toggleClass('fa-chevron-right fa-chevron-down')
+        })
+    $('#accordion_Data .collapse')
+        .on('hide.bs.collapse', function() {
+            $(this)
+                .parents('.panel')
+                .find('.panel-subtitle')
+                .slideDown()
+            $(this)
+                .parents('.panel')
+                .find('.panel-title>i')
+                .toggleClass('fa-chevron-right fa-chevron-down')
+        })
+    $('#accordion_Data input[type="radio"]')
+        .on("change", function() {
+            $(this)
+                .parents('.panel')
+                .find('.panel-subtitle')
+                .html("" + $(this)
+                    .parents('label')
+                    .text() + "")
+        });
     // Radio listGroups
-    $('.radio.list-group-item label, .radio.list-group').on('click', function() {
-        if ($(this).parent().is('.active') != true) {
-            $(this).parent().addClass('active');
-            $(this).parent().siblings().removeClass('active');
-        }
-    });
+    $('.radio.list-group-item label, .radio.list-group')
+        .on('click', function() {
+            if ($(this)
+                .parent()
+                .is('.active') != true) {
+                $(this)
+                    .parent()
+                    .addClass('active');
+                $(this)
+                    .parent()
+                    .siblings()
+                    .removeClass('active');
+            }
+        });
     // Toggling Data Distribution Chart Visibility
-    $('#dataDistributionHeading a').on('click', function() {
-        $(this).find('i').toggleClass('fa-eye fa-eye-slash')
-        $('.down-low').toggleClass('down-low-basic down-low-advanced')
-    });
+    $('#dataDistributionHeading a')
+        .on('click', function() {
+            $(this)
+                .find('i')
+                .toggleClass('fa-eye fa-eye-slash')
+            $('.down-low')
+                .toggleClass('down-low-basic down-low-advanced')
+        });
     /* DOM NAMES */
     landUseCheck = $('[name="layerCheckboxes"][data-name="landUse"]'),
         watershedCheck = $('[name="layerCheckboxes"][data-name="watershed"]'),
@@ -2122,13 +3097,14 @@ function init() {
     //     fullExtent = L.latLngBounds([41.7055362786694, -83.63419532775879], [41.73378888605136, -83.49686622619629]);
     // Map Definition
     map = L.map('map', {
-        zoomControl: false,
-        maxZoom: 16,
-        minZoom: 2,
-        // maxBounds: maxBounds,
-        attributionControl: false,
-        trackResize: true
-    }).fitBounds(siteBounds);
+            zoomControl: false,
+            maxZoom: 16,
+            minZoom: 2,
+            // maxBounds: maxBounds,
+            attributionControl: false,
+            trackResize: true
+        })
+        .fitBounds(siteBounds);
     // Basemaps
     satellite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             name: 'ESRI.WorldImagery',
@@ -2143,46 +3119,58 @@ function init() {
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         });
     // Basemap Feature Group Definition
-    basemap = L.featureGroup().addTo(map);
+    basemap = L.featureGroup()
+        .addTo(map);
     // All possible basemap options
     basemapList = [satellite, toner, terrain];
     // Add curent basemap to map at instantiation
-    basemap['currentBaseMap'] = $('[name="basemapRadios"]:checked').val()
-    currentBasemap = basemapList[$('[name="basemapRadios"]:checked').val()]
+    basemap['currentBaseMap'] = $('[name="basemapRadios"]:checked')
+        .val()
+    currentBasemap = basemapList[$('[name="basemapRadios"]:checked')
+        .val()]
     currentBasemap.addTo(basemap);
     // Basemap radio event listener
-    $('[name="basemapRadios"]').on('change', changeBasemap);
+    $('[name="basemapRadios"]')
+        .on('change', changeBasemap);
     // ArcGIS Dynamic Layers Brought in through Arc Server REST
     depth = new L.esri.DynamicMapLayer({
-        url: serviceURL,
-        className: '2',
-        layers: [depthGridCurrent],
-        opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
-        position: "back"
-    }).addTo(map);
+            url: serviceURL,
+            className: '2',
+            layers: [depthGridCurrent],
+            opacity: ($('[name="layerCheckboxes"]:eq(1)')
+                .is(':checked')) ? 1 : 0,
+            position: "back"
+        })
+        .addTo(map);
     // Storm water Layer
     stormWater = new L.tileLayer.wms(serviceURL + "/WMSServer?", {
-        className: '3',
-        layers: [1],
-        opacity: ($('[name="layerCheckboxes"]:eq(2)').is(':checked')) ? 1 : 0,
-        position: "back"
-    }).addTo(map);
+            className: '3',
+            layers: [1],
+            opacity: ($('[name="layerCheckboxes"]:eq(2)')
+                .is(':checked')) ? 1 : 0,
+            position: "back"
+        })
+        .addTo(map);
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
     allLayersList = ['floods', depth, stormWater, 'xx', 'landUse', 'watershed', 'xx']
         // Change in Layer checkbox event listener
-    $('input[name="layerCheckboxes"]').on('change', function() {
-        toggleLayers($(this))
-    });
+    $('input[name="layerCheckboxes"]')
+        .on('change', function() {
+            toggleLayers($(this))
+        });
     // Define the Initial Attribution Text
     applyAttributionText()
         // Update the attribution Text on layer change
-    $('[name="basemapRadios"],[name="layerCheckboxes"]').on('change', applyAttributionText)
+    $('[name="basemapRadios"],[name="layerCheckboxes"]')
+        .on('change', applyAttributionText)
         /* Map Export Functions */
         // Print Map
-    $('.map-printer').on('click', function() {
-        $('#printHolder').append('<div id="printMap" style="width: 6.8in;height: 3.5in;"></div>')
-        printMap()
-    });
+    $('.map-printer')
+        .on('click', function() {
+            $('#printHolder')
+                .append('<div id="printMap" style="width: 6.8in;height: 3.5in;"></div>')
+            printMap()
+        });
     ///////////////////
     // Prototypes.js //
     ///////////////////
@@ -2192,12 +3180,16 @@ function init() {
     /// DrawData.js //
     ////////////////// 
     // Map
-    mapsvg = d3.select(map.getPanes().overlayPane).append("svg");
-    mapSymbolGroup = mapsvg.append("g").attr("class", "leaflet-zoom-hide");
+    mapsvg = d3.select(map.getPanes()
+            .overlayPane)
+        .append("svg");
+    mapSymbolGroup = mapsvg.append("g")
+        .attr("class", "leaflet-zoom-hide");
     transform = d3.geo.transform({
         point: projectPoint
     });
-    path = d3.geo.path().projection(transform);
+    path = d3.geo.path()
+        .projection(transform);
     // Chart
     chartMargin = {
         top: 20,
@@ -2205,22 +3197,36 @@ function init() {
         bottom: 25,
         left: 45
     };
-    chartWidth = ($('#page-content-wrapper').width()) - (chartMargin.left + chartMargin.right);
-    chartHeight = $("#chart").height() - chartMargin.top - chartMargin.bottom;
-    chartsvg = d3.select("#chart").append("svg").attr("id", "chartsvg").attr('width', chartWidth + chartMargin.left + chartMargin.right).attr('height', chartHeight + chartMargin.top + chartMargin.bottom).append("g").attr("class", "mainChart").attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")");
+    chartWidth = ($('#page-content-wrapper')
+        .width()) - (chartMargin.left + chartMargin.right);
+    chartHeight = $("#chart")
+        .height() - chartMargin.top - chartMargin.bottom;
+    chartsvg = d3.select("#chart")
+        .append("svg")
+        .attr("id", "chartsvg")
+        .attr('width', chartWidth + chartMargin.left + chartMargin.right)
+        .attr('height', chartHeight + chartMargin.top + chartMargin.bottom)
+        .append("g")
+        .attr("class", "mainChart")
+        .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")");
     // Drag Behavior in Legend
     dragging = false;
-    drag = d3.behavior.drag().origin(Object).on("dragstart", function(d) {
-        dragging = true;
-    }).on("drag", function(d) {
-        d3.select(this).attr("y", function() {
-            return parseInt(d3.select(this).attr('y')) + parseInt(d3.select(d3.event)[0][0].dy)
+    drag = d3.behavior.drag()
+        .origin(Object)
+        .on("dragstart", function(d) {
+            dragging = true;
         })
-    }).on("dragend", function() {
-        dragging = false;
-        chooseCustom();
-    });
-    map.on("viewreset", updateHazardSymbols);
+        .on("drag", function(d) {
+            d3.select(this)
+                .attr("y", function() {
+                    return parseInt(d3.select(this)
+                        .attr('y')) + parseInt(d3.select(d3.event)[0][0].dy)
+                })
+        })
+        .on("dragend", function() {
+            dragging = false;
+            chooseCustom();
+        });
     // Legend
     haz_m = {
             top: 20,
@@ -2230,97 +3236,147 @@ function init() {
         },
         haz_w = (270 - haz_m.left - haz_m.right),
         haz_h = (200 - haz_m.top - haz_m.bottom);
-    hazSVG = d3.select('#floodHazardsLegend').append('svg').attr('width', haz_w + haz_m.left + haz_m.right).attr('height', haz_h + haz_m.top + haz_m.bottom).attr('id', 'hazardLegendSVG').append('g').attr('transform', function() {
-        return 'translate(' + haz_m.left + ',' + haz_m.top + ')'
-    });
-    $(".resetBreaks").click(function() {
-        $('#scaleSelector').selectpicker('val', 'jenks');
-        handleStyle();
-        $(this).hide()
-    });
-    $('[name="landUseRadios"]').on('change', handleLandUse);
+    hazSVG = d3.select('#floodHazardsLegend')
+        .append('svg')
+        .attr('width', haz_w + haz_m.left + haz_m.right)
+        .attr('height', haz_h + haz_m.top + haz_m.bottom)
+        .attr('id', 'hazardLegendSVG')
+        .append('g')
+        .attr('transform', function() {
+            return 'translate(' + haz_m.left + ',' + haz_m.top + ')'
+        });
+    $(".resetBreaks")
+        .click(function() {
+            $('#scaleSelector')
+                .selectpicker('val', 'jenks');
+            handleStyle();
+            $(this)
+                .hide()
+        });
+    $('[name="landUseRadios"]')
+        .on('change', handleLandUse);
+
     createSymbols(allYearData);
     //////////////////////
     // Global Variables //
     //////////////////////
-    $('input[name="fieldRadios"]').on('change', function() {
-        currentAttribute = $(this).val()
-        handleStyle()
-    })
-    $('#fieldSelector').on("change", function() {
-        currentAttribute = getCurrentAttribute()
-        handleStyle();
-    })
-    $("[name='scenarioRadios'], input[name='floodEventRadios']").on("change", function() {
-        damagesCurrent = getDamagesIndex(),
-            /*damagesCompare = getCompareDamagesIndex()*/
-            depthGridCurrent = getDGIndex();
-        var indexValues = setIndexValues();
-        damageIndexWidth = indexValues.damageIndexWidth,
-            minimumDamageIndex = indexValues.minimumDamageIndex,
-            maximumDamageIndex = indexValues.maximumDamageIndex;
-        handleStyle()
-        depth.setLayers([depthGridCurrent])
-    });
-    $('input[name="comparisonRadios"]').on('change', function() {
-        compareType = getCompareType()
-        damagesCompare = getCompareDamagesIndex()
-        handleStyle()
-    });
+    $('input[name="fieldRadios"]')
+        .on('change', function() {
+            currentAttribute = $(this)
+                .val()
+            handleStyle()
+        })
+    $('#fieldSelector')
+        .on("change", function() {
+            currentAttribute = getCurrentAttribute()
+            handleStyle();
+        })
+    $("[name='scenarioRadios'], input[name='floodEventRadios']")
+        .on("change", function() {
+            damagesCurrent = getDamagesIndex(),
+                /*damagesCompare = getCompareDamagesIndex()*/
+                depthGridCurrent = getDGIndex();
+            var indexValues = setIndexValues();
+            damageIndexWidth = indexValues.damageIndexWidth,
+                minimumDamageIndex = indexValues.minimumDamageIndex,
+                maximumDamageIndex = indexValues.maximumDamageIndex;
+            handleStyle()
+            depth.setLayers([depthGridCurrent])
+        });
+    $('input[name="comparisonRadios"]')
+        .on('change', function() {
+            compareType = getCompareType()
+            damagesCompare = getCompareDamagesIndex()
+            handleStyle()
+        });
     ////////////////////
     // Make Histogram //
     ////////////////////
-    $('.chartSelector').on('click', function() {
-        $('#chartHolder').empty()
-        $('#helpText').children().hide()
-        chartType = $(this).attr('data')
-        $('#helpText>#' + chartType + '-help').show()
-        $('#helpText .floodevent-help').html(function() {
-            return $('[name="floodEventRadios"]:checked').attr('year')
-        })
-        $('#helpText .scenario-help').html(function() {
-            return $('#dataHeading .panel-subtitle').html()
-        })
-        $('#helpText .attribute-help').html(function() {
-            return (currentAttribute == 'BldgLossUS') ? 'Thousands of Dollars' : 'Percent Damage'
-        })
-        $('#chartModal .modal-title').html(function() {
-            return (chartType == 'histogram') ? "histogram" : (chartType == 'pie') ? 'Affected Parcels Breakdown' : 'Watershed-Level Trends'
-        })
-        hideDropDown = (chartType != 'line') ? $(".line-only").hide() : $(".line-only").show()
-        if (currentAttribute != 'BldgLossUS') {
-            $('#select-stats option[value="sum"]').attr("disabled", "disabled")
-        }
-        else {
-            $('#select-stats option[value="sum"]').removeAttr("disabled")
-        }
-        $('#select-stats').selectpicker('refresh')
-        setTimeout(function() {
-            makeChart = (chartType == 'histogram') ? makeHistogram() : (chartType == 'pie') ? makePie() : (chartType == 'line') ? makeLine() : null
-        }, 250);
-    });
-    $('.printer').on('click', function() {
-        target = $(this).attr('data')
-        $(target).print({
-            stylesheet: "../css/printing.css"
-        })
-    });
+    $('.chartSelector')
+        .on('click', function() {
+            $('#chartHolder')
+                .empty()
+            $('#helpText')
+                .children()
+                .hide()
+            chartType = $(this)
+                .attr('data')
+            $('#helpText>#' + chartType + '-help')
+                .show()
+            $('#helpText .floodevent-help')
+                .html(function() {
+                    return $('[name="floodEventRadios"]:checked')
+                        .attr('year')
+                })
+            $('#helpText .scenario-help')
+                .html(function() {
+                    return $('#dataHeading .panel-subtitle')
+                        .html()
+                })
+            $('#helpText .attribute-help')
+                .html(function() {
+                    return (currentAttribute == 'BldgLossUS') ? 'Thousands of Dollars' : 'Percent Damage'
+                })
+            $('#chartModal .modal-title')
+                .html(function() {
+                    return (chartType == 'histogram') ? "histogram" : (chartType == 'pie') ? 'Affected Parcels Breakdown' : 'Watershed-Level Trends'
+                })
+            hideDropDown = (chartType != 'line') ? $(".line-only")
+                .hide() : $(".line-only")
+                .show()
+            if (currentAttribute != 'BldgLossUS') {
+                $('#select-stats option[value="sum"]')
+                    .attr("disabled", "disabled")
+            }
+            else {
+                $('#select-stats option[value="sum"]')
+                    .removeAttr("disabled")
+            }
+            $('#select-stats')
+                .selectpicker('refresh')
+            setTimeout(function() {
+                makeChart = (chartType == 'histogram') ? makeHistogram() : (chartType == 'pie') ? makePie() : (chartType == 'line') ? makeLine() : null
+            }, 250);
+        });
+    $('.printer')
+        .on('click', function() {
+            target = $(this)
+                .attr('data')
+            $(target)
+                .print({
+                    stylesheet: "../css/printing.css"
+                })
+        });
     //////////////////
     // MakePopup.js //
     //////////////////
-    map.on("viewreset, dragstart", destroyPop);
+    map.on("moveend, dragstart", destroyPop);
     /////////////////
     // helpTour.js //
     /////////////////
     // Inline HTML for  skiping to help tour step
-    $("[data-toggle='help']").on('click', function() {
-        skipToStep((tours['advanced']).indexOf($(this).attr('data-help')))
-    })
-    spotlight = d3.select('.helpHolder').append('svg').attr('width', $(document).width()).attr('height', $(document).height());
-    spotlight.selectAll('highlighters').data(['above', 'below', 'left', 'right']).enter().append('rect').attr('class', function(d) {
-        return '' + d + '-highlighter highlighter'
-    }).on('click', endTour);
+    $("[data-toggle='help']")
+        .on('click', function() {
+            skipToStep((tours['advanced'])
+                .indexOf($(this)
+                    .attr('data-help')))
+        })
+    spotlight = d3.select('.helpHolder')
+        .append('svg')
+        .attr('width', $(document)
+            .width())
+        .attr('height', $(document)
+            .height());
+    spotlight.selectAll('highlighters')
+        .data(['above', 'below', 'left', 'right'])
+        .enter()
+        .append('rect')
+        .attr('class', function(d) {
+            return '' + d + '-highlighter highlighter'
+        })
+        .on('click', endTour);
 }
-$(document).ready(function() {
-    init();
-});
+$(document)
+    .ready(function() {
+        init();
+    });
