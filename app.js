@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.locals.appdata = require('./data/appdata.json');
 
+app.locals.stormwaterJSON = require('./data/stormwater.json');
 app.locals.allYearData = require('./data/allYearData.json');
 app.locals.dataByYear = require('./data/dataByYear.json');
 app.locals.databyID = require('./data/databyID.json');

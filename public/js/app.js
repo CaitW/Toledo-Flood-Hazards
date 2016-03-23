@@ -509,24 +509,48 @@ function changeBasemap() {
 }
 // Dispatch Layer Display Changes on checkbox toggle
 function toggleLayers(checkbox) {
-    function opacity() {
-        return ($(checkbox)
-            .is(':checked')) ? 0.8 : 0
-    }
+    var layerIndex = parseInt($(checkbox).val());
+    var layer = allLayersList[layerIndex];
+    var setVisible = ($(checkbox).is(':checked')) ? true : false;
 
     function changeOpacity() {
-        return allLayersList[parseInt($(checkbox)
-            .val())].setOpacity(opacity())
+        var opacityValue = (setVisible) ? 0.8 : 0;
+        return layer.setOpacity(opacityValue)
     }
-    identifyLayer = (parseInt($(checkbox)
-        .val()) == 0) ? handleStyle() : (parseInt($(checkbox)
-        .val()) == 2) ? changeOpacity() : ((parseInt($(checkbox)
-        .val()) == 1) || (parseInt($(checkbox)
-        .val()) == 6)) ? changeOpacity() : ((parseInt($(checkbox)
-        .val()) == 5) && ($('.watershed')
-        .length == 0)) ? drawWatershed() : ((parseInt($(checkbox)
-        .val()) == 3)) ? handleLandUse() : null;
-    return identifyLayer
+
+    // vector layers don't have a setOpacity method, so they must be added/removed from the map
+    function toggleInMap () {
+        if(setVisible && !map.hasLayer(layer)) {
+            map.addLayer(layer);
+        }
+        else if(!setVisible && map.hasLayer(layer)) {
+            map.removeLayer(layer);
+        } 
+    };
+    switch (layerIndex) {
+        case 0: 
+            handleStyle();
+            break;
+        case 1:
+            changeOpacity();
+            break;
+        case 2: 
+            toggleInMap();
+            break;
+        case 3: 
+            handleLandUse();
+            break;
+        case 5:
+            if($('.watershed').length == 0) {
+                drawWatershed();  
+            }
+            break;
+        case 6: 
+            changeOpacity();
+            break;
+        default:
+    };
+
 }
 // Defines HTML for the custom attribution
 function attributionText(ouputLocation) {
@@ -1245,7 +1269,7 @@ function style() {
             .attr("fill", function(d) {
                 return colorScale(pickData(d))
             })
-            .attr("fill-opacity", 0.7) //function(d){return ((showCompareFeatures==true)&&(d[damagesCurrent]==0))?0.4 : ((showCompareFeatures==true)&&(d[damagesCompare]==0)) ? 0.4 : 0.7});
+            .attr("fill-opacity", 0.8) //function(d){return ((showCompareFeatures==true)&&(d[damagesCurrent]==0))?0.4 : ((showCompareFeatures==true)&&(d[damagesCompare]==0)) ? 0.4 : 0.7});
             .attr("stroke-opacity", 1);
         d3.selectAll('.symbols')
             .filter(function(d, i) {
@@ -3133,7 +3157,7 @@ function init() {
     $('[name="basemapRadios"]')
         .on('change', changeBasemap);
     // ArcGIS Dynamic Layers Brought in through Arc Server REST
-    depth = new L.esri.DynamicMapLayer({
+    depth = new L.esri.dynamicMapLayer({
             url: serviceURL,
             className: '2',
             layers: [depthGridCurrent],
@@ -3143,14 +3167,16 @@ function init() {
         })
         .addTo(map);
     // Storm water Layer
-    stormWater = new L.tileLayer.wms(serviceURL + "/WMSServer?", {
-            className: '3',
-            layers: [1],
-            opacity: ($('[name="layerCheckboxes"]:eq(2)')
-                .is(':checked')) ? 1 : 0,
-            position: "back"
-        })
-        .addTo(map);
+    stormWater = L.geoJson(stormwaterJSON, {
+        style: {
+            "color": "#335df1",
+            "weight": 3,
+            "opacity": 1,
+            "lineCap": "round"
+        },
+        position: "back"
+    });
+
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
     allLayersList = ['floods', depth, stormWater, 'xx', 'landUse', 'watershed', 'xx']
         // Change in Layer checkbox event listener
@@ -3182,9 +3208,10 @@ function init() {
     // Map
     mapsvg = d3.select(map.getPanes()
             .overlayPane)
-        .append("svg");
+        .append("svg")
+        .style("z-index","250");
     mapSymbolGroup = mapsvg.append("g")
-        .attr("class", "leaflet-zoom-hide");
+        .attr("class", "leaflet-zoom-hide hazardSymbols");
     transform = d3.geo.transform({
         point: projectPoint
     });
