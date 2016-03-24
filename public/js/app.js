@@ -479,6 +479,12 @@ var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, curr
 /////////////
 var landUseCheck, watershedCheck, stormWaterCheck;
 
+// Custom
+var layers;
+var landUseColors = d3.scale.ordinal()
+    .domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"])
+    .range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"]);
+
 function resize() {
     $("#map")
         .css("height", function() {
@@ -541,9 +547,7 @@ function toggleLayers(checkbox) {
             handleLandUse();
             break;
         case 5:
-            if($('.watershed').length == 0) {
-                drawWatershed();  
-            }
+            toggleInMap();
             break;
         case 6: 
             changeOpacity();
@@ -557,7 +561,7 @@ function attributionText(ouputLocation) {
     var outputAttributionText = ""
     outputAttributionText = (ouputLocation == 'map') ? outputAttributionText.concat("<a href='http://leafletjs.com/'>Leaflet</a>  <a href='#' onclick='$(\"#fullAttribution\").slideToggle()'><i class='flaticon-info20'></i></a><div id='fullAttribution' style='display: none;'>") : outputAttributionText
     outputAttributionText = outputAttributionText.concat("" + currentBasemap.options.attribution + "")
-    outputAttributionText = (depth.options.opacity != 0) ? (outputAttributionText.concat("<br>Depth Grid &mdash; ASFPM Flood Science Center")) : outputAttributionText
+    outputAttributionText = (layers.depth.options.opacity != 0) ? (outputAttributionText.concat("<br>Depth Grid &mdash; ASFPM Flood Science Center")) : outputAttributionText
     outputAttributionText = outputAttributionText.concat("<br>Icons <a href='http://fontawesome.io'>Font Awesome</a> by Dave Gandy")
     outputAttributionText = outputAttributionText.concat("<br>Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>")
     outputAttributionText = (ouputLocation == 'map') ? outputAttributionText.concat("</div>") : outputAttributionText
@@ -1113,8 +1117,6 @@ function createSymbols(data){
 
 
 	handleStyle()
-	drawWater =($(watershedCheck).is(':checked'))? drawWatershed() : null
-	drawLand = ($(landUseCheck).is(':checked'))? drawLandUse() : null
 }
 
 
@@ -1473,124 +1475,6 @@ function getBaseText() {
 // Reposition the SVG to cover the features.
 function resetTopoJson(t) {
     t.attr("d", path);
-}
-// Creates the Watershed layer || Called When the watershed checkbox is first clicked
-function drawWatershed() {
-    var watershed = mapsvg.selectAll(".watersheds")
-        .data(topojson.feature(chesterCreekWatershed_topo, chesterCreekWatershed_topo.objects.chesterCreek_watershed)
-            .features)
-        .enter()
-        .append("path")
-        .attr("d", path)
-        .attr("class", "watershed")
-        .attr("stroke-width", 0)
-        .attr("stroke", "turquoise")
-        .attr("fill-opacity", 0)
-        .moveToBack()
-        .call(styleWatershed)
-        .call(resetTopoJson);
-    map.on("moveend", function() {
-        resetTopoJson(watershed)
-    });
-    watershedCheck.on('change', styleWatershed)
-}
-
-function handleLandUse() {
-    var LU = $('[name="landUseRadios"]:checked')
-        .val()
-    return ($("." + LU + "")
-        .length == 0) ? drawLandUse(LU) : styleLandUse(LU)
-}
-
-function drawLandUse(landUse) {
-    var landUseColors = d3.scale.ordinal()
-        .domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"])
-        .range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
-    var landUseZones = mapsvg.selectAll("landUseZones")
-        .data(function() {
-            var x = (landUse == "FLU") ? futureLandUse_topo : currentLandUse_topo;
-            return topojson.feature(x, x.objects.LU_TYPES)
-                .features
-        })
-        .enter()
-        .append("path")
-        .attr("d", path)
-        .attr("class", function() {
-            return "landUseZones " + landUse + ""
-        })
-        .attr("fill", function(d) {
-            return landUseColors(d.properties.Lu_Sum)
-        })
-        .attr("fill-opacity", 0)
-        .moveToBack()
-        .call(resetTopoJson);
-    styleLandUse(landUse);
-    map.on("moveend", function() {
-        resetTopoJson(landUseZones)
-    });
-    var makeLegend = ($('#landUseLegendSVG')
-        .length == 0) ? makelandUseLegend() : null
-
-    function makelandUseLegend() {
-        var m = {
-                top: 5,
-                right: 5,
-                bottom: 5,
-                left: 5
-            },
-            H = 15,
-            W = 40;
-        var landUseLegendSVG = d3.select("#landUseLegend")
-            .append("svg")
-            .attr('height', function() {
-                return ((landUseColors.domain())
-                    .length * (H + m.top));
-            })
-            .attr('width', 300)
-            .attr('id', 'landUseLegendSVG')
-            .append('g')
-            .attr("transform", "translate(" + m.left + "," + m.top + ")");
-        var legendGroup = landUseLegendSVG.selectAll('.legendGroup')
-            .data(landUseColors.domain())
-            .enter()
-            .append('g')
-            .attr("transform", function(d, i) {
-                return "translate(0," + i * (H + m.top) + ")";
-            });
-        legendGroup.append('rect')
-            .attr("width", W)
-            .attr("height", H)
-            .attr("fill", function(d) {
-                return landUseColors(d)
-            });
-        legendGroup.append("text")
-            .attr("x", W + m.right)
-            .attr("y", H / 2)
-            .attr("dy", ".35em")
-            .text(function(d) {
-                return d;
-            });
-    }
-}
-// Turns the land use layer on and off after it is created
-function styleLandUse(landUse) {
-    d3.selectAll('.landUseZones')
-        .attr('fill-opacity', 0)
-        .transition()
-        .duration(600)
-    d3.selectAll('.' + landUse + '')
-        .transition()
-        .duration(600)
-        .attr("fill-opacity", function() {
-            return ($(landUseCheck)
-                .is(':checked')) ? .8 : 0
-        })
-    var showLegend = ($(landUseCheck)
-            .is(':checked') == false) ? $('#landUsePanel')
-        .parents('.panel:first')
-        .slideUp() : $('#landUsePanel')
-        .parents('.panel:first')
-        .slideDown()
 }
 // Turns the watershed layer on and off after it is first created
 function styleWatershed(watershed) {
@@ -3001,6 +2885,8 @@ function helpTour(tour) {
     }, 600)
 }
 
+
+
 function init() {
     /////////////
     // Init.js //
@@ -3156,29 +3042,66 @@ function init() {
     // Basemap radio event listener
     $('[name="basemapRadios"]')
         .on('change', changeBasemap);
-    // ArcGIS Dynamic Layers Brought in through Arc Server REST
-    depth = new L.esri.dynamicMapLayer({
+    
+    // Define layers
+     layers = {
+        watershed: new L.geoJson(chesterCreekWatershed, {
+            style: {
+                "color": "#34f3aa",
+                "weight": 3,
+                "opacity": 1,
+                "lineCap": "round",
+                "fill": false
+            }
+        }),
+        stormwater: new L.geoJson(stormwaterJSON, {
+            style: {
+                "color": "#335df1",
+                "weight": 3,
+                "opacity": 1,
+                "lineCap": "round"
+            },
+            position: "back"
+        }),
+        depth: new L.esri.dynamicMapLayer({
             url: serviceURL,
             className: '2',
             layers: [depthGridCurrent],
             opacity: ($('[name="layerCheckboxes"]:eq(1)')
                 .is(':checked')) ? 1 : 0,
             position: "back"
+        }),
+        landUse: new L.geoJson(futureLandUse, {
+            style: function(feature) {
+                switch (feature.properties.reclassifi) {
+                    case "Commercial":
+                        return {color: "#838faa"};
+                        break;
+                    case "Green Space":
+                        return {color: "#00aa00"};
+                        break;
+                    case "Industrial":
+                        return {color: "#4d4d4d"};
+                        break;
+                    case "Institutional Campus":
+                        return {color: "#ffaa7f"};
+                        break;
+                    case "Other":
+                        return {color: "#ff8e90"};
+                        break;
+                    case "Residential":
+                        return {color: "#fff47b"};
+                        break;
+                }
+            }
         })
-        .addTo(map);
-    // Storm water Layer
-    stormWater = L.geoJson(stormwaterJSON, {
-        style: {
-            "color": "#335df1",
-            "weight": 3,
-            "opacity": 1,
-            "lineCap": "round"
-        },
-        position: "back"
-    });
+    };
+    // add a few layers to the map
+    layers.depth.addTo(map);
+    layers.landUse.addTo(map);
 
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', depth, stormWater, 'xx', 'landUse', 'watershed', 'xx']
+    allLayersList = ['floods', layers.depth, layers.stormwater, 'xx', layers.landUse, layers.watershed, 'xx']
         // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]')
         .on('change', function() {
