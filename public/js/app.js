@@ -443,11 +443,10 @@ function resize() {
 }
 // Toggles Current Basemap
 function changeBasemap() {
-    basemap.clearLayers()
-    currentBasemap = basemapList[$('[name="basemapRadios"]:checked').val()]
+    basemap.clearLayers();
+    currentBasemap = basemapList[$('[name="basemapRadios"]:checked').val()];
     basemap['currentBaseMap'] = $('[name="basemapRadios"]:checked').val();
-    currentBasemap.addTo(basemap)
-    stormWater.setZIndex(1)
+    currentBasemap.addTo(basemap);
 }
 // Dispatch Layer Display Changes on checkbox toggle
 function toggleLayers(checkbox) {
@@ -481,13 +480,9 @@ function toggleLayers(checkbox) {
         case 3:
             toggleInMap();
             break;
-        case 5:
+        case 4:
             toggleInMap();
             break;
-        case 6:
-            changeOpacity();
-            break;
-        default:
     };
 }
 // Defines HTML for the custom attribution
@@ -1126,13 +1121,6 @@ function getBaseText() {
 function resetTopoJson(t) {
     t.attr("d", path);
 }
-// Turns the watershed layer on and off after it is first created
-function styleWatershed(watershed) {
-    d3.selectAll('.watershed').transition().duration(600).attr('stroke-width', function() {
-        return watershedCheck.is(':checked') ? 5 : 0
-    })
-}
-
 function getDamagesIndex() {
     return String(parseInt($('[name="scenarioRadios"]:checked').attr("data-udf")) + parseInt($('input[name="floodEventRadios"]:checked').attr('value')))
 }
