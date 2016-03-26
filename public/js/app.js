@@ -2133,8 +2133,7 @@ function init() {
             url: serviceURL,
             className: '2',
             layers: [depthGridCurrent],
-            opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
-            position: "back"
+            opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0
         }),
         landUse: new L.geoJson(futureLandUse, {
             style: function(feature) {
@@ -2168,8 +2167,13 @@ function init() {
             }
         })
     };
-    // add a few layers to the map
+    // when our depth grids load, we want to add a class to the DOM element containing the image
+    // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
+    layers.depth.on("load", function () {
+        $(layers.depth._currentImage._image).addClass("depth-image");
+    });
     layers.depth.addTo(map);
+
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
     allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed]
         // Change in Layer checkbox event listener
