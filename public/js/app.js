@@ -419,15 +419,22 @@ var pop = null;
 ////////////
 // Map.js //
 ////////////
-var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/duluth_mapservice_test/MapServer";
+var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer";
 var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, currentBasemap, depth, stormWater, allLayersList;
 /////////////
 // Init.js //
 /////////////
 var landUseCheck, watershedCheck, stormWaterCheck;
-// Custom
+////////////
+// Custom // 
+////////////
 var layers;
 var landUseColors = d3.scale.ordinal().domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"]).range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"]);
+// non-layer attributions
+var attributionData = {
+    fontAwesome: "Icons <a href='http://fontawesome.io'>Font Awesome</a> by Dave Gandy",
+    icons8: "Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
+};
 
 function resize() {
     $("#map").css("height", function() {
@@ -462,8 +469,7 @@ function toggleLayers(checkbox) {
     function toggleInMap() {
         if (setVisible && !map.hasLayer(layer)) {
             map.addLayer(layer);
-        }
-        else if (!setVisible && map.hasLayer(layer)) {
+        } else if (!setVisible && map.hasLayer(layer)) {
             map.removeLayer(layer);
         }
     };
@@ -483,24 +489,26 @@ function toggleLayers(checkbox) {
         case 4:
             toggleInMap();
             break;
+        case 5:
+            changeOpacity();
+            break;
     };
 }
 // Defines HTML for the custom attribution
-function attributionText(ouputLocation) {
-    var outputAttributionText = ""
-    outputAttributionText = (ouputLocation == 'map') ? outputAttributionText.concat("<a href='http://leafletjs.com/'>Leaflet</a>  <a href='#' onclick='$(\"#fullAttribution\").slideToggle()'><i class='flaticon-info20'></i></a><div id='fullAttribution' style='display: none;'>") : outputAttributionText
-    outputAttributionText = outputAttributionText.concat("" + currentBasemap.options.attribution + "")
-    outputAttributionText = (layers.depth.options.opacity != 0) ? (outputAttributionText.concat("<br>Depth Grid &mdash; ASFPM Flood Science Center")) : outputAttributionText
-    outputAttributionText = outputAttributionText.concat("<br>Icons <a href='http://fontawesome.io'>Font Awesome</a> by Dave Gandy")
-    outputAttributionText = outputAttributionText.concat("<br>Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>")
-    outputAttributionText = (ouputLocation == 'map') ? outputAttributionText.concat("</div>") : outputAttributionText
-    return outputAttributionText;
-}
-// Sets the Attribution for either the map or the print map base on attributionText()
-function applyAttributionText() {
-    $('.custom-attribution').html(function() {
-        return attributionText('map')
-    })
+function updateMapAttribution() {
+    $("#fullAttribution").empty();
+    $.each(attributionData, function(key, attribution) {
+        $("#fullAttribution").append(attribution).append("<br>");
+    });
+    map.eachLayer(function(layer) {
+        if (typeof layer.options.attribution != "undefined" && layer.options.attribution) {
+            if (typeof layer.options.opacity != "undefined" && layer.options.opacity > 0) {
+                $("#fullAttribution").append(layer.options.attribution).append("<br>");
+            } else if (typeof layer.options.opacity == "undefined") {
+                $("#fullAttribution").append(layer.options.attribution).append("<br>");
+            }
+        }
+    });
 }
 
 function printMap() {
@@ -1121,6 +1129,7 @@ function getBaseText() {
 function resetTopoJson(t) {
     t.attr("d", path);
 }
+
 function getDamagesIndex() {
     return String(parseInt($('[name="scenarioRadios"]:checked').attr("data-udf")) + parseInt($('input[name="floodEventRadios"]:checked').attr('value')))
 }
@@ -1480,8 +1489,7 @@ function makeLine() {
     }
     if ($('.lineChartLegend').length == 0) {
         makeLegend()
-    }
-    else {
+    } else {
         styleLines(d3.selectAll('.lines'))
     }
 
@@ -1825,8 +1833,7 @@ function popupMaker(data) {
     setTimeout(function() {
         try {
             popupLineChart(data)
-        }
-        catch (e) {
+        } catch (e) {
             console.log('lineChartFailed', e)
         }
     }, 100)
@@ -1966,8 +1973,7 @@ function helpStep(stepNum, tour) {
             if (x.before != undefined) {
                 x.before.call()
                 showStep(delayShown)
-            }
-            else {
+            } else {
                 showStep(delayShown)
             }
         }
@@ -2018,8 +2024,7 @@ function init() {
         $('.selectpicker').selectpicker('mobile');
         // If mobile--hide print options
         $('.hide-mobile').hide();
-    }
-    else {
+    } else {
         $('.toolTip').tooltip({
             container: '#wrapper'
         })
@@ -2118,7 +2123,8 @@ function init() {
                 "opacity": 1,
                 "lineCap": "round",
                 "fill": false
-            }
+            },
+            attribution: false
         }),
         stormwater: new L.geoJson(stormwaterJSON, {
             style: {
@@ -2127,13 +2133,22 @@ function init() {
                 "opacity": 1,
                 "lineCap": "round"
             },
-            position: "back"
+            position: "back",
+            attribution: false
         }),
         depth: new L.esri.dynamicMapLayer({
             url: serviceURL,
             className: '2',
             layers: [depthGridCurrent],
-            opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0
+            opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
+            attribution: "Depth Grid &mdash; ASFPM Flood Science Center"
+        }),
+        streams: new L.esri.dynamicMapLayer({
+            url: serviceURL,
+            className: '2',
+            layers: [0],
+            opacity: ($('[name="layerCheckboxes"]:eq(4)').is(':checked')) ? 1 : 0,
+            attribution: false
         }),
         landUse: new L.geoJson(futureLandUse, {
             style: function(feature) {
@@ -2164,28 +2179,32 @@ function init() {
                     fill: true,
                     weight: 0
                 };
-            }
+            },
+            attribution: false
         })
     };
     // when our depth grids load, we want to add a class to the DOM element containing the image
     // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
-    layers.depth.on("load", function () {
+    layers.depth.on("load", function() {
         $(layers.depth._currentImage._image).addClass("depth-image");
     });
     layers.depth.addTo(map);
-
+    layers.streams.addTo(map);
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed]
+    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.streams]
         // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]').on('change', function() {
         toggleLayers($(this))
     });
     // Define the Initial Attribution Text
-    applyAttributionText()
-        // Update the attribution Text on layer change
-    $('[name="basemapRadios"],[name="layerCheckboxes"]').on('change', applyAttributionText)
-        /* Map Export Functions */
-        // Print Map
+    updateMapAttribution();
+    $(document).on("click", "#openFullAttribution", function() {
+        $("#fullAttribution").slideToggle();
+    });
+    // Update the attribution Text on layer change
+    $('[name="basemapRadios"],[name="layerCheckboxes"]').on('change', updateMapAttribution);
+    /* Map Export Functions */
+    // Print Map
     $('.map-printer').on('click', function() {
         $('#printHolder').append('<div id="printMap" style="width: 6.8in;height: 3.5in;"></div>')
         printMap()
@@ -2266,10 +2285,11 @@ function init() {
             minimumDamageIndex = indexValues.minimumDamageIndex,
             maximumDamageIndex = indexValues.maximumDamageIndex;
         handleStyle()
-        depth.setLayers([depthGridCurrent])       
+        layers.depth.setLayers([depthGridCurrent])
     }
     $("[name='scenarioRadios'], input[name='floodEventRadios']").on("change", handleScenarioChanges);
-    function handleCompareChanges () {
+
+    function handleCompareChanges() {
         compareType = getCompareType()
         damagesCompare = getCompareDamagesIndex()
         handleStyle()
@@ -2298,8 +2318,7 @@ function init() {
         hideDropDown = (chartType != 'line') ? $(".line-only").hide() : $(".line-only").show()
         if (currentAttribute != 'BldgLossUS') {
             $('#select-stats option[value="sum"]').attr("disabled", "disabled")
-        }
-        else {
+        } else {
             $('#select-stats option[value="sum"]').removeAttr("disabled")
         }
         $('#select-stats').selectpicker('refresh')
