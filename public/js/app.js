@@ -2465,7 +2465,6 @@ function init() {
         }
     });
     layers.depth.addTo(map);
-    layers.streams.addTo(map);
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
     allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.streams];
     // Change in Layer checkbox event listener

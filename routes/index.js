@@ -4,84 +4,66 @@ var domSettings = require('./domSettings.js')
 var fs = require('fs-extra');
 var archiver = require('archiver');
 var pg = require('pg')
-var _ =require('underscore')
+var _ = require('underscore')
 var conString = "postgres://floodatlas_user:phUR5Fru0@localhost/floodatlas_db";
 //var floodviewConn = "postgres://floodview_user:8pust8PHEb5a@localhost/floodview_db";
-
 router.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
-
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
+    next();
 });
-
 // LOAD SPECIFIC MAPVIEW
 router.get('/mapView/:title', function(req, res) {
-	var queryString = req.params.title
-		d = domSettings.getData(req,queryString)
-
-	res.render('index', d);
-
+    var queryString = req.params.title
+    d = domSettings.getData(req, queryString)
+    res.render('index', d);
 });
-
 //
 router.get('/about', function(req, res) {
-		x=domSettings.floodAtlasData(req)
-		x['title'] = 'About'
-
-	res.render('about',x)
+    x = domSettings.floodAtlasData(req)
+    x['title'] = 'About'
+    res.render('about', x)
 });
 router.get('/map', function(req, res) {
-		x= domSettings.floodAtlasData(req)
-
-		x['title'] = 'Map'
-
-	res.render('map',x)
+    x = domSettings.floodAtlasData(req)
+    x['title'] = 'Map'
+    res.render('map', x)
 });
-
 router.get('/dataPortal', function(req, res) {
-	var client = new pg.Client(conString);
-	var x = domSettings.floodAtlasData(req)
-	client.connect(function(err) {
-	  if(err) {
-	    return console.error('could not connect to postgres', err);
-	  }else{
-	  	 var query = client.query('SELECT * FROM datafiles WHERE project = \'duluth\'');
-	  	 	query.on('row', function(row,result) { result.addRow(row); });
-	  		query.on('end', function(result) {
-	  			x['myResult'] = result;
-	  			notBatch = ((result.rows).filter(function(d, i){ return d.batch!=true }) ).map(function(d, i){ return d.title})
-	  			console.log(notBatch)
-	  			x['headings'] = _.uniq(notBatch)
-	  			x['title'] = 'Data Portal';
-
-
-      		res.render('dataPortal', x)
-    	});
-
-
-	  }
-
-	})
-
+    var client = new pg.Client(conString);
+    var x = domSettings.floodAtlasData(req)
+    client.connect(function(err) {
+        if (err) {
+            return console.error('could not connect to postgres', err);
+        }
+        else {
+            var query = client.query('SELECT * FROM datafiles WHERE project = \'duluth\'');
+            query.on('row', function(row, result) {
+                result.addRow(row);
+            });
+            query.on('end', function(result) {
+                x['myResult'] = result;
+                notBatch = ((result.rows).filter(function(d, i) {
+                    return d.batch != true
+                })).map(function(d, i) {
+                    return d.title
+                })
+                console.log(notBatch)
+                x['headings'] = _.uniq(notBatch)
+                x['title'] = 'Data Portal';
+                res.render('dataPortal', x)
+            });
+        }
+    })
 });
-
-
-
 // DEFAULT- LOOK FOR MODE COOKIE
 router.get('/', function(req, res) {
-	d = domSettings.getData(req)
-
-					res.render('index', d)
-
+    d = domSettings.getData(req)
+    res.render('index', d)
 });
-
 router.get('/:something', function(req, res) {
-
-	var queryString = req.params.something
-
-	res.render('error');
+    var queryString = req.params.something
+    res.render('error');
 });
-
 module.exports = router;
