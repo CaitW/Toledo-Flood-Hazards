@@ -2464,7 +2464,13 @@ function init() {
             $(layers.depth._currentImage._image).addClass("depth-image");
         }
     });
+    // add raster layers
     layers.depth.addTo(map);
+    layers.streams.addTo(map);
+    // determine whether to add vector layers
+    ($('[name="layerCheckboxes"]:eq(2)').is(':checked')) ? layers.stormwater.addTo(map) : null;
+    ($('[name="layerCheckboxes"]:eq(3)').is(':checked')) ? layers.landUse.addTo(map) : null;
+    ($('[name="layerCheckboxes"]:eq(4)').is(':checked')) ? layers.watershed.addTo(map) : null;
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
     allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.streams];
     // Change in Layer checkbox event listener
