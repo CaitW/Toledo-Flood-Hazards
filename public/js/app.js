@@ -436,6 +436,93 @@ var attributionData = {
     icons8: "Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
 };
 
+function typeofLayer(layer) {
+    if (layer instanceof L.TileLayer) {
+        return {
+            type: "raster",
+            name: "Tile Layer"
+        }
+    }
+    if (layer instanceof L.ImageOverlay) {
+        return {
+            type: "raster",
+            name: "Image Overlay"
+        };
+    }
+    // Marker layers
+    if (layer instanceof L.Marker) {
+        return {
+            type: "marker",
+            name: "Marker"
+        };
+    }
+    if (layer instanceof L.circleMarker) {
+        return {
+            type: "marker",
+            name: "Circle Marker"
+        };
+    }
+    // Vector layers
+    if (layer instanceof L.Rectangle) {
+        return {
+            type: "vector",
+            name: "Rectangle"
+        };
+    }
+    if (layer instanceof L.Polygon) {
+        return {
+            type: "vector",
+            name: "Polygon"
+        };
+    }
+    if (layer instanceof L.Polyline) {
+        return {
+            type: "vector",
+            name: "Polyline"
+        };
+    }
+    // MultiPolyline is removed in leaflet 0.8-dev
+    if (L.MultiPolyline && layer instanceof L.MultiPolyline) {
+        return {
+            type: "vector",
+            name: "MultiPolyline"
+        };
+    }
+    // MultiPolygon is removed in leaflet 0.8-dev
+    if (L.MultiPolygon && layer instanceof L.MultiPolygon) {
+        return {
+            type: "vector",
+            name: "MultiPolygon"
+        };
+    }
+    if (layer instanceof L.Circle) {
+        return {
+            type: "vector",
+            name: "Circle"
+        };
+    }
+    if (layer instanceof L.GeoJSON) {
+        return {
+            type: "vector",
+            name: "GeoJson"
+        };
+    }
+    // ESRI-Leaflet
+    if (layer instanceof L.esri.DynamicMapLayer) {
+        return {
+            type: "raster",
+            name: "ESRI DynamicMapLayer"
+        };
+    }
+    // layer/feature groups
+    if (layer instanceof L.LayerGroup || layer instanceof L.FeatureGroup) {
+        return {
+            type: "layer group",
+            name: "Layer Group"
+        };
+    }
+};
+
 function resize() {
     $("#map").css("height", function() {
         return ($(window).height() - $('#navHeader').height())
@@ -469,7 +556,8 @@ function toggleLayers(checkbox) {
     function toggleInMap() {
         if (setVisible && !map.hasLayer(layer)) {
             map.addLayer(layer);
-        } else if (!setVisible && map.hasLayer(layer)) {
+        }
+        else if (!setVisible && map.hasLayer(layer)) {
             map.removeLayer(layer);
         }
     };
@@ -485,6 +573,15 @@ function toggleLayers(checkbox) {
             break;
         case 3:
             toggleInMap();
+            if ($('#landUseLegendSVG').length == 0) {
+                makeLandUseLegend();
+            }
+            if (setVisible) {
+                $('#landUsePanel').parents('.panel:first').slideDown();
+            }
+            else {
+                $('#landUsePanel').parents('.panel:first').slideUp();
+            }
             break;
         case 4:
             toggleInMap();
@@ -504,148 +601,290 @@ function updateMapAttribution() {
         if (typeof layer.options.attribution != "undefined" && layer.options.attribution) {
             if (typeof layer.options.opacity != "undefined" && layer.options.opacity > 0) {
                 $("#fullAttribution").append(layer.options.attribution).append("<br>");
-            } else if (typeof layer.options.opacity == "undefined") {
+            }
+            else if (typeof layer.options.opacity == "undefined") {
                 $("#fullAttribution").append(layer.options.attribution).append("<br>");
             }
         }
     });
 }
-
-function printMap() {
-    // List to hold all the layers that have been added to the print map--length is checked against target legnth
-    var loaded = [],
-        targetLength = ($('[name="layerCheckboxes"]:checked').length + 1);
-    // Empty String to be populated with landuse legend if the layer is active
-    var legendla = "";
-    // Identify the Url of the current basemap
-    var tileUrl = basemapList[parseInt(basemap.currentBaseMap)]._url
-        // Define Current Basemap
-    var BASE = L.tileLayer(tileUrl)
-    BASE.on('load', test)
-        // Initialize Leaflet Print Map
-    var printMap = L.map('printMap', {
-        zoomControl: false,
-        center: map.getCenter(),
-        zoom: map.getZoom(),
-        attributionControl: false,
-        layers: [BASE]
+var print = (function() {
+    var _state = "stopped";
+    var _map;
+    var _attribution;
+    // d3 functions and variables
+    var _d3SVG;
+    var _hazardGroup;
+    var _circles;
+    var _scales = {
+        color: ScaleEm('color'),
+        radius: ScaleEm('radius')
+    };
+    var _transform = d3.geo.transform({
+        point: _projectPoint
     });
-    // Initailize Svg pane
-    printMap._initPathRoot();
-    // ADD SVG OVERLAY TO PRINT MAP PANE
-    var printMapsvg = d3.select("#printHolder").select("svg"),
-        printMapSymbolGroup = printMapsvg.append("g")
-    var printTransform = d3.geo.transform({
-            point: projectPoint
-        }),
-        printPath = d3.geo.path().projection(printTransform);
-    // Project svg points on leaflet map
-    function projectPoint(x, y) {
-        var point = printMap.latLngToLayerPoint(new L.LatLng(y, x));
+    var _path = d3.geo.path().projection(_transform);
+    // legend containers
+    var $footer;
+
+    function _cloneLayer(layer) {
+        var options = layer.options;
+        // Tile layers
+        if (layer instanceof L.TileLayer) {
+            return L.tileLayer(layer._url, options);
+        }
+        if (layer instanceof L.ImageOverlay) {
+            return L.imageOverlay(layer._url, layer._bounds, options);
+        }
+        // Marker layers
+        if (layer instanceof L.Marker) {
+            return L.marker(layer.getLatLng(), options);
+        }
+        if (layer instanceof L.circleMarker) {
+            return L.circleMarker(layer.getLatLng(), options);
+        }
+        // Vector layers
+        if (layer instanceof L.Rectangle) {
+            return L.rectangle(layer.getBounds(), options);
+        }
+        if (layer instanceof L.Polygon) {
+            return L.polygon(layer.getLatLngs(), options);
+        }
+        if (layer instanceof L.Polyline) {
+            return L.polyline(layer.getLatLngs(), options);
+        }
+        // MultiPolyline is removed in leaflet 0.8-dev
+        if (L.MultiPolyline && layer instanceof L.MultiPolyline) {
+            return L.polyline(layer.getLatLngs(), options);
+        }
+        // MultiPolygon is removed in leaflet 0.8-dev
+        if (L.MultiPolygon && layer instanceof L.MultiPolygon) {
+            return L.multiPolygon(layer.getLatLngs(), options);
+        }
+        if (layer instanceof L.Circle) {
+            return L.circle(layer.getLatLng(), layer.getRadius(), options);
+        }
+        if (layer instanceof L.GeoJSON) {
+            return L.geoJson(layer.toGeoJSON(), options);
+        }
+        // ESRI-Leaflet
+        if (layer instanceof L.esri.DynamicMapLayer) {
+            return L.esri.dynamicMapLayer(options);
+        }
+        // layer/feature groups
+        if (layer instanceof L.LayerGroup || layer instanceof L.FeatureGroup) {
+            var layergroup = L.layerGroup();
+            layer.eachLayer(function(inner) {
+                layergroup.addLayer(_cloneLayer(inner));
+            });
+            return layergroup;
+        }
+        throw 'Unknown layer, cannot clone this layer';
+    }
+
+    function _projectPoint(x, y) {
+        var point = _map.latLngToLayerPoint(new L.LatLng(y, x));
         this.stream.point(point.x, point.y);
     };
-    // Create depth grid layer on printable map
-    DG = function() {
-            var DG = L.esri.dynamicMapLayer(serviceURL, {
-                className: '2',
-                layers: [depthGridCurrent],
-                opacity: 1,
-                position: "back"
-            }).addTo(printMap).on('load', test)
-            return DG
-        }
-        // Create Watershed layer for print map
-    WATERSHED = function() {
-            function make(topology) {
-                var watershed = printMapsvg.selectAll(".printwatersheds").data(topojson.feature(topology, topology.objects.watershed).features).enter().append("path").attr("d", printPath).attr("class", "watershed").attr("stroke-width", 5).attr("stroke", "turquoise").attr("fill-opacity", 0).attr("d", printPath).moveToBack().call(test)
-            }
-            make(chesterCreekWatershed_topo)
-        }
-        // Create landuse layer for printable map
-    LANDUSE = function() {
-            // Land use scale
-            var landUseColors = d3.scale.ordinal().domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"]).range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
-                // Detect which land use is active and the appropriate topology
-            var LU_TOPOLOGY = ($('[name=landUseRadios]:checked').val() == "FLU") ? futureLandUse_topo : currentLandUse_topo
 
-            function make(topology) {
-                var printlandUse = printMapsvg.selectAll(".landUseZones").data(topojson.feature(topology, topology.objects.LU_TYPES).features).enter().append("path").attr("d", printPath).attr("class", "landUseZones").attr("fill", function(d) {
-                    return landUseColors(d.properties.Lu_Sum)
-                }).attr("fill-opacity", 0.8).moveToBack().call(test);
+    function _createHazardLayer() {
+        // add the hazard layer (d3 layer)
+        _d3SVG = d3.select(_map.getPanes().overlayPane).append("svg").style("z-index", "250");
+        // add the g element that will hold the hazard symbols
+        _hazardGroup = _d3SVG.append("g").attr("class", "leaflet-zoom-hide hazardSymbols");
+        // Define scales and data picking function
+        var pickData = getCurrent();
+        _circles = _hazardGroup.selectAll('circle').data(allYearData.features).enter().append('circle');
+        _circles.filter(function(d, i) {
+            return pickData(d) != 0
+        }).sort().sort(function(a, b) {
+            return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))
+        }).attr('fill', function(d) {
+            return _scales.color(pickData(d))
+        }).attr('stroke', function(d) {
+            return _scales.color(pickData(d))
+        }).attr('class', 'colorful printSymbols').attr('r', function(d) {
+            return ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') == true) ? (_scales.radius(pickData(d)) * 0.7) : 0
+        }).attr("cx", function(d) {
+            return _map.latLngToLayerPoint(d.LatLng).x
+        }).attr("cy", function(d) {
+            return _map.latLngToLayerPoint(d.LatLng).y
+        });
+    };
+
+    function LoadCheck(callback) {
+        var self = this;
+        var _done = false;
+        var _doneFn = callback;
+        var _printLayers = [];
+        var _printCompleted = [];
+
+        function queue(layer) {
+            var index = _printLayers.push(layer) - 1;
+            if (typeofLayer(layer).type == "vector") {
+                layer.on('add', function() {
+                    _printCompleted.push(layer);
+                    checkIfDone();
+                });
             }
-            make(LU_TOPOLOGY);
-            // Copy the already created landuse legend
-            legendla = "<div class='printLegend'>" + $('[name="landUseRadios"]:checked').parent().text() + "</h4>" + $('#landUsePanel svg').parent().html() + "</div>"
+            else if (typeofLayer(layer).type == "raster") {
+                layer.on('load', function() {
+                    _printCompleted.push(layer);
+                    checkIfDone();
+                });
+            }
+        };
+
+        function checkIfDone() {
+            if (_printLayers.length == _printCompleted.length) {
+                setTimeout(function() {
+                    if (!_done) {
+                        _doneFn();
+                        _done = true;
+                    }
+                }, 1000);
+            }
+        };
+        this.add = function(layer) {
+            if (typeof layer.options.opacity != "undefined" && layer.options.opacity > 0) {
+                queue(layer);
+            }
+            else if (typeof layer.options.opacity == "undefined") {
+                queue(layer);
+            }
+        };
+    };
+
+    function _createMap(callback) {
+        $('#printHolder').append('<h2>Flood Hazards</h2><div id="printMap" style="width: 6.8in;height: 3.5in;"></div>');
+        var mainMapBounds = map.getBounds();
+        // initialize the print map Leaflet DOM
+        _map = L.map('printMap', {
+            zoomControl: false,
+            attributionControl: false
+        });
+        _map.fitBounds(mainMapBounds);
+        // get all the layers from the current map and add them to the print map
+        var isLoaded = new LoadCheck(callback);
+        map.eachLayer(function(layer) {
+            try {
+                if (typeofLayer(layer).type == "layer group") {
+                    layer.eachLayer(function(inner) {
+                        var clone = _cloneLayer(inner);
+                        isLoaded.add(clone);
+                        _map.addLayer(clone);
+                    });
+                }
+                else {
+                    var clone = _cloneLayer(layer);
+                    isLoaded.add(clone);
+                    _map.addLayer(clone);
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+    };
+
+    function _createFooter() {
+        $footer = $("<div></div>");
+        var $attrText = $("<small style='font-size: xx-small'></small>").append($('#fullAttribution').html().replace(/<br>/g, "; "));
+        var $hazardLegend = $("<span class='pull-left'></span>").append("<h4>Flood Hazards</h4>").append($('#baseText').html()).append($('#hazardLegendSVG').parent().html());
+        var $landUseLegend = $("<span class='pull-right'></span>").append("<div class='printLegend'>" + $('#landUsePanel svg').parent().html() + "</div>");
+        // append everything to the footer container
+        $footer.append($attrText).append($hazardLegend);
+        if (map.hasLayer(layers.landUse)) {
+            $footer.append($landUseLegend);
         }
-        // Create flood hazards layer for printable map
-    SYMBOLS = function() {
-            // Define scales and data picking function
-            var colorScale = ScaleEm('color'),
-                radiScale = ScaleEm('radius')
-            pickData = getCurrent()
-            var printCircles = printMapSymbolGroup.selectAll('circle').data(allYearData.features).enter().append('circle');
-            printCircles.filter(function(d, i) {
-                return pickData(d) != 0
-            }).sort().sort(function(a, b) {
-                return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))
-            }).attr('fill', function(d) {
-                return colorScale(pickData(d))
-            }).attr('stroke', function(d) {
-                return colorScale(pickData(d))
-            }).attr('class', 'colorful printSymbols').attr('r', function(d) {
-                return ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') == true) ? (radiScale(pickData(d)) * 0.7) : 0
-            }).attr("cx", function(d) {
-                return printMap.latLngToLayerPoint(d.LatLng).x
-            }).attr("cy", function(d) {
-                return printMap.latLngToLayerPoint(d.LatLng).y
-            }).call(test);
+    };
+
+    function destroy() {
+        // destroy map
+        _map.remove();
+        // destroy footer
+        $footer.remove();
+        // destroy symbols
+        _d3SVG = null;
+        _hazardGroup = null;
+        _circles = null;
+        $('#printHolder').empty();
+        $(".map-printer").find(".fa-refresh").removeClass("fa-refresh").removeClass("fa-spin").addClass("fa-print");
+        _state = "stopped";
+    };
+    // manually sort the layers in the map so they appear correctly
+    function _sortLayers() {
+        var layersToSort = {
+            depth: false,
+            basemap: false,
+            landUse: false,
+            stormwater: false,
+            streams: false
+        };
+        _map.eachLayer(function(l) {
+            if (typeof l.options.layerName != "undefined") {
+                switch (l.options.layerName) {
+                    case "depth":
+                        layersToSort.depth = l;
+                        break;
+                    case "landUse":
+                        layersToSort.landUse = l;
+                        break;
+                    case "basemap":
+                        layersToSort.basemap = l;
+                        break;
+                    case "stormwater":
+                        layersToSort.stormwater = l;
+                        break;
+                    case "streams":
+                        layersToSort.streams = l;
+                        break;
+                }
+            }
+        });
+        // raster layers include: streams, basemap, depth grids
+        if (layersToSort.basemap) {
+            layersToSort.basemap.bringToBack();
         }
-        // Create stormwater layer for printable map
-    STORMWATER = function() {
-            var SW = new L.esri.dynamicMapLayer(serviceURL, {
-                className: '3',
-                layers: [1],
-                opacity: ($('[name="layerCheckboxes"]:eq(2)').is(':checked')) ? 1 : 0,
-                position: "back"
-            }).addTo(printMap).on('load', test);
-            return SW
+        if (layersToSort.streams) {
+            layersToSort.streams.bringToFront();
         }
-        // Lists all possible overlay Layers--XX=Stand-in to maintain layer indexes
-    var possibleLayers = [SYMBOLS, DG, STORMWATER, LANDUSE, "xx", WATERSHED, "xx"]
-        // For each layer that is checked call the function that adds it to the print map
-    var createActiveLayers = $('[name="layerCheckboxes"]:checked').each(function(i, d) {
-            x = possibleLayers[parseInt($(this).val())]
-            return (typeof x == "function") ? x.call(x) : null
-        })
-        // Called after each layer is loaded on the print map
-    function test(x) {
-        //Add the loaded layer to the loaded list
-        loaded.push(x);
-        // If the length of loaded layers is the same as the target length call the execute print function
-        return (loaded.length == targetLength) ? execute() : null
+        if (layersToSort.depth) {
+            if (layersToSort.depth._currentImage && layersToSort.depth._currentImage._image) {
+                $(layersToSort.depth._currentImage._image).addClass("depth-image");
+            }
+        }
+        // vector layers include: land use, stormwater
+        if (layersToSort.landUse) {
+            layersToSort.landUse.bringToBack();
+        }
+        if (layersToSort.stormwater) {
+            layersToSort.stormwater.bringToFront();
+        }
+
+    };
+
+    function create() {
+        if (_state == "stopped") {
+            _state = "started";
+            $(".map-printer").find(".fa-print").removeClass("fa-print").addClass("fa-refresh").addClass("fa-spin");
+            _createMap(function() {
+                _sortLayers();
+                _createHazardLayer();
+                _createFooter();
+                $('#printHolder').print({
+                    stylesheet: '' + serverVariables.publicPath + 'css/printing.css',
+                    append: [$footer]
+                });
+                destroy();
+            });
+        };
+    };
+    return {
+        create: create,
+        destroy: destroy
     }
-    // Add additional elements to the print document and call the print function
-    function execute() {
-        // Copy the attribution text
-        var attrText = $('#fullAttribution').html().replace(/<br>/g, "; ");
-        // Create print document elements
-        var sourceText = "<small style='font-size: xx-small'>" + attrText + "</small>",
-            legend = '<div class="printLegend" style="width:3in"><h4>Flood Hazards</h4>' + $('#baseText').html() + '' + $('#hazardLegendSVG').parent().html() + '</div>',
-            heading = '<h2>Flood Hazards</h2>',
-            la = '' + legendla + '',
-            legrow = '<br><br><div class="page-break"></div><div><span class="pull-left">' + legend + '</span><span class="pull-right">' + la + '</span></div>';
-        // Call print
-        $('#printHolder').print({
-                stylesheet: '' + serverVariables.publicPath + 'css/printing.css',
-                append: [sourceText, legrow],
-                prepend: heading
-            })
-            // After print function is called remove the printable map from the dom
-        setTimeout(function() {
-            $('#printHolder').empty();
-        }, 2000)
-    }
-}
+})();
 
 function getLink(obj) {
     // Define current map view extent
@@ -1489,7 +1728,8 @@ function makeLine() {
     }
     if ($('.lineChartLegend').length == 0) {
         makeLegend()
-    } else {
+    }
+    else {
         styleLines(d3.selectAll('.lines'))
     }
 
@@ -1833,7 +2073,8 @@ function popupMaker(data) {
     setTimeout(function() {
         try {
             popupLineChart(data)
-        } catch (e) {
+        }
+        catch (e) {
             console.log('lineChartFailed', e)
         }
     }, 100)
@@ -1973,7 +2214,8 @@ function helpStep(stepNum, tour) {
             if (x.before != undefined) {
                 x.before.call()
                 showStep(delayShown)
-            } else {
+            }
+            else {
                 showStep(delayShown)
             }
         }
@@ -2013,6 +2255,29 @@ function helpTour(tour) {
     }, 600)
 }
 
+function makeLandUseLegend() {
+    var m = {
+            top: 5,
+            right: 5,
+            bottom: 5,
+            left: 5
+        },
+        H = 15,
+        W = 40;
+    var landUseLegendSVG = d3.select("#landUseLegend").append("svg").attr('height', function() {
+        return ((landUseColors.domain()).length * (H + m.top));
+    }).attr('width', 300).attr('id', 'landUseLegendSVG').append('g').attr("transform", "translate(" + m.left + "," + m.top + ")");
+    var legendGroup = landUseLegendSVG.selectAll('.legendGroup').data(landUseColors.domain()).enter().append('g').attr("transform", function(d, i) {
+        return "translate(0," + i * (H + m.top) + ")";
+    });
+    legendGroup.append('rect').attr("width", W).attr("height", H).attr("fill", function(d) {
+        return landUseColors(d)
+    });
+    legendGroup.append("text").attr("x", W + m.right).attr("y", H / 2).attr("dy", ".35em").text(function(d) {
+        return d;
+    });
+}
+
 function init() {
     /////////////
     // Init.js //
@@ -2024,7 +2289,8 @@ function init() {
         $('.selectpicker').selectpicker('mobile');
         // If mobile--hide print options
         $('.hide-mobile').hide();
-    } else {
+    }
+    else {
         $('.toolTip').tooltip({
             container: '#wrapper'
         })
@@ -2093,14 +2359,17 @@ function init() {
     }).fitBounds(siteBounds);
     // Basemaps
     satellite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            layerName: "basemap",
             name: 'ESRI.WorldImagery',
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         }),
         toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+            layerName: "basemap",
             name: 'Stamen.Toner',
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }),
         terrain = L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
+            layerName: "basemap",
             name: 'Stamen.Terrain',
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         });
@@ -2124,7 +2393,8 @@ function init() {
                 "lineCap": "round",
                 "fill": false
             },
-            attribution: false
+            attribution: false,
+            layerName: "watershed"
         }),
         stormwater: new L.geoJson(stormwaterJSON, {
             style: {
@@ -2134,21 +2404,24 @@ function init() {
                 "lineCap": "round"
             },
             position: "back",
-            attribution: false
+            attribution: false,
+            layerName: "stormwater"
         }),
         depth: new L.esri.dynamicMapLayer({
             url: serviceURL,
             className: '2',
             layers: [depthGridCurrent],
             opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
-            attribution: "Depth Grid &mdash; ASFPM Flood Science Center"
+            attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
+            layerName: "depth"
         }),
         streams: new L.esri.dynamicMapLayer({
             url: serviceURL,
             className: '2',
             layers: [0],
             opacity: ($('[name="layerCheckboxes"]:eq(4)').is(':checked')) ? 1 : 0,
-            attribution: false
+            attribution: false,
+            layerName: "streams"
         }),
         landUse: new L.geoJson(futureLandUse, {
             style: function(feature) {
@@ -2180,19 +2453,22 @@ function init() {
                     weight: 0
                 };
             },
-            attribution: false
+            attribution: false,
+            layerName: "landUse"
         })
     };
     // when our depth grids load, we want to add a class to the DOM element containing the image
     // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
     layers.depth.on("load", function() {
-        $(layers.depth._currentImage._image).addClass("depth-image");
+        if (layers.depth._currentImage && layers.depth._currentImage._image) {
+            $(layers.depth._currentImage._image).addClass("depth-image");
+        }
     });
     layers.depth.addTo(map);
     layers.streams.addTo(map);
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.streams]
-        // Change in Layer checkbox event listener
+    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.streams];
+    // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]').on('change', function() {
         toggleLayers($(this))
     });
@@ -2205,10 +2481,7 @@ function init() {
     $('[name="basemapRadios"],[name="layerCheckboxes"]').on('change', updateMapAttribution);
     /* Map Export Functions */
     // Print Map
-    $('.map-printer').on('click', function() {
-        $('#printHolder').append('<div id="printMap" style="width: 6.8in;height: 3.5in;"></div>')
-        printMap()
-    });
+    $('.map-printer').on('click', print.create);
     ///////////////////
     // Prototypes.js //
     ///////////////////
@@ -2318,7 +2591,8 @@ function init() {
         hideDropDown = (chartType != 'line') ? $(".line-only").hide() : $(".line-only").show()
         if (currentAttribute != 'BldgLossUS') {
             $('#select-stats option[value="sum"]').attr("disabled", "disabled")
-        } else {
+        }
+        else {
             $('#select-stats option[value="sum"]').removeAttr("disabled")
         }
         $('#select-stats').selectpicker('refresh')
