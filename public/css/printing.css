@@ -21,11 +21,19 @@
 		margin-top: 0px;
 		font-family: 'Open Sans'!important;
 	}
+	.footer {
+		margin-top: 10px;
+	}
 	.printLegend{
-		padding: 10px;
+		margin-top: 10px;
+		display: inline-block;
+		padding: 5px 10px 10px 10px;
 		border: 1px solid black;
+		max-width: 50%;
 		page-break-before: always !important;
-
+	}
+	.printLegend:not(:first-child){
+		margin-left: 5px;
 	}
 	#printHolder{
 

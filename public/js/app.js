@@ -788,10 +788,15 @@ var print = (function() {
     };
 
     function _createFooter() {
-        $footer = $("<div></div>");
+        $footer = $("<div class='footer'></div>");
         var $attrText = $("<small style='font-size: xx-small'></small>").append($('#fullAttribution').html().replace(/<br>/g, "; "));
-        var $hazardLegend = $("<span class='pull-left'></span>").append("<h4>Flood Hazards</h4>").append($('#baseText').html()).append($('#hazardLegendSVG').parent().html());
-        var $landUseLegend = $("<span class='pull-right'></span>").append("<div class='printLegend'>" + $('#landUsePanel svg').parent().html() + "</div>");
+        var $hazardLegend = $("<div class='printLegend'></div>")
+            .append("<h4>Flood Hazards</h4>")
+            .append($('#baseText').html())
+            .append($('#hazardLegendSVG').parent().html())
+        var $landUseLegend = $("<div class='printLegend'>")
+            .append("<h4>Land Use</h4>")
+            .append($('#landUsePanel svg').parent().html());
         // append everything to the footer container
         $footer.append($attrText).append($hazardLegend);
         if (map.hasLayer(layers.landUse)) {
