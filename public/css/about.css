@@ -45,6 +45,13 @@ header .nav>li>a.current{
 
 }
 
+.flood-image {
+	border: 1px solid rgba(0,0,0,0.5);
+	width: 40%;
+	float: left;
+	margin: 10px;
+}
+
 
 .sidenav.affix{
 	top: 10px;
