@@ -1,6 +1,6 @@
 function viewMeta(x) {
     $("#metaModal .modal-title").html("" + x.subtitle + "")
-    $("#metaModal #downloadBTN").attr("href", "http://floodatlas.org/asfpm/data/duluth" + x.link + "")
+    $("#metaModal #downloadBTN").attr("href", x.link)
     $("#metaModal .modal-body").html(function() {
         body = ""
         body += "" + x.description + "<hr>"
