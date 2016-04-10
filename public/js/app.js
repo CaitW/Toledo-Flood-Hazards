@@ -549,7 +549,7 @@ function toggleLayers(checkbox) {
     var setVisible = ($(checkbox).is(':checked')) ? true : false;
 
     function changeOpacity() {
-        var opacityValue = (setVisible) ? 0.8 : 0;
+        var opacityValue = (setVisible) ? 1 : 0;
         return layer.setOpacity(opacityValue)
     }
     // vector layers don't have a setOpacity method, so they must be added/removed from the map
@@ -2392,25 +2392,28 @@ function init() {
     layers = {
         watershed: new L.geoJson(chesterCreekWatershed, {
             style: {
-                "color": "#34f3aa",
-                "weight": 3,
+                "color": "#673AB7",
+                "weight": 5,
                 "opacity": 1,
                 "lineCap": "round",
                 "fill": false
             },
             attribution: false,
-            layerName: "watershed"
+            layerName: "watershed",
+            className: "watershed"
         }),
         stormwater: new L.geoJson(stormwaterJSON, {
             style: {
-                "color": "#335df1",
-                "weight": 3,
+                "color": "#3F51B5",
+                "weight": 2,
                 "opacity": 1,
                 "lineCap": "round"
             },
             position: "back",
             attribution: false,
-            layerName: "stormwater"
+            layerName: "stormwater",
+            className: "stormwater",
+            smoothFactor: 3
         }),
         depth: new L.esri.dynamicMapLayer({
             url: serviceURL,
@@ -2453,13 +2456,14 @@ function init() {
                 }
                 return {
                     fillColor: fillColor,
-                    fillOpacity: 0.6,
+                    fillOpacity: 0.4,
                     fill: true,
                     weight: 0
                 };
             },
             attribution: false,
-            layerName: "landUse"
+            layerName: "landUse",
+            className: "landUse"
         })
     };
     // when our depth grids load, we want to add a class to the DOM element containing the image
@@ -2468,6 +2472,9 @@ function init() {
         if (layers.depth._currentImage && layers.depth._currentImage._image) {
             $(layers.depth._currentImage._image).addClass("depth-image");
         }
+    });
+    layers.landUse.on("add", function () {
+        layers.landUse.bringToBack();
     });
     // add raster layers
     layers.depth.addTo(map);

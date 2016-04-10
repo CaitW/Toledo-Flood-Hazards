@@ -56,11 +56,10 @@
 .leaflet-overlay-pane svg {
   overflow: visible;
 }
-/* depth grids */
+/* Layers */
 .depth-image {
   z-index: 225;
 }
-
 
 /*Attribution*/
 .custom-attribution{
