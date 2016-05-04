@@ -40,10 +40,16 @@ exports.floodAtlasData = function(req) {
 exports.getData = function(req, queryString) {
     var md = new MobileDetect(req.headers['user-agent']);
     var isMobile = (md.mobile() == null) ? false : true;
-    var p = (req.hostname == 'localhost') ? "/" : "/asfpm/duluth_node/public/" //Setting File Locations
-        // Rerouting
+    //var p = (req.hostname == 'localhost') ? "/" : "/asfpm/duluth_node/public/" //Setting File Locations
+    // Rerouting
+    /*
     d = (req.hostname == 'localhost') ? "/dataPortal" : "/duluthfloodhazards/dataPortal"
     a = (req.hostname == 'localhost') ? "/about" : "/duluthfloodhazards/about"
+    */
+
+    var p = "/"
+    d = "dataPortal"
+    a = "about"
     w = {
         dirCurrent: p
     }
