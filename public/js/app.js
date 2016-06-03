@@ -1,456 +1,15 @@
 ////////////////////////
 // globalVariables.js //
 ////////////////////////
-var colors = {
-    BldgLossUS: ['#edf8b1', '#7fcdbb', '#1d91c0', '#225ea8', '#081c55'],
-    BldgDmgPct: ['#ffeda0', '#feb24c', '#fc4e2a', '#e31a1c', '#b10026'],
-    BldgLossUS_change: ["#e66101", "#fdb863", "#f7f7f7", "#b2abd2", "#5e3c99"],
-    BldgDmgPct_change: ["#e66101", "#fdb863", "#f7f7f7", "#b2abd2", "#5e3c99"]
-};
-var quantilecolors = {
-    BldgLossUS: ['#7fcdbb', '#1d91c0', '#225ea8', '#081c55'],
-    BldgDmgPct: ['#feb24c', '#fc4e2a', '#e31a1c', '#b10026'],
-    BldgLossUS_change: ["#e66101", "#fdb863", "#b2abd2", "#5e3c99"],
-    BldgDmgPct_change: ["#e66101", "#fdb863", "#b2abd2", "#5e3c99"]
-};
-var jenksColors = {
-    BldgLossUS: ['#ffffd1', '#edf8b1', '#7fcdbb', '#1d91c0', '#225ea8', '#081c55'],
-    BldgDmgPct: ['#ffffd1', '#ffeda0', '#feb24c', '#fc4e2a', '#e31a1c', '#b10026'],
-    BldgLossUS_change: ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"],
-    BldgDmgPct_change: ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"],
-};
-var aliases = {
-    BldgLossUS: "Damages (Thousands of $) ",
-    BldgDmgPct: "Percent Damage",
-    OBJECTID: "Property ID"
-};
 var customExists = {},
     device = null;
 /////////////////
 // helpTour.js //
 /////////////////
-var helpData = {
-    "navbar": {
-        selector: ".navbar-brand",
-        popOptions: {
-            content: "<strong>click</strong> the map title to access help at anytime",
-            placement: "bottom",
-            title: "Getting Help",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        }
-    },
-    "toggle": {
-        selector: "#menu-toggle",
-        popOptions: {
-            content: "<i class='fa fa-navicon'></i>&nbsp;&nbsp; the navigation button opens/closes the menu",
-            placement: "bottom",
-            title: "Opening the Menu",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            openUp = ($('#sidebar-wrapper')
-                    .width() == 0) ? $('#menu-toggle')
-                .trigger('click') : null
-        }
-    },
-    "scenario": {
-        selector: "#scenario-list",
-        popOptions: {
-            content: "The report analyzed the affect of different climate / landuse scenarios on flood events in Duluth. Choose any of the scenarios listed in this menu to view that dataset on the map.",
-            placement: "bottom",
-            title: "Changing the Scenario",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        focusEl: "#scenario-list .list-group-item",
-        before: function() {
-            return ($("#dataBody")
-                    .is(":visible") != true) ? $("a[href='#dataBody']")
-                .trigger('click') : null
-        }
-    },
-    "attribute": {
-        selector: "#attributeBody .list-group",
-        popOptions: {
-            content: "The flood damages predicted by the report can be measured in either <em>Monetary Losses</em> or <em>Percent Damage</em>, select either from the attribute menu to change the way the map quantifies flood hazards.",
-            placement: "bottom",
-            title: "Changing the Attribute",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        focusEl: "#attributeBody .list-group-item",
-        before: function() {
-            return ($("#attributeBody")
-                    .is(":visible") != true) ? $("a[href='#attributeBody']")
-                .trigger('click') : null
-        }
-    },
-    "floodevent": {
-        selector: "#floodEventBody .list-group",
-        popOptions: {
-            content: "The study also assesed multiple flood events. By selecting any of the events listed in this menu you can change the severity of the flood shown on the map.",
-            placement: "bottom",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        focusEl: "#floodEventBody .list-group-item",
-        before: function() {
-            return ($("#floodEventBody")
-                    .is(":visible") != true) ? $("a[href='#floodEventBody']")
-                .trigger('click') : null
-        }
-    },
-    "basemap": {
-        selector: "#basemapBody .panel-body",
-        popOptions: {
-            content: "You can also change the underlying basemap shown on the map by selecting any of the options shown on the basemap menu.",
-            placement: (startingValues.mobileDevice == true) ? "bottom" : "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            isVisible = ($("#basemapBody")
-                    .is(":visible") != true) ? $('a[href="#basemapBody"]')
-                .trigger('click') : null
-            return $('#sidebar-wrapper')
-                .scrollTo("#basemapBody")
-        }
-    },
-    "layer": {
-        selector: "#layerBody",
-        popOptions: {
-            content: "In addition to flood hazards, you can also overlay many other layers on the map by clicking the checkboxes in the layers menu.",
-            placement: (startingValues.mobileDevice == true) ? "bottom" : "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            isVisible = ($("#layerBody")
-                    .is(":visible") != true) ? $('a[href="#layerBody"]')
-                .trigger('click') : null
-            $('#sidebar-wrapper')
-                .scrollTo("#layerBody")
-        }
-    },
-    "share": {
-        selector: "#shareBody",
-        popOptions: {
-            content: "Share the findings displayed on the Duluth Flood Hazard Visualizer with the world!<br>Print or Export your custom map view",
-            placement: (startingValues.mobileDevice == true) ? "top" : "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            $('#sidebar-wrapper')
-                .scrollTo("#shareBody")
-        }
-    },
-    "map": {
-        selector: "#map",
-        popOptions: {
-            content: "The map displays <strong>Flood Hazard Data</strong> reported by <em>Economic Assessment of Green Infrastructure Strategies for Climate Change Adaptation: Pilot Studies in The Great Lakes Region </em> ",
-            placement: "bottom",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {},
-        after: function() {
-            var y = $('.tourPop')
-                .attr('id')
-            $('#' + y + '')
-                .css('top', '30%')
-            $('#' + y + ' .arrow')
-                .addClass('invisible')
-        }
-    },
-    "legend": {
-        selector: "#hazardLegendSVG",
-        popOptions: {
-            content: "The legend panel explains what the different colors and sizes of the circles mean",
-            placement: (startingValues.mobileDevice == true) ? "bottom" : "right",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        focusEl: "#hazardLegendSVG",
-        before: function() {
-            return ($("#floodHazardsPanel")
-                    .is(":visible") != true) ? $('a[href="#floodHazardsPanel"]')
-                .trigger('click') : null
-        }
-    },
-    "zoom": {
-        selector: ".zoomHolder",
-        popOptions: {
-            content: "The zoom controls allow you to adjust the map scale<ul class='fa-ul'><li><i class='fa fa-plus'></i>&nbsp;&nbsp;Increases the zoom level</li><li><i class='fa fa-minus'></i>&nbsp;&nbsp;Decreases the zoom level</li><li><i class='fa fa-globe'></i>&nbsp;&nbsp;Resets the zoom level</li></ul><small>You can also zoom using your scroll wheel (desktop) or a two-finger pinch (mobile)</small>",
-            placement: "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            if ($('#wrapper')
-                .hasClass('toggled') && (startingValues.mobileDevice == true)) {
-                $('#menu-toggle')
-                    .trigger('click')
-            }
-        },
-        after: function() {
-            var y = $('.popover.tourPop')
-                .attr('id');
-            $('.popover.tourPop #' + y + '')
-                .css('top', '30%')
-            $('#' + y + ' .arrow')
-                .addClass('invisible')
-        }
-    },
-    "stat": {
-        selector: "#statsBody",
-        popOptions: {
-            content: "The statistics menu displays various measures of the dataset currently shown on the map.",
-            placement: (startingValues.mobileDevice == true) ? "top" : "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        focusEl: "#statsBody",
-        before: function() {
-            isVisible = ($("#statsBody")
-                    .is(":visible") != true) ? $('a[href="#statsBody"]')
-                .trigger('click') : null
-            return $('#sidebar-wrapper')
-                .scrollTo("#statsBody")
-        }
-    },
-    "charts": {
-        selector: "#chartsBody",
-        popOptions: {
-            content: "By selecting any of the options listed in the charts menu you can view and print graphs and diagrams of the data.",
-            placement: (startingValues.mobileDevice == true) ? "top" : "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        focusEl: "#statsBody",
-        before: function() {
-            isVisible = ($("#chartsBody")
-                    .is(":visible") != true) ? $('a[href="#chartsBody"]')
-                .trigger('click') : null
-            return $('#sidebar-wrapper')
-                .scrollTo("#chartsBody")
-        }
-    },
-    "mode": {
-        selector: "#modeBody .list-group",
-        popOptions: {
-            content: "The Duluth Flood Hazard Visualizer allows you to interact with the data in two different ways: <ul><li><strong>Discover</strong>&mdash; allows new users to learn more about the dataset</li><li><strong>Analyze</strong>&mdash; allows experienced users draw conclusions based on the data</li></ul> Select either option from the mode menu to change the Visualizer's settings.",
-            placement: "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        focusEl: "#modeBody .list-group",
-        before: function() {
-            $('#sidebar-wrapper')
-                .scrollTo("#modeBody .list-group")
-        }
-    },
-    "chart": {
-        selector: "#chartsvg",
-        popOptions: {
-            content: "This chart redisplays the data on the map...",
-            placement: "top",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        selector_standin: "#chart",
-        before: function() {
-            return ($("#chart")
-                    .is(":visible") != true) ? $('#dataDistributionHeading a')
-                .trigger('click') : null
-        }
-    },
-    "classbreak": {
-        selector: ".draggable:last",
-        popOptions: {
-            content: "The classbreaks, &mdash;<small>the points separating the various color categories</small>&mdash; are represented on the chart by the horizontal lines.<br>By dragging them up or down you can define a custom color scale.",
-            placement: "top",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            return ($("#chart")
-                    .is(":visible") != true) ? $('#dataDistributionHeading a')
-                .trigger('click') : null
-        },
-        after: function() {
-            (startingValues.mobileDevice == false) ? $('.tourPop')
-                .css("left", ($("#chartsvg")
-                    .width() / 2)): null
-        }
-    },
-    "bar": {
-        selector: '.colorful.bars[height!=0]:first',
-        popOptions: {
-            content: "...each bar corresponds with a circle on the map.<br>By clicking on a bar you can zoom to the corresponding circle",
-            placement: "top",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            return ($("#chart")
-                    .is(":visible") != true) ? $('#dataDistributionHeading a')
-                .trigger('click') : null
-        }
-    },
-    "circle": {
-        selector: '.colorful.symbols[r!=0]:first',
-        popOptions: {
-            content: "Each of the circles on the map represents a land parcel where in which the study predicted that the given flood event would cause damage",
-            placement: "top",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            t = parseInt($('.colorful.symbols[r!=0]:first')
-                .attr('id')
-                .split('ID_')[1])
-            map.setView(databyID[t].LatLng, 14)
-        },
-        after: function() {
-            $('.tourPop')
-                .css("left", "" + (parseFloat($('.tourPop')
-                    .position()
-                    .left) + parseFloat($('.colorful.symbols[r!=0]:first')
-                    .attr("r"))) + "px")
-        }
-    },
-    "pop": {
-        selector: '.symbolPop>.arrow',
-        popOptions: {
-            content: "Click on any circle to view specific information on that parcel.",
-            placement: "bottom",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            openPop(parseInt($('.colorful.symbols[r!=0]:eq(0)')
-                .attr('id')
-                .split('ID_')[1]))
-        },
-        after: function() {
-            drawBox('.symbolPop')
-        }
-    },
-    "scaleselector": {
-        selector: "#scale-selector-dropdown",
-        popOptions: {
-            content: "The color scale selector allows you to change the map's classification system &mdash;<small>the categorization method used to determine which data values correspond with which color</small>",
-            placement: (startingValues.mobileDevice == true) ? "left" : "right",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            isVisible = ($("#floodHazardsPanel")
-                    .is(":visible") != true) ? $('a[href="#floodHazardsPanel"]')
-                .trigger('click') : null
-        }
-    },
-    "displayPanel": {
-        selector: "#displayPanel .panel-heading-blue",
-        popOptions: {
-            content: "The display panel houses controls for modifying the map state",
-            placement: "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            },
-            placement: (startingValues.mobileDevice == true) ? "bottom" : "left",
-        },
-        before: function() {
-            $('#sidebar-wrapper')
-                .scrollTo("#displayPanel ")
-        }
-    },
-    "analyzePanel": {
-        selector: "#analyzePanel .panel-heading-blue",
-        popOptions: {
-            content: "The analyze panel houses tools for investigating the data on the map ",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            },
-            placement: (startingValues.mobileDevice == true) ? "top" : "left"
-        },
-        before: function() {
-            $('#sidebar-wrapper')
-                .scrollTo("#analyzePanel")
-        }
-    },
-    "dataDistBtn": {
-        selector: "#dataDistributionHeading",
-        popOptions: {
-            content: "By clicking the data distribution button you can show/hide the data distribution chart.",
-            placement: (startingValues.mobileDevice == true) ? "top" : "left",
-            delay: {
-                "show": 1000,
-                "hide": 0
-            }
-        },
-        before: function() {
-            $('#sidebar-wrapper')
-                .scrollTo("#dataDistributionHeading")
-        }
-    },
-};
 var currentTour = null
-interfaceElements = ["navbar", "toggle"];
-mapElements = ["map", "zoom", "circle", "pop", "legend"];
-dataPanel = ["scenario", "floodevent", "attribute"];
-sideBar = ["toggle", "layer", "basemap", "stat", "chart", "bar", "scaleselector", "classbreak", "share"];
-var tours = {
-    advanced: ["navbar", "map", "zoom", "circle", "pop", "legend", "scenario", "floodevent", "attribute", "toggle", "displayPanel", "layer", "basemap", "analyzePanel", "stat", "charts", "dataDistBtn", "chart", "bar", "classbreak", "share"]
-};
-////////////////////
-// Make Histogram //
-////////////////////
+    ////////////////////
+    // Make Histogram //
+    ////////////////////
 var yearDataLists = null;
 var yearValues = null;
 var yearKeys = null;
@@ -472,24 +31,11 @@ var pop = null;
 ////////////
 // Map.js //
 ////////////
-var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer";
-var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, currentBasemap, depth, stormWater, allLayersList;
+var siteBounds, map, path, basemap, basemapList, currentBasemap, allLayersList;
 /////////////
 // Init.js //
 /////////////
 var landUseCheck, watershedCheck, stormWaterCheck;
-////////////
-// Custom // 
-////////////
-var layers;
-var landUseColors = d3.scale.ordinal()
-    .domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"])
-    .range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"]);
-// non-layer attributions
-var attributionData = {
-    fontAwesome: "Icons <a href='http://fontawesome.io'>Font Awesome</a> by Dave Gandy",
-    icons8: "Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
-};
 
 function typeofLayer(layer) {
     if (layer instanceof L.TileLayer) {
@@ -621,8 +167,7 @@ function toggleLayers(checkbox) {
     function toggleInMap() {
         if (setVisible && !map.hasLayer(layer)) {
             map.addLayer(layer);
-        }
-        else if (!setVisible && map.hasLayer(layer)) {
+        } else if (!setVisible && map.hasLayer(layer)) {
             map.removeLayer(layer);
         }
     };
@@ -646,8 +191,7 @@ function toggleLayers(checkbox) {
                 $('#landUsePanel')
                     .parents('.panel:first')
                     .slideDown();
-            }
-            else {
+            } else {
                 $('#landUsePanel')
                     .parents('.panel:first')
                     .slideUp();
@@ -665,7 +209,7 @@ function toggleLayers(checkbox) {
 function updateMapAttribution() {
     $("#fullAttribution")
         .empty();
-    $.each(attributionData, function(key, attribution) {
+    $.each(config.attribution, function(key, attribution) {
         $("#fullAttribution")
             .append(attribution)
             .append("<br>");
@@ -676,8 +220,7 @@ function updateMapAttribution() {
                 $("#fullAttribution")
                     .append(layer.options.attribution)
                     .append("<br>");
-            }
-            else if (typeof layer.options.opacity == "undefined") {
+            } else if (typeof layer.options.opacity == "undefined") {
                 $("#fullAttribution")
                     .append(layer.options.attribution)
                     .append("<br>");
@@ -685,330 +228,6 @@ function updateMapAttribution() {
         }
     });
 }
-var print = (function() {
-    var _state = "stopped";
-    var _map;
-    var _attribution;
-    // d3 functions and variables
-    var _d3SVG;
-    var _hazardGroup;
-    var _circles;
-    var _scales = {
-        color: ScaleEm('color'),
-        radius: ScaleEm('radius')
-    };
-    var _transform = d3.geo.transform({
-        point: _projectPoint
-    });
-    var _path = d3.geo.path()
-        .projection(_transform);
-    // legend containers
-    var $footer;
-
-    function _cloneLayer(layer) {
-        var options = layer.options;
-        // Tile layers
-        if (layer instanceof L.TileLayer) {
-            return L.tileLayer(layer._url, options);
-        }
-        if (layer instanceof L.ImageOverlay) {
-            return L.imageOverlay(layer._url, layer._bounds, options);
-        }
-        // Marker layers
-        if (layer instanceof L.Marker) {
-            return L.marker(layer.getLatLng(), options);
-        }
-        if (layer instanceof L.circleMarker) {
-            return L.circleMarker(layer.getLatLng(), options);
-        }
-        // Vector layers
-        if (layer instanceof L.Rectangle) {
-            return L.rectangle(layer.getBounds(), options);
-        }
-        if (layer instanceof L.Polygon) {
-            return L.polygon(layer.getLatLngs(), options);
-        }
-        if (layer instanceof L.Polyline) {
-            return L.polyline(layer.getLatLngs(), options);
-        }
-        // MultiPolyline is removed in leaflet 0.8-dev
-        if (L.MultiPolyline && layer instanceof L.MultiPolyline) {
-            return L.polyline(layer.getLatLngs(), options);
-        }
-        // MultiPolygon is removed in leaflet 0.8-dev
-        if (L.MultiPolygon && layer instanceof L.MultiPolygon) {
-            return L.multiPolygon(layer.getLatLngs(), options);
-        }
-        if (layer instanceof L.Circle) {
-            return L.circle(layer.getLatLng(), layer.getRadius(), options);
-        }
-        if (layer instanceof L.GeoJSON) {
-            return L.geoJson(layer.toGeoJSON(), options);
-        }
-        // ESRI-Leaflet
-        if (layer instanceof L.esri.DynamicMapLayer) {
-            return L.esri.dynamicMapLayer(options);
-        }
-        // layer/feature groups
-        if (layer instanceof L.LayerGroup || layer instanceof L.FeatureGroup) {
-            var layergroup = L.layerGroup();
-            layer.eachLayer(function(inner) {
-                layergroup.addLayer(_cloneLayer(inner));
-            });
-            return layergroup;
-        }
-        throw 'Unknown layer, cannot clone this layer';
-    }
-
-    function _projectPoint(x, y) {
-        var point = _map.latLngToLayerPoint(new L.LatLng(y, x));
-        this.stream.point(point.x, point.y);
-    };
-
-    function _createHazardLayer() {
-        // add the hazard layer (d3 layer)
-        _d3SVG = d3.select(_map.getPanes()
-                .overlayPane)
-            .append("svg")
-            .style("z-index", "250");
-        // add the g element that will hold the hazard symbols
-        _hazardGroup = _d3SVG.append("g")
-            .attr("class", "leaflet-zoom-hide hazardSymbols");
-        // Define scales and data picking function
-        var pickData = getCurrent();
-        _circles = _hazardGroup.selectAll('circle')
-            .data(allYearData.features)
-            .enter()
-            .append('circle');
-        _circles.filter(function(d, i) {
-                return pickData(d) != 0
-            })
-            .sort()
-            .sort(function(a, b) {
-                return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))
-            })
-            .attr('fill', function(d) {
-                return _scales.color(pickData(d))
-            })
-            .attr('stroke', function(d) {
-                return _scales.color(pickData(d))
-            })
-            .attr('class', 'colorful printSymbols')
-            .attr('r', function(d) {
-                return ($('input[name="layerCheckboxes"]:eq(0)')
-                    .is(':checked') == true) ? (_scales.radius(pickData(d)) * 0.7) : 0
-            })
-            .attr("cx", function(d) {
-                return _map.latLngToLayerPoint(d.LatLng)
-                    .x
-            })
-            .attr("cy", function(d) {
-                return _map.latLngToLayerPoint(d.LatLng)
-                    .y
-            });
-    };
-
-    function LoadCheck(callback) {
-        var self = this;
-        var _done = false;
-        var _doneFn = callback;
-        var _printLayers = [];
-        var _printCompleted = [];
-
-        function queue(layer) {
-            var index = _printLayers.push(layer) - 1;
-            if (typeofLayer(layer)
-                .type == "vector") {
-                layer.on('add', function() {
-                    _printCompleted.push(layer);
-                    checkIfDone();
-                });
-            }
-            else if (typeofLayer(layer)
-                .type == "raster") {
-                layer.on('load', function() {
-                    _printCompleted.push(layer);
-                    checkIfDone();
-                });
-            }
-        };
-
-        function checkIfDone() {
-            if (_printLayers.length == _printCompleted.length) {
-                setTimeout(function() {
-                    if (!_done) {
-                        _doneFn();
-                        _done = true;
-                    }
-                }, 1000);
-            }
-        };
-        this.add = function(layer) {
-            if (typeof layer.options.opacity != "undefined" && layer.options.opacity > 0) {
-                queue(layer);
-            }
-            else if (typeof layer.options.opacity == "undefined") {
-                queue(layer);
-            }
-        };
-    };
-
-    function _createMap(callback) {
-        $('#printHolder')
-            .append('<h2>Flood Hazards</h2><div id="printMap" style="width: 6.8in;height: 3.5in;"></div>');
-        var mainMapBounds = map.getBounds();
-        // initialize the print map Leaflet DOM
-        _map = L.map('printMap', {
-            zoomControl: false,
-            attributionControl: false
-        });
-        _map.fitBounds(mainMapBounds);
-        // get all the layers from the current map and add them to the print map
-        var isLoaded = new LoadCheck(callback);
-        map.eachLayer(function(layer) {
-            try {
-                if (typeofLayer(layer)
-                    .type == "layer group") {
-                    layer.eachLayer(function(inner) {
-                        var clone = _cloneLayer(inner);
-                        isLoaded.add(clone);
-                        _map.addLayer(clone);
-                    });
-                }
-                else {
-                    var clone = _cloneLayer(layer);
-                    isLoaded.add(clone);
-                    _map.addLayer(clone);
-                }
-            }
-            catch (err) {
-                console.log(err);
-            }
-        });
-    };
-
-    function _createFooter() {
-        $footer = $("<div class='footer'></div>");
-        var $attrText = $("<small style='font-size: xx-small'></small>")
-            .append($('#fullAttribution')
-                .html()
-                .replace(/<br>/g, "; "));
-        var $hazardLegend = $("<div class='printLegend'></div>")
-            .append("<h4>Flood Hazards</h4>")
-            .append($('#baseText')
-                .html())
-            .append($('#hazardLegendSVG')
-                .parent()
-                .html())
-        var $landUseLegend = $("<div class='printLegend'>")
-            .append("<h4>Land Use</h4>")
-            .append($('#landUsePanel svg')
-                .parent()
-                .html());
-        // append everything to the footer container
-        $footer.append($attrText)
-            .append($hazardLegend);
-        if (map.hasLayer(layers.landUse)) {
-            $footer.append($landUseLegend);
-        }
-    };
-
-    function destroy() {
-        // destroy map
-        _map.remove();
-        // destroy footer
-        $footer.remove();
-        // destroy symbols
-        _d3SVG = null;
-        _hazardGroup = null;
-        _circles = null;
-        $('#printHolder')
-            .empty();
-        $(".map-printer")
-            .find(".fa-refresh")
-            .removeClass("fa-refresh")
-            .removeClass("fa-spin")
-            .addClass("fa-print");
-        _state = "stopped";
-    };
-    // manually sort the layers in the map so they appear correctly
-    function _sortLayers() {
-        var layersToSort = {
-            depth: false,
-            basemap: false,
-            landUse: false,
-            stormwater: false,
-            streams: false
-        };
-        _map.eachLayer(function(l) {
-            if (typeof l.options.layerName != "undefined") {
-                switch (l.options.layerName) {
-                    case "depth":
-                        layersToSort.depth = l;
-                        break;
-                    case "landUse":
-                        layersToSort.landUse = l;
-                        break;
-                    case "basemap":
-                        layersToSort.basemap = l;
-                        break;
-                    case "stormwater":
-                        layersToSort.stormwater = l;
-                        break;
-                    case "streams":
-                        layersToSort.streams = l;
-                        break;
-                }
-            }
-        });
-        // raster layers include: streams, basemap, depth grids
-        if (layersToSort.basemap) {
-            layersToSort.basemap.bringToBack();
-        }
-        if (layersToSort.streams) {
-            layersToSort.streams.bringToFront();
-        }
-        if (layersToSort.depth) {
-            if (layersToSort.depth._currentImage && layersToSort.depth._currentImage._image) {
-                $(layersToSort.depth._currentImage._image)
-                    .addClass("depth-image");
-            }
-        }
-        // vector layers include: land use, stormwater
-        if (layersToSort.landUse) {
-            layersToSort.landUse.bringToBack();
-        }
-        if (layersToSort.stormwater) {
-            layersToSort.stormwater.bringToFront();
-        }
-    };
-
-    function create() {
-        if (_state == "stopped") {
-            _state = "started";
-            $(".map-printer")
-                .find(".fa-print")
-                .removeClass("fa-print")
-                .addClass("fa-refresh")
-                .addClass("fa-spin");
-            _createMap(function() {
-                _sortLayers();
-                _createHazardLayer();
-                _createFooter();
-                $('#printHolder')
-                    .print({
-                        stylesheet: '' + serverVariables.publicPath + 'css/printing.css',
-                        append: [$footer]
-                    });
-                destroy();
-            });
-        };
-    };
-    return {
-        create: create,
-        destroy: destroy
-    }
-})();
 
 function getLink(obj) {
     // Define current map view extent
@@ -1089,7 +308,7 @@ function ScaleEm(x, y, z) {
         var classes = serie.getClassStdDeviation(4)
         var scale = d3.scale.threshold()
             .domain(classes)
-            .range(jenksColors[attribute]);
+            .range(config.colors.jenksColors[attribute]);
         return scale
     }
     var equalInterval = function() {
@@ -1097,7 +316,7 @@ function ScaleEm(x, y, z) {
         var classes = serie.getClassEqInterval(4)
         var scale = d3.scale.threshold()
             .domain(classes)
-            .range(jenksColors[attribute]);
+            .range(config.colors.jenksColors[attribute]);
         return scale
     }
     var jenks = function() {
@@ -1106,7 +325,7 @@ function ScaleEm(x, y, z) {
         }), 4)
         var scale = d3.scale.threshold()
             .domain(dom)
-            .range(jenksColors[attribute]);
+            .range(config.colors.jenksColors[attribute]);
         return scale;
     }
     var custom = function() {
@@ -1115,7 +334,7 @@ function ScaleEm(x, y, z) {
         scaleDomain = (customExists[attribute] == undefined) ? equalClasses : customExists[attribute]
         var scale = d3.scale.threshold()
             .domain(scaleDomain)
-            .range(jenksColors[attribute])
+            .range(config.colors.jenksColors[attribute])
         return scale;
     }
     var linearHeight = function() {
@@ -1931,7 +1150,7 @@ function makeHistogram() {
         .style("text-anchor", "center")
         .attr("class", "axisLabel")
         .text(function() {
-            return (showCompareFeatures == false) ? aliases[currentAttribute] : "Net Difference in " + aliases[currentAttribute]
+            return (showCompareFeatures == false) ? config.aliases[currentAttribute] : "Net Difference in " + config.aliases[currentAttribute]
         });
     svg.append("text")
         .attr("transform", "translate(-" + (margin.left) + "," + margin.top + ") rotate(-90)")
@@ -2338,8 +1557,7 @@ function makeLine() {
     if ($('.lineChartLegend')
         .length == 0) {
         makeLegend()
-    }
-    else {
+    } else {
         styleLines(d3.selectAll('.lines'))
     }
 
@@ -2794,7 +2012,7 @@ function popupLineChart(allPointData, popAttr) {
             .attr("class", "axisLabel")
             .style("text-anchor", "end")
             .text(function() {
-                return aliases[pATTR]
+                return config.aliases[pATTR]
             });
         line.y(function(d) {
             return y(d[pATTR]);
@@ -2894,8 +2112,7 @@ function popupMaker(data) {
     setTimeout(function() {
         try {
             popupLineChart(data)
-        }
-        catch (e) {
+        } catch (e) {
             console.log('lineChartFailed', e)
         }
     }, 100)
@@ -3044,15 +2261,15 @@ function helpStep(stepNum, tour) {
         // Close Previous Step
     afterStep(stepNum)
     var currentTour = ((tour == null) || (tour == undefined)) ? 'advanced' : tour;
-    var focusEl = (helpData[tours[currentTour][stepNum]].focusEl != undefined) ? helpData[tours[currentTour][stepNum]].focusEl : helpData[tours[currentTour][stepNum]].selector;
+    var focusEl = (config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].focusEl != undefined) ? config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].focusEl : config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].selector;
     // Define TourPop HTML
-    var buttonRight = (stepNum < (tours[currentTour].length - 1)) ? "<a href='#' class='btn btn-link pull-right' onclick='nextHelpStep(" + stepNum + ")' style='font-size:medium'><i class='fa fa-arrow-right'></i></a>" : "",
+    var buttonRight = (stepNum < (config.helpTour.tours[currentTour].length - 1)) ? "<a href='#' class='btn btn-link pull-right' onclick='nextHelpStep(" + stepNum + ")' style='font-size:medium'><i class='fa fa-arrow-right'></i></a>" : "",
         buttonLeft = (stepNum > 0) ? "<a href='#' class='btn btn-link pull-left' onclick='lastHelpStep(" + stepNum + ")' style='font-size:medium'><i class='fa fa-arrow-left'></i></a>" : "",
         buttonRow = "<div class='row'>" + buttonRight + "" + buttonLeft + "</div>",
         dismissBtn = "<button type='button' onclick='endTour()' class='close btn-endTour'><span aria-hidden='true'>&times;</span></button><br>";
     // TourPop Index Circles
     var circles = "<div class='row-fluid text-center' id='circle-row'>"
-    $(tours[currentTour])
+    $(config.helpTour.tours[currentTour])
         .each(function(i) {
             var icon = (i != stepNum) ? 'fa-circle-o' : 'fa-circle';
             circles += "<button onclick='skipToStep(" + i + ")'class='btn btn-link' style='padding:0px; font-size:xx-small'><i class='fa " + icon + "'></i></button>"
@@ -3060,7 +2277,7 @@ function helpStep(stepNum, tour) {
     circles += "</div>";
     //circles+='<div><a href="#circle-row" data-toggle="collapse" class="btn btn-link pull-left" style="padding:0px;"><i class="fa fa-bars"></i></a><br>Step'+(stepNum+1)+'</div>';
     // Set Options for popup
-    var x = helpData[tours[currentTour][stepNum]],
+    var x = config.helpTour.data[config.helpTour.tours[currentTour][stepNum]],
         popOptions = {
             html: true,
             container: 'body',
@@ -3109,8 +2326,7 @@ function helpStep(stepNum, tour) {
             if (x.before != undefined) {
                 x.before.call()
                 showStep(delayShown)
-            }
-            else {
+            } else {
                 showStep(delayShown)
             }
         }
@@ -3172,7 +2388,7 @@ function makeLandUseLegend() {
     var landUseLegendSVG = d3.select("#landUseLegend")
         .append("svg")
         .attr('height', function() {
-            return ((landUseColors.domain())
+            return ((config.colors.landUse.domain())
                 .length * (H + m.top));
         })
         .attr('width', 300)
@@ -3180,7 +2396,7 @@ function makeLandUseLegend() {
         .append('g')
         .attr("transform", "translate(" + m.left + "," + m.top + ")");
     var legendGroup = landUseLegendSVG.selectAll('.legendGroup')
-        .data(landUseColors.domain())
+        .data(config.colors.landUse.domain())
         .enter()
         .append('g')
         .attr("transform", function(d, i) {
@@ -3190,7 +2406,7 @@ function makeLandUseLegend() {
         .attr("width", W)
         .attr("height", H)
         .attr("fill", function(d) {
-            return landUseColors(d)
+            return config.colors.landUse(d)
         });
     legendGroup.append("text")
         .attr("x", W + m.right)
@@ -3215,8 +2431,7 @@ function init() {
         // If mobile--hide print options
         $('.hide-mobile')
             .hide();
-    }
-    else {
+    } else {
         $('.toolTip')
             .tooltip({
                 container: '#wrapper'
@@ -3315,7 +2530,7 @@ function init() {
     ////////////
     // Map.js //
     ////////////
-    // Site Specific Variables
+    // Site Specific Variabless
     siteBounds = L.latLngBounds(sW, nE);
     // var maxBounds = L.latLngBounds(L.latLng(41.47668911274522, -84.12162780761719), L.latLng(41.96204305667252, -83.00926208496094)),
     //     fullExtent = L.latLngBounds([41.7055362786694, -83.63419532775879], [41.73378888605136, -83.49686622619629]);
@@ -3329,27 +2544,11 @@ function init() {
             trackResize: true
         })
         .fitBounds(siteBounds);
-    // Basemaps
-    satellite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            layerName: "basemap",
-            name: 'ESRI.WorldImagery',
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-        }),
-        toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-            layerName: "basemap",
-            name: 'Stamen.Toner',
-            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }),
-        terrain = L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
-            layerName: "basemap",
-            name: 'Stamen.Terrain',
-            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        });
     // Basemap Feature Group Definition
     basemap = L.featureGroup()
         .addTo(map);
     // All possible basemap options
-    basemapList = [satellite, toner, terrain];
+    basemapList = [config.basemaps.satellite, config.basemaps.toner, config.basemaps.terrain];
     // Add curent basemap to map at instantiation
     basemap['currentBaseMap'] = $('[name="basemapRadios"]:checked')
         .val()
@@ -3359,109 +2558,29 @@ function init() {
     // Basemap radio event listener
     $('[name="basemapRadios"]')
         .on('change', changeBasemap);
-    // Define layers
-    layers = {
-        watershed: new L.geoJson(chesterCreekWatershed, {
-            style: {
-                "color": "#673AB7",
-                "weight": 5,
-                "opacity": 1,
-                "lineCap": "round",
-                "fill": false
-            },
-            attribution: false,
-            layerName: "watershed",
-            className: "watershed"
-        }),
-        stormwater: new L.geoJson(stormwaterJSON, {
-            style: {
-                "color": "#3F51B5",
-                "weight": 2,
-                "opacity": 1,
-                "lineCap": "round"
-            },
-            position: "back",
-            attribution: false,
-            layerName: "stormwater",
-            className: "stormwater",
-            smoothFactor: 3
-        }),
-        depth: new L.esri.dynamicMapLayer({
-            url: serviceURL,
-            className: '2',
-            layers: [depthGridCurrent],
-            opacity: ($('[name="layerCheckboxes"]:eq(1)')
-                .is(':checked')) ? 1 : 0,
-            attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
-            layerName: "depth"
-        }),
-        streams: new L.esri.dynamicMapLayer({
-            url: serviceURL,
-            className: '2',
-            layers: [0],
-            opacity: ($('[name="layerCheckboxes"]:eq(4)')
-                .is(':checked')) ? 1 : 0,
-            attribution: false,
-            layerName: "streams"
-        }),
-        landUse: new L.geoJson(futureLandUse, {
-            style: function(feature) {
-                var fillColor = "";
-                switch (feature.properties.reclassifi) {
-                    case "commercial":
-                        fillColor = "#838faa";
-                        break;
-                    case "green space":
-                        fillColor = "#00aa00";
-                        break;
-                    case "industrial":
-                        fillColor = "#4d4d4d";
-                        break;
-                    case "institutional campus":
-                        fillColor = "#ffaa7f";
-                        break;
-                    case "other":
-                        fillColor = "#ff8e90";
-                        break;
-                    case "residential":
-                        fillColor = "#fff47b";
-                        break;
-                }
-                return {
-                    fillColor: fillColor,
-                    fillOpacity: 0.4,
-                    fill: true,
-                    weight: 0
-                };
-            },
-            attribution: false,
-            layerName: "landUse",
-            className: "landUse"
-        })
-    };
     // when our depth grids load, we want to add a class to the DOM element containing the image
     // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
-    layers.depth.on("load", function() {
-        if (layers.depth._currentImage && layers.depth._currentImage._image) {
-            $(layers.depth._currentImage._image)
+    config.layers.depth.on("load", function() {
+        if (config.layers.depth._currentImage && config.layers.depth._currentImage._image) {
+            $(config.layers.depth._currentImage._image)
                 .addClass("depth-image");
         }
     });
-    layers.landUse.on("add", function() {
-        layers.landUse.bringToBack();
+    config.layers.landUse.on("add", function() {
+        config.layers.landUse.bringToBack();
     });
     // add raster layers
-    layers.depth.addTo(map);
-    layers.streams.addTo(map);
+    config.layers.depth.addTo(map);
+    config.layers.streams.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
         .is(':checked')) ? layers.stormwater.addTo(map): null;
     ($('[name="layerCheckboxes"]:eq(3)')
-        .is(':checked')) ? layers.landUse.addTo(map): null;
+        .is(':checked')) ? config.layers.landUse.addTo(map): null;
     ($('[name="layerCheckboxes"]:eq(4)')
-        .is(':checked')) ? layers.watershed.addTo(map): null;
+        .is(':checked')) ? config.layers.watershed.addTo(map): null;
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.streams];
+    allLayersList = ['floods', config.layers.depth, layers.stormwater, config.layers.landUse, config.layers.watershed, config.layers.streams];
     // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]')
         .on('change', function() {
@@ -3589,7 +2708,7 @@ function init() {
             minimumDamageIndex = indexValues.minimumDamageIndex,
             maximumDamageIndex = indexValues.maximumDamageIndex;
         handleStyle()
-        layers.depth.setLayers([depthGridCurrent])
+        config.layers.depth.setLayers([depthGridCurrent])
     }
     $("[name='scenarioRadios'], input[name='floodEventRadios']")
         .on("change", handleScenarioChanges);
@@ -3639,8 +2758,7 @@ function init() {
             if (currentAttribute != 'BldgLossUS') {
                 $('#select-stats option[value="sum"]')
                     .attr("disabled", "disabled")
-            }
-            else {
+            } else {
                 $('#select-stats option[value="sum"]')
                     .removeAttr("disabled")
             }
@@ -3669,7 +2787,7 @@ function init() {
     // Inline HTML for  skiping to help tour step
     $("[data-toggle='help']")
         .on('click', function() {
-            skipToStep((tours['advanced'])
+            skipToStep((config.helpTour.tours['advanced'])
                 .indexOf($(this)
                     .attr('data-help')))
         })
