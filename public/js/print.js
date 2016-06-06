@@ -7,8 +7,8 @@ var print = (function() {
     var _hazardGroup;
     var _circles;
     var _scales = {
-        color: ScaleEm('color'),
-        radius: ScaleEm('radius')
+        color: false,
+        radius: false
     };
     var _transform = d3.geo.transform({
         point: _projectPoint
@@ -222,7 +222,7 @@ var print = (function() {
         }
     };
 
-    function destroy() {
+    function _destroy() {
         // destroy map
         _map.remove();
         // destroy footer
@@ -292,7 +292,7 @@ var print = (function() {
         }
     };
 
-    function create() {
+    function _create() {
         if (_state == "stopped") {
             _state = "started";
             $(".map-printer")
@@ -309,12 +309,28 @@ var print = (function() {
                         stylesheet: '' + serverVariables.publicPath + 'css/printing.css',
                         append: [$footer]
                     });
-                destroy();
+                _destroy();
             });
         };
     };
+
+    function init() {
+        _scales.color = ScaleEm('color');
+        _scales.radius = ScaleEm('radius');
+        $('.printer')
+            .on('click', function() {
+                target = $(this)
+                    .attr('data')
+                $(target)
+                    .print({
+                        stylesheet: "../css/printing.css"
+                    })
+            });
+        // Print Map
+        $('.map-printer')
+            .on('click', _create);
+    };
     return {
-        create: create,
-        destroy: destroy
+       init: init
     }
 })();
