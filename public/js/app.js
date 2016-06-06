@@ -308,7 +308,7 @@ function ScaleEm(x, y, z) {
         var classes = serie.getClassStdDeviation(4)
         var scale = d3.scale.threshold()
             .domain(classes)
-            .range(config.colors.jenksColors[attribute]);
+            .range(config.colors.jenks[attribute]);
         return scale
     }
     var equalInterval = function() {
@@ -316,7 +316,7 @@ function ScaleEm(x, y, z) {
         var classes = serie.getClassEqInterval(4)
         var scale = d3.scale.threshold()
             .domain(classes)
-            .range(config.colors.jenksColors[attribute]);
+            .range(config.colors.jenks[attribute]);
         return scale
     }
     var jenks = function() {
@@ -325,7 +325,7 @@ function ScaleEm(x, y, z) {
         }), 4)
         var scale = d3.scale.threshold()
             .domain(dom)
-            .range(config.colors.jenksColors[attribute]);
+            .range(config.colors.jenks[attribute]);
         return scale;
     }
     var custom = function() {
@@ -334,7 +334,7 @@ function ScaleEm(x, y, z) {
         scaleDomain = (customExists[attribute] == undefined) ? equalClasses : customExists[attribute]
         var scale = d3.scale.threshold()
             .domain(scaleDomain)
-            .range(config.colors.jenksColors[attribute])
+            .range(config.colors.jenks[attribute])
         return scale;
     }
     var linearHeight = function() {
@@ -451,7 +451,7 @@ function createSymbols(data) {
         .data(data.features)
         .enter()
         .append('circle')
-        .attr('fill', colors[currentAttribute][0])
+        .attr('fill', config.colors.base[currentAttribute][0])
         .attr('stroke', function(d) {
             d["prev"] = 0;
             return 'white'
@@ -2156,58 +2156,6 @@ function openPop(id) {
     }, 200)
 }
 
-function nextHelpStep(stepNum) {
-    $('.popover.tourPop')
-        .popover('destroy')
-    helpStep(stepNum + 1)
-}
-
-function lastHelpStep(stepNum) {
-    $('.popover.tourPop')
-        .popover('destroy')
-    helpStep(stepNum - 1)
-}
-
-function skipToStep(stepNum) {
-    $('.popover.tourPop')
-        .popover('destroy')
-    helpStep(stepNum)
-}
-
-function highlighthide() {
-    drawBox('body')
-    delay(function() {
-        $('.helpHolder')
-            .hide()
-    }, 800)
-}
-
-function endTour() {
-    $('.focus')
-        .removeClass('focus')
-    $('.tourstep-active')
-        .removeClass('tourstep-active')
-    $('.popover.tourPop')
-        .popover('destroy')
-    $('.stepElement')
-        .remove()
-    highlighthide()
-    currentTour = null
-}
-
-function afterStep(element) {
-    $('.tourstep-active')
-        .parents('.symbolPop')
-        .find('.close')
-        .trigger('click')
-    $('.tourstep-active')
-        .removeClass('tourstep-active')
-    $('.focus')
-        .removeClass('focus')
-    $('.tourPop')
-        .remove()
-}
-
 function drawBox(selector) {
     kk = $(selector)[0].getBoundingClientRect()
     d3.select('.above-highlighter')
@@ -2254,128 +2202,6 @@ function drawBox(selector) {
         .attr('y', kk.top)
 }
 
-function helpStep(stepNum, tour) {
-    showg = ($('.helpHolder')
-            .is(':visible') != true) ? ($('.helpHolder')
-            .show()) : null
-        // Close Previous Step
-    afterStep(stepNum)
-    var currentTour = ((tour == null) || (tour == undefined)) ? 'advanced' : tour;
-    var focusEl = (config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].focusEl != undefined) ? config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].focusEl : config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].selector;
-    // Define TourPop HTML
-    var buttonRight = (stepNum < (config.helpTour.tours[currentTour].length - 1)) ? "<a href='#' class='btn btn-link pull-right' onclick='nextHelpStep(" + stepNum + ")' style='font-size:medium'><i class='fa fa-arrow-right'></i></a>" : "",
-        buttonLeft = (stepNum > 0) ? "<a href='#' class='btn btn-link pull-left' onclick='lastHelpStep(" + stepNum + ")' style='font-size:medium'><i class='fa fa-arrow-left'></i></a>" : "",
-        buttonRow = "<div class='row'>" + buttonRight + "" + buttonLeft + "</div>",
-        dismissBtn = "<button type='button' onclick='endTour()' class='close btn-endTour'><span aria-hidden='true'>&times;</span></button><br>";
-    // TourPop Index Circles
-    var circles = "<div class='row-fluid text-center' id='circle-row'>"
-    $(config.helpTour.tours[currentTour])
-        .each(function(i) {
-            var icon = (i != stepNum) ? 'fa-circle-o' : 'fa-circle';
-            circles += "<button onclick='skipToStep(" + i + ")'class='btn btn-link' style='padding:0px; font-size:xx-small'><i class='fa " + icon + "'></i></button>"
-        })
-    circles += "</div>";
-    //circles+='<div><a href="#circle-row" data-toggle="collapse" class="btn btn-link pull-left" style="padding:0px;"><i class="fa fa-bars"></i></a><br>Step'+(stepNum+1)+'</div>';
-    // Set Options for popup
-    var x = config.helpTour.data[config.helpTour.tours[currentTour][stepNum]],
-        popOptions = {
-            html: true,
-            container: 'body',
-            trigger: 'manual',
-            template: '<div class="popover tourPop " role="tooltip"><div class="arrow"></div><div><button type="button" style="padding-right:10px; float:right" onclick="endTour()" class="btn-link btn-endTour"><span aria-hidden="true">&times;</span></button></div><h3 class="popover-title"></h3><div class="popover-content" style="width:280px"></div></div>',
-            placement: (x.popOptions.placement != undefined) ? x.popOptions.placement : 'right',
-            delay: (x.popOptions.delay != undefined) ? x.popOptions.delay : {
-                "show": 500,
-                "hide": 0
-            },
-            content: (x.popOptions.content != undefined) ? ("" + circles + "" + x.popOptions.content + " <br>" + buttonRow + "") : ("" + circles + "Error; <br>" + buttonRow + "")
-        }
-    var delayShown = 500;
-
-    function beforeStep() {
-        function defaultOpeners(delayShown) {
-            if (($("#sidebar-wrapper")
-                    .find("" + x.selector + "")
-                    .length != 0) && ($("#sidebar-wrapper")
-                    .width() == 0)) {
-                $('#menu-toggle')
-                    .trigger('click');
-            }
-            if (($("#accordion_Data")
-                    .find("" + x.selector + "")
-                    .length != 0) && ($('#floodHazardsPanel')
-                    .height() != 0) && (startingValues.mobileDevice != true)) {
-                $("a[href='#floodHazardsPanel']")
-                    .trigger('click');
-            }
-            if (startingValues.mobileDevice == true) {
-                if (($("#sidebar-wrapper")
-                        .find("" + x.selector + "")
-                        .length == 0) && ($("#sidebar-wrapper")
-                        .width() != 0)) {
-                    $('#menu-toggle')
-                        .trigger('click');
-                    popOptions["container"] = "body"
-                    delayShown = (delayShown + 500)
-                }
-            }
-            customOpeners(delayShown);
-        }
-
-        function customOpeners(delayShown) {
-            if (x.before != undefined) {
-                x.before.call()
-                showStep(delayShown)
-            } else {
-                showStep(delayShown)
-            }
-        }
-        defaultOpeners();
-    }
-    beforeStep();
-
-    function showStep(delayShown) {
-        delayShown = popOptions.delay.show
-        setTimeout(function() {
-            $(x.selector)
-                .popover(popOptions)
-            $(x.selector)
-                .popover('show')
-            drawBox(x.selector)
-                //setTimeout(drawBox(x.selector),1000)
-            var doAfter = (x.after != undefined) ? x.after.call() : null;
-            $(x.selector)
-                .addClass('tourstep-active')
-            $(x.selector_standin)
-                .addClass('tourstep-active')
-            $(focusEl)
-                .each(function(i, d) {
-                    setTimeout(function() {
-                        setTimeout(function() {
-                            $(focusEl)
-                                .eq(i)
-                                .removeClass('focus')
-                        }, 500);
-                        $(focusEl)
-                            .eq(i)
-                            .addClass('focus')
-                    }, ((i * 500) + 400));
-                })
-        }, delayShown)
-    }
-}
-
-function helpTour(tour) {
-    $('.helpHolder')
-        .show();
-    //tour = ((tour==null)||(tour==undefined)) ? mode : tour
-    currentTour = 'advanced';
-    drawBox('body');
-    setTimeout(function() {
-        helpStep(0)
-    }, 600);
-}
-
 function makeLandUseLegend() {
     var m = {
             top: 5,
@@ -2416,8 +2242,425 @@ function makeLandUseLegend() {
             return d;
         });
 }
+///////////////
+// Help Tour //
+///////////////
+var helpTour = (function() {
+    var _spotlight;
+
+    function highlighthide() {
+        drawBox('body')
+        delay(function() {
+            $('.helpHolder')
+                .hide()
+        }, 800)
+    }
+
+    function start(tour) {
+        $('.helpHolder')
+            .show();
+        //tour = ((tour==null)||(tour==undefined)) ? mode : tour
+        currentTour = 'advanced';
+        drawBox('body');
+        setTimeout(function() {
+            helpStep(0)
+        }, 600);
+    }
+
+    function end() {
+        $('.focus')
+            .removeClass('focus')
+        $('.tourstep-active')
+            .removeClass('tourstep-active')
+        $('.popover.tourPop')
+            .popover('destroy')
+        $('.stepElement')
+            .remove()
+        highlighthide()
+        currentTour = null
+    }
+
+    function skipTo(stepNum) {
+        $('.popover.tourPop')
+            .popover('destroy')
+        helpStep(stepNum)
+    }
+
+    function next(stepNum) {
+        $('.popover.tourPop')
+            .popover('destroy')
+        helpStep(stepNum + 1)
+    }
+
+    function last(stepNum) {
+        $('.popover.tourPop')
+            .popover('destroy')
+        helpStep(stepNum - 1)
+    }
+
+    function _beforeStep() {
+        function defaultOpeners(delayShown) {
+            if (($("#sidebar-wrapper")
+                    .find("" + x.selector + "")
+                    .length != 0) && ($("#sidebar-wrapper")
+                    .width() == 0)) {
+                $('#menu-toggle')
+                    .trigger('click');
+            }
+            if (($("#accordion_Data")
+                    .find("" + x.selector + "")
+                    .length != 0) && ($('#floodHazardsPanel')
+                    .height() != 0) && (startingValues.mobileDevice != true)) {
+                $("a[href='#floodHazardsPanel']")
+                    .trigger('click');
+            }
+            if (startingValues.mobileDevice == true) {
+                if (($("#sidebar-wrapper")
+                        .find("" + x.selector + "")
+                        .length == 0) && ($("#sidebar-wrapper")
+                        .width() != 0)) {
+                    $('#menu-toggle')
+                        .trigger('click');
+                    popOptions["container"] = "body"
+                    delayShown = (delayShown + 500)
+                }
+            }
+            customOpeners(delayShown);
+        }
+
+        function customOpeners(delayShown) {
+            if (x.before != undefined) {
+                x.before.call()
+                _showStep(delayShown)
+            } else {
+                _showStep(delayShown)
+            }
+        }
+        defaultOpeners();
+    }
+
+    function _afterStep(element) {
+        $('.tourstep-active')
+            .parents('.symbolPop')
+            .find('.close')
+            .trigger('click')
+        $('.tourstep-active')
+            .removeClass('tourstep-active')
+        $('.focus')
+            .removeClass('focus')
+        $('.tourPop')
+            .remove()
+    }
+
+    function _showStep(delayShown) {
+        delayShown = popOptions.delay.show
+        setTimeout(function() {
+            $(x.selector)
+                .popover(popOptions)
+            $(x.selector)
+                .popover('show')
+            drawBox(x.selector)
+                //setTimeout(drawBox(x.selector),1000)
+            var doAfter = (x.after != undefined) ? x.after.call() : null;
+            $(x.selector)
+                .addClass('tourstep-active')
+            $(x.selector_standin)
+                .addClass('tourstep-active')
+            $(focusEl)
+                .each(function(i, d) {
+                    setTimeout(function() {
+                        setTimeout(function() {
+                            $(focusEl)
+                                .eq(i)
+                                .removeClass('focus')
+                        }, 500);
+                        $(focusEl)
+                            .eq(i)
+                            .addClass('focus')
+                    }, ((i * 500) + 400));
+                })
+        }, delayShown)
+    }
+
+    function step(stepNum, tour) {
+        showg = ($('.helpHolder')
+                .is(':visible') != true) ? ($('.helpHolder')
+                .show()) : null
+            // Close Previous Step
+        _afterStep(stepNum)
+        var currentTour = ((tour == null) || (tour == undefined)) ? 'advanced' : tour;
+        var focusEl = (config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].focusEl != undefined) ? config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].focusEl : config.helpTour.data[config.helpTour.tours[currentTour][stepNum]].selector;
+        // Define TourPop HTML
+        var buttonRight = (stepNum < (config.helpTour.tours[currentTour].length - 1)) ? "<a href='#' class='btn btn-link pull-right' onclick='helpTour.next(" + stepNum + ")' style='font-size:medium'><i class='fa fa-arrow-right'></i></a>" : "",
+            buttonLeft = (stepNum > 0) ? "<a href='#' class='btn btn-link pull-left' onclick='last(" + stepNum + ")' style='font-size:medium'><i class='fa fa-arrow-left'></i></a>" : "",
+            buttonRow = "<div class='row'>" + buttonRight + "" + buttonLeft + "</div>",
+            dismissBtn = "<button type='button' onclick='helpTour.end()' class='close btn-endTour'><span aria-hidden='true'>&times;</span></button><br>";
+        // TourPop Index Circles
+        var circles = "<div class='row-fluid text-center' id='circle-row'>"
+        $(config.helpTour.tours[currentTour])
+            .each(function(i) {
+                var icon = (i != stepNum) ? 'fa-circle-o' : 'fa-circle';
+                circles += "<button onclick='helpTour.skipTo(" + i + ")'class='btn btn-link' style='padding:0px; font-size:xx-small'><i class='fa " + icon + "'></i></button>"
+            })
+        circles += "</div>";
+        //circles+='<div><a href="#circle-row" data-toggle="collapse" class="btn btn-link pull-left" style="padding:0px;"><i class="fa fa-bars"></i></a><br>Step'+(stepNum+1)+'</div>';
+        // Set Options for popup
+        var x = config.helpTour.data[config.helpTour.tours[currentTour][stepNum]],
+            popOptions = {
+                html: true,
+                container: 'body',
+                trigger: 'manual',
+                template: '<div class="popover tourPop " role="tooltip"><div class="arrow"></div><div><button type="button" style="padding-right:10px; float:right" onclick="helpTour.end()" class="btn-link btn-endTour"><span aria-hidden="true">&times;</span></button></div><h3 class="popover-title"></h3><div class="popover-content" style="width:280px"></div></div>',
+                placement: (x.popOptions.placement != undefined) ? x.popOptions.placement : 'right',
+                delay: (x.popOptions.delay != undefined) ? x.popOptions.delay : {
+                    "show": 500,
+                    "hide": 0
+                },
+                content: (x.popOptions.content != undefined) ? ("" + circles + "" + x.popOptions.content + " <br>" + buttonRow + "") : ("" + circles + "Error; <br>" + buttonRow + "")
+            }
+        var delayShown = 500;
+        _beforeStep();
+    }
+
+    function init() {
+        $("[data-toggle='help']")
+            .on('click', function() {
+                skipTo((config.helpTour.tours['advanced'])
+                    .indexOf($(this)
+                        .attr('data-help')))
+            });
+        _spotlight = d3.select('.helpHolder')
+            .append('svg')
+            .attr('width', $(document)
+                .width())
+            .attr('height', $(document)
+                .height());
+        _spotlight.selectAll('highlighters')
+            .data(['above', 'below', 'left', 'right'])
+            .enter()
+            .append('rect')
+            .attr('class', function(d) {
+                return '' + d + '-highlighter highlighter'
+            })
+            .on('click', end);
+    };
+    return {
+        init: init,
+        start: start,
+        end: end,
+        step: step,
+        skipTo: skipTo,
+        next: next,
+        last: last
+    }
+})();
+////////////////////////////////////////////////
+// Left Menu : Scenarios, Flood Events, Units //
+////////////////////////////////////////////////
+var leftMenu = (function() {
+    // DOM
+    var $leftMenu;
+    var $panels;
+    var $panelBodies;
+    var $optionLabels;
+    var $options;
+    var $unitOptions;
+    var $scenarioOptions;
+    var $floodEventOptions;
+
+    function _showPanel() {
+        $(this)
+            .parents('.panel')
+            .find('.panel-subtitle')
+            .slideUp()
+        $(this)
+            .parents('.panel')
+            .find('.panel-title>i')
+            .toggleClass('fa-chevron-right fa-chevron-down')
+    };
+
+    function _hidePanel() {
+        $(this)
+            .parents('.panel')
+            .find('.panel-subtitle')
+            .slideDown();
+        $(this)
+            .parents('.panel')
+            .find('.panel-title>i')
+            .toggleClass('fa-chevron-right fa-chevron-down');
+    };
+
+    function _selectItem() {
+        $(this)
+            .parents('.panel')
+            .find('.panel-subtitle')
+            .html("" + $(this)
+                .parents('label')
+                .text() + "");
+    };
+
+    function _updateLabel() {
+        if ($(this)
+            .parent()
+            .is('.active') != true) {
+            $(this)
+                .parent()
+                .addClass('active');
+            $(this)
+                .parent()
+                .siblings()
+                .removeClass('active');
+        }
+    };
+
+    function _updateUnit() {
+        currentAttribute = $(this)
+            .val()
+        handleStyle()
+    };
+
+    function  _scenarioChange() {
+        damagesCurrent = getDamagesIndex(),
+            depthGridCurrent = getDGIndex();
+        var indexValues = setIndexValues();
+        damageIndexWidth = indexValues.damageIndexWidth,
+            minimumDamageIndex = indexValues.minimumDamageIndex,
+            maximumDamageIndex = indexValues.maximumDamageIndex;
+        handleStyle()
+        config.layers.depth.setLayers([depthGridCurrent])
+    }
+
+    function init() {
+        // define DOM selections
+        $leftMenu = $("#accordion_Data");
+        $panels = $leftMenu.find(".panel");
+        $panelBodies = $panels.find(".collapse");
+        $optionLabels = $leftMenu.find(".radio.list-group-item label");
+        $options = $leftMenu.find('input[type="radio"]');
+        $scenarioOptions = $leftMenu.find("[name='scenarioRadios']");
+        $floodEventOptions = $leftMenu.find("input[name='floodEventRadios']");
+        // event listeners
+        $unitOptions = $leftMenu.find('input[name="fieldRadios"]');
+        $panelBodies.on('show.bs.collapse', _showPanel);
+        $panelBodies.on('hide.bs.collapse', _hidePanel);
+        $options.on("change", _selectItem);
+        $optionLabels.on("click", _updateLabel);
+        $unitOptions.on("change", _updateUnit);
+        $scenarioOptions.on("change", _scenarioChange);
+        $floodEventOptions.on("change", _scenarioChange);
+        // $(document)
+        //     .on("change", '#fieldSelector', function() {
+        //         currentAttribute = getCurrentAttribute()
+        //         handleStyle();
+        //     });
+    };
+    return {
+        init: init
+    }
+})();
 
 function init() {
+    function registerEventListeners() {
+        $(window)
+            .on('resize', function() {
+                delay(function() {
+                    resize();
+                }, 800)
+            });
+        // Toggling Data Distribution Chart Visibility
+        $('#dataDistributionHeading a')
+            .on('click', function() {
+                $(this)
+                    .find('i')
+                    .toggleClass('fa-eye fa-eye-slash')
+                $('.down-low')
+                    .toggleClass('down-low-basic down-low-advanced')
+            });
+        // Basemap radio event listener
+        $('[name="basemapRadios"]')
+            .on('change', changeBasemap);
+        // when our depth grids load, we want to add a class to the DOM element containing the image
+        // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
+        config.layers.depth.on("load", function() {
+            if (config.layers.depth._currentImage && config.layers.depth._currentImage._image) {
+                $(config.layers.depth._currentImage._image)
+                    .addClass("depth-image");
+            }
+        });
+        // Change in Layer checkbox event listener
+        $('input[name="layerCheckboxes"]')
+            .on('change', function() {
+                toggleLayers($(this))
+            });
+        $(document)
+            .on("click", "#openFullAttribution", function() {
+                $("#fullAttribution")
+                    .slideToggle();
+            });
+        $(".resetBreaks")
+            .click(function() {
+                $('#scaleSelector')
+                    .selectpicker('val', 'jenks');
+                handleStyle();
+                $(this)
+                    .hide()
+            });
+        config.layers.landUse.on("add", function() {
+            config.layers.landUse.bringToBack();
+        });
+        // Update the attribution Text on layer change
+        $('[name="basemapRadios"],[name="layerCheckboxes"]')
+            .on('change', updateMapAttribution);
+        $('.chartSelector')
+            .on('click', function() {
+                $('#chartHolder')
+                    .empty()
+                $('#helpText')
+                    .children()
+                    .hide()
+                chartType = $(this)
+                    .attr('data')
+                $('#helpText>#' + chartType + '-help')
+                    .show()
+                $('#helpText .floodevent-help')
+                    .html(function() {
+                        return $('[name="floodEventRadios"]:checked')
+                            .attr('year')
+                    })
+                $('#helpText .scenario-help')
+                    .html(function() {
+                        return $('#dataHeading .panel-subtitle')
+                            .html()
+                    })
+                $('#helpText .attribute-help')
+                    .html(function() {
+                        return (currentAttribute == 'BldgLossUS') ? 'Thousands of Dollars' : 'Percent Damage'
+                    })
+                $('#chartModal .modal-title')
+                    .html(function() {
+                        return (chartType == 'histogram') ? "histogram" : (chartType == 'pie') ? 'Affected Parcels Breakdown' : 'Watershed-Level Trends'
+                    })
+                hideDropDown = (chartType != 'line') ? $(".line-only")
+                    .hide() : $(".line-only")
+                    .show()
+                if (currentAttribute != 'BldgLossUS') {
+                    $('#select-stats option[value="sum"]')
+                        .attr("disabled", "disabled")
+                } else {
+                    $('#select-stats option[value="sum"]')
+                        .removeAttr("disabled")
+                }
+                $('#select-stats')
+                    .selectpicker('refresh')
+                setTimeout(function() {
+                    makeChart = (chartType == 'histogram') ? makeHistogram() : (chartType == 'pie') ? makePie() : (chartType == 'line') ? makeLine() : null
+                }, 250);
+            });
+        map.on("moveend, dragstart", destroyPop);
+    };
+    leftMenu.init();
+    helpTour.init();
+    print.init();
     /////////////
     // Init.js //
     /////////////
@@ -2445,12 +2688,6 @@ function init() {
                 .height())
         });
     // Call the resize function when the document is resized
-    $(window)
-        .on('resize', function() {
-            delay(function() {
-                resize();
-            }, 800)
-        });
     // Add Chrevrons in Side Bar
     $('.expandPanel')
         .each(function() {
@@ -2466,62 +2703,6 @@ function init() {
                         .find('.arrow')
                         .toggleClass('fa-chevron-right fa-chevron-down')
                 })
-        });
-    // Data Panel Collapse
-    $('#accordion_Data .collapse')
-        .on('show.bs.collapse', function() {
-            $(this)
-                .parents('.panel')
-                .find('.panel-subtitle')
-                .slideUp()
-            $(this)
-                .parents('.panel')
-                .find('.panel-title>i')
-                .toggleClass('fa-chevron-right fa-chevron-down')
-        })
-    $('#accordion_Data .collapse')
-        .on('hide.bs.collapse', function() {
-            $(this)
-                .parents('.panel')
-                .find('.panel-subtitle')
-                .slideDown()
-            $(this)
-                .parents('.panel')
-                .find('.panel-title>i')
-                .toggleClass('fa-chevron-right fa-chevron-down')
-        })
-    $('#accordion_Data input[type="radio"]')
-        .on("change", function() {
-            $(this)
-                .parents('.panel')
-                .find('.panel-subtitle')
-                .html("" + $(this)
-                    .parents('label')
-                    .text() + "")
-        });
-    // Radio listGroups
-    $('.radio.list-group-item label, .radio.list-group')
-        .on('click', function() {
-            if ($(this)
-                .parent()
-                .is('.active') != true) {
-                $(this)
-                    .parent()
-                    .addClass('active');
-                $(this)
-                    .parent()
-                    .siblings()
-                    .removeClass('active');
-            }
-        });
-    // Toggling Data Distribution Chart Visibility
-    $('#dataDistributionHeading a')
-        .on('click', function() {
-            $(this)
-                .find('i')
-                .toggleClass('fa-eye fa-eye-slash')
-            $('.down-low')
-                .toggleClass('down-low-basic down-low-advanced')
         });
     /* DOM NAMES */
     landUseCheck = $('[name="layerCheckboxes"][data-name="landUse"]'),
@@ -2555,51 +2736,20 @@ function init() {
     currentBasemap = basemapList[$('[name="basemapRadios"]:checked')
         .val()]
     currentBasemap.addTo(basemap);
-    // Basemap radio event listener
-    $('[name="basemapRadios"]')
-        .on('change', changeBasemap);
-    // when our depth grids load, we want to add a class to the DOM element containing the image
-    // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
-    config.layers.depth.on("load", function() {
-        if (config.layers.depth._currentImage && config.layers.depth._currentImage._image) {
-            $(config.layers.depth._currentImage._image)
-                .addClass("depth-image");
-        }
-    });
-    config.layers.landUse.on("add", function() {
-        config.layers.landUse.bringToBack();
-    });
     // add raster layers
     config.layers.depth.addTo(map);
     config.layers.streams.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
-        .is(':checked')) ? layers.stormwater.addTo(map): null;
+        .is(':checked')) ? config.layers.stormwater.addTo(map): null;
     ($('[name="layerCheckboxes"]:eq(3)')
         .is(':checked')) ? config.layers.landUse.addTo(map): null;
     ($('[name="layerCheckboxes"]:eq(4)')
         .is(':checked')) ? config.layers.watershed.addTo(map): null;
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', config.layers.depth, layers.stormwater, config.layers.landUse, config.layers.watershed, config.layers.streams];
-    // Change in Layer checkbox event listener
-    $('input[name="layerCheckboxes"]')
-        .on('change', function() {
-            toggleLayers($(this))
-        });
+    allLayersList = ['floods', config.layers.depth, config.layers.stormwater, config.layers.landUse, config.layers.watershed, config.layers.streams];
     // Define the Initial Attribution Text
     updateMapAttribution();
-    $(document)
-        .on("click", "#openFullAttribution", function() {
-            $("#fullAttribution")
-                .slideToggle();
-        });
-    // Update the attribution Text on layer change
-    $('[name="basemapRadios"],[name="layerCheckboxes"]')
-        .on('change', updateMapAttribution);
-    /* Map Export Functions */
-    // Print Map
-    $('.map-printer')
-        .on('click', print.create);
     ///////////////////
     // Prototypes.js //
     ///////////////////
@@ -2675,136 +2825,17 @@ function init() {
         .attr('transform', function() {
             return 'translate(' + haz_m.left + ',' + haz_m.top + ')'
         });
-    $(".resetBreaks")
-        .click(function() {
-            $('#scaleSelector')
-                .selectpicker('val', 'jenks');
-            handleStyle();
-            $(this)
-                .hide()
-        });
     createSymbols(allYearData);
     //////////////////////
     // Global Variables //
     //////////////////////
-    $('input[name="fieldRadios"]')
-        .on('change', function() {
-            currentAttribute = $(this)
-                .val()
-            handleStyle()
-        })
-    $('#fieldSelector')
-        .on("change", function() {
-            currentAttribute = getCurrentAttribute()
-            handleStyle();
-        })
 
-    function handleScenarioChanges() {
-        damagesCurrent = getDamagesIndex(),
-            /*damagesCompare = getCompareDamagesIndex()*/
-            depthGridCurrent = getDGIndex();
-        var indexValues = setIndexValues();
-        damageIndexWidth = indexValues.damageIndexWidth,
-            minimumDamageIndex = indexValues.minimumDamageIndex,
-            maximumDamageIndex = indexValues.maximumDamageIndex;
-        handleStyle()
-        config.layers.depth.setLayers([depthGridCurrent])
-    }
-    $("[name='scenarioRadios'], input[name='floodEventRadios']")
-        .on("change", handleScenarioChanges);
 
     function handleCompareChanges() {
         compareType = getCompareType()
         damagesCompare = getCompareDamagesIndex()
         handleStyle()
     };
-    $('input[name="comparisonRadios"]')
-        .on('change', handleCompareChanges);
-    ////////////////////
-    // Make Histogram //
-    ////////////////////
-    $('.chartSelector')
-        .on('click', function() {
-            $('#chartHolder')
-                .empty()
-            $('#helpText')
-                .children()
-                .hide()
-            chartType = $(this)
-                .attr('data')
-            $('#helpText>#' + chartType + '-help')
-                .show()
-            $('#helpText .floodevent-help')
-                .html(function() {
-                    return $('[name="floodEventRadios"]:checked')
-                        .attr('year')
-                })
-            $('#helpText .scenario-help')
-                .html(function() {
-                    return $('#dataHeading .panel-subtitle')
-                        .html()
-                })
-            $('#helpText .attribute-help')
-                .html(function() {
-                    return (currentAttribute == 'BldgLossUS') ? 'Thousands of Dollars' : 'Percent Damage'
-                })
-            $('#chartModal .modal-title')
-                .html(function() {
-                    return (chartType == 'histogram') ? "histogram" : (chartType == 'pie') ? 'Affected Parcels Breakdown' : 'Watershed-Level Trends'
-                })
-            hideDropDown = (chartType != 'line') ? $(".line-only")
-                .hide() : $(".line-only")
-                .show()
-            if (currentAttribute != 'BldgLossUS') {
-                $('#select-stats option[value="sum"]')
-                    .attr("disabled", "disabled")
-            } else {
-                $('#select-stats option[value="sum"]')
-                    .removeAttr("disabled")
-            }
-            $('#select-stats')
-                .selectpicker('refresh')
-            setTimeout(function() {
-                makeChart = (chartType == 'histogram') ? makeHistogram() : (chartType == 'pie') ? makePie() : (chartType == 'line') ? makeLine() : null
-            }, 250);
-        });
-    $('.printer')
-        .on('click', function() {
-            target = $(this)
-                .attr('data')
-            $(target)
-                .print({
-                    stylesheet: "../css/printing.css"
-                })
-        });
-    //////////////////
-    // MakePopup.js //
-    //////////////////
-    map.on("moveend, dragstart", destroyPop);
-    /////////////////
-    // helpTour.js //
-    /////////////////
-    // Inline HTML for  skiping to help tour step
-    $("[data-toggle='help']")
-        .on('click', function() {
-            skipToStep((config.helpTour.tours['advanced'])
-                .indexOf($(this)
-                    .attr('data-help')))
-        })
-    spotlight = d3.select('.helpHolder')
-        .append('svg')
-        .attr('width', $(document)
-            .width())
-        .attr('height', $(document)
-            .height());
-    spotlight.selectAll('highlighters')
-        .data(['above', 'below', 'left', 'right'])
-        .enter()
-        .append('rect')
-        .attr('class', function(d) {
-            return '' + d + '-highlighter highlighter'
-        })
-        .on('click', endTour);
 }
 $(document)
     .ready(function() {

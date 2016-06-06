@@ -451,101 +451,102 @@ var config = {
     attribution: {
         fontAwesome: "Icons <a href='http://fontawesome.io'>Font Awesome</a> by Dave Gandy",
         icons8: "Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
-    },
-    basemaps: {
-        satellite: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            layerName: "basemap",
-            name: 'ESRI.WorldImagery',
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-        }),
-        toner: L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-            layerName: "basemap",
-            name: 'Stamen.Toner',
-            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }),
-        terrain: L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
-            layerName: "basemap",
-            name: 'Stamen.Terrain',
-            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        })
-    },
-    layers: {
-        watershed: new L.geoJson(chesterCreekWatershed, {
-            style: {
-                "color": "#673AB7",
-                "weight": 5,
-                "opacity": 1,
-                "lineCap": "round",
-                "fill": false
-            },
-            attribution: false,
-            layerName: "watershed",
-            className: "watershed"
-        }),
-        stormwater: new L.geoJson(stormwaterJSON, {
-            style: {
-                "color": "#3F51B5",
-                "weight": 2,
-                "opacity": 1,
-                "lineCap": "round"
-            },
-            position: "back",
-            attribution: false,
-            layerName: "stormwater",
-            className: "stormwater",
-            smoothFactor: 3
-        }),
-        depth: new L.esri.dynamicMapLayer({
-            url: config.serviceURL,
-            className: '2',
-            layers: [depthGridCurrent],
-            opacity: ($('[name="layerCheckboxes"]:eq(1)')
-                .is(':checked')) ? 1 : 0,
-            attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
-            layerName: "depth"
-        }),
-        streams: new L.esri.dynamicMapLayer({
-            url: config.serviceURL,
-            className: '2',
-            layers: [0],
-            opacity: ($('[name="layerCheckboxes"]:eq(4)')
-                .is(':checked')) ? 1 : 0,
-            attribution: false,
-            layerName: "streams"
-        }),
-        landUse: new L.geoJson(futureLandUse, {
-            style: function(feature) {
-                var fillColor = "";
-                switch (feature.properties.reclassifi) {
-                    case "commercial":
-                        fillColor = "#838faa";
-                        break;
-                    case "green space":
-                        fillColor = "#00aa00";
-                        break;
-                    case "industrial":
-                        fillColor = "#4d4d4d";
-                        break;
-                    case "institutional campus":
-                        fillColor = "#ffaa7f";
-                        break;
-                    case "other":
-                        fillColor = "#ff8e90";
-                        break;
-                    case "residential":
-                        fillColor = "#fff47b";
-                        break;
-                }
-                return {
-                    fillColor: fillColor,
-                    fillOpacity: 0.4,
-                    fill: true,
-                    weight: 0
-                };
-            },
-            attribution: false,
-            layerName: "landUse",
-            className: "landUse"
-        })
     }
+}
+
+config.basemaps = {
+    satellite: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        layerName: "basemap",
+        name: 'ESRI.WorldImagery',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    }),
+    toner: L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+        layerName: "basemap",
+        name: 'Stamen.Toner',
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }),
+    terrain: L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
+        layerName: "basemap",
+        name: 'Stamen.Terrain',
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    })
+};
+config.layers = {
+    watershed: new L.geoJson(chesterCreekWatershed, {
+        style: {
+            "color": "#673AB7",
+            "weight": 5,
+            "opacity": 1,
+            "lineCap": "round",
+            "fill": false
+        },
+        attribution: false,
+        layerName: "watershed",
+        className: "watershed"
+    }),
+    stormwater: new L.geoJson(stormwaterJSON, {
+        style: {
+            "color": "#3F51B5",
+            "weight": 2,
+            "opacity": 1,
+            "lineCap": "round"
+        },
+        position: "back",
+        attribution: false,
+        layerName: "stormwater",
+        className: "stormwater",
+        smoothFactor: 3
+    }),
+    depth: new L.esri.dynamicMapLayer({
+        url: config.serviceURL,
+        className: '2',
+        layers: [depthGridCurrent],
+        opacity: ($('[name="layerCheckboxes"]:eq(1)')
+            .is(':checked')) ? 1 : 0,
+        attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
+        layerName: "depth"
+    }),
+    streams: new L.esri.dynamicMapLayer({
+        url: config.serviceURL,
+        className: '2',
+        layers: [0],
+        opacity: ($('[name="layerCheckboxes"]:eq(4)')
+            .is(':checked')) ? 1 : 0,
+        attribution: false,
+        layerName: "streams"
+    }),
+    landUse: new L.geoJson(futureLandUse, {
+        style: function(feature) {
+            var fillColor = "";
+            switch (feature.properties.reclassifi) {
+                case "commercial":
+                    fillColor = "#838faa";
+                    break;
+                case "green space":
+                    fillColor = "#00aa00";
+                    break;
+                case "industrial":
+                    fillColor = "#4d4d4d";
+                    break;
+                case "institutional campus":
+                    fillColor = "#ffaa7f";
+                    break;
+                case "other":
+                    fillColor = "#ff8e90";
+                    break;
+                case "residential":
+                    fillColor = "#fff47b";
+                    break;
+            }
+            return {
+                fillColor: fillColor,
+                fillOpacity: 0.4,
+                fill: true,
+                weight: 0
+            };
+        },
+        attribution: false,
+        layerName: "landUse",
+        className: "landUse"
+    })
 }
