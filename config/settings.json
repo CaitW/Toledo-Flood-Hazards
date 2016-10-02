@@ -1,0 +1,7 @@
+{
+	"bounds": {
+        "sW": [46.78912989119917, -92.1701431274414],
+        "nE": [46.86265591336103, -92.05856323242188]
+    },
+    "serviceURL": "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer"
+}

@@ -1,0 +1,145 @@
+{
+    "meta": "Describes the content to be displayed in the Flood Hazard application. Used by Node to create the DOM in the app prior to document load.",
+    "scenarios": {
+        "floods": [{
+            "value": 1,
+            "floodEvent": 2,
+            "annualChance": 50,
+            "defaultValue": false
+        }, {
+            "value": 2,
+            "floodEvent": 5,
+            "annualChance": 20,
+            "defaultValue": false
+        }, {
+            "value": 3,
+            "floodEvent": 10,
+            "annualChance": 10,
+            "defaultValue": false
+        }, {
+            "value": 4,
+            "floodEvent": 25,
+            "annualChance": 4,
+            "defaultValue": false
+        }, {
+            "value": 5,
+            "floodEvent": 50,
+            "annualChance": 2,
+            "defaultValue": false
+        }, {
+            "value": 6,
+            "floodEvent": 100,
+            "annualChance": 1,
+            "defaultValue": false
+        }, {
+            "value": 7,
+            "floodEvent": 500,
+            "annualChance": 0.2,
+            "defaultValue": true
+        }],
+        "climateLandUse": [{
+            "value": 1,
+            "width": 7,
+            "dg": 20,
+            "compare": 32,
+            "compare-landuse": 32,
+            "compare-climate": 17,
+            "compare-opposite": 47,
+            "udf": 5,
+            "text": "Current Precipitation and Land Use",
+            "defaultValue": true
+        }, {
+            "value": 2,
+            "width": 7,
+            "dg": 46,
+            "compare": 47,
+            "compare-landuse": 47,
+            "compare-climate": 2,
+            "compare-opposite": 32,
+            "udf": 22,
+            "text": "Future 2035 Precipitation and Land Use"
+        }, {
+            "value": 3,
+            "width": 7,
+            "dg": 72,
+            "compare": 3,
+            "compare-landuse": 2,
+            "compare-climate": 47,
+            "compare-opposite": 17,
+            "udf": 56,
+            "text": "Current Precipitation with Green Infrastructure"
+        }, {
+            "value": 4,
+            "width": 7,
+            "dg": 98,
+            "compare": 17,
+            "compare-landuse": 17,
+            "compare-climate": 32,
+            "compare-opposite": 2,
+            "udf": 73,
+            "text": "Future 2035 Precipitation with Green Infrastructure"
+        }]
+    },
+    "scales": [{
+        "value": "custom",
+        "text": "Custom",
+        "defaultValue": false
+    }, {
+        "value": "continuous",
+        "text": "Continuous",
+        "defaultValue": false
+    }, {
+        "value": "equalInterval",
+        "text": "Equal Interval",
+        "defaultValue": false
+    }, {
+        "value": "jenks",
+        "text": "Jenks Natural Breaks",
+        "defaultValue": true
+    }, {
+        "value": "quantile_Color",
+        "text": "Quantile",
+        "defaultValue": false
+    }, {
+        "value": "stdDev",
+        "text": "Standard Deviation",
+        "defaultValue": false
+    }],
+    "floodAttributes": [{
+        "text": "Monetary Losses",
+        "value": "BldgLossUS"
+    }, {
+        "text": "Percent Damage",
+        "value": "BldgDmgPct",
+        "defaultValue": true
+    }],
+    "basemaps": [{
+        "id": "satellite",
+        "display": "Satellite"
+    }, {
+        "id": "toner",
+        "display": "Streets"
+    }, {
+        "id": "terrain",
+        "display": "Terrain"
+    }],
+    "layers": [{
+        "id": "hazards",
+        "display": "Flood Hazards"
+    }, {
+        "id": "depthGrids",
+        "display": "Depth Grids"
+    }, {
+        "id": "landUse",
+        "display": "Land Use"
+    }, {
+        "id": "streams",
+        "display": "Streams"
+    },{
+        "id": "stormwater",
+        "display": "Storm Water Network"
+    },{
+        "id": "watershed",
+        "display": "Chester Creek Watershed"
+    }]
+}

@@ -1,0 +1,9 @@
+{
+	"basemap": "toner",
+	"layers": ["hazards", "depthGrids"],
+	"scenario": {
+		"floodEvent": 7,
+		"climateLandUse": 1,
+		"unit": "BldgLossUS"
+	}
+}

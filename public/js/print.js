@@ -18,6 +18,166 @@ var print = (function() {
     // legend containers
     var $footer;
 
+    function ScaleEm(x, y, z) {
+        var customExists = {},
+            device = null;
+        scaleType = (showCompareFeatures == false) ? x : String(x) + 'Change'
+        attribute = (((y == undefined) || (y == null)) && (showCompareFeatures == false)) ? currentAttribute : (((y == undefined) || (y == null)) && (showCompareFeatures == true)) ? String(currentAttribute) + '_change' : y
+        scaleName = ((z == undefined) || (z == null)) ? $('#scaleSelector option:selected')
+            .val() : z
+        population = fullList.map(function(d) {
+                return +d[attribute];
+            }) //(showCompareFeatures==false)? fullList.map(function(d) { return + d[attribute] ; }) : changeList
+        population.sort(d3.ascending)
+        pop = population
+        var Max = d3.max(fullList, function(d, i) {
+            return fullList[i][attribute]
+        })
+        var standardDeviation = function() {
+            var serie = new geostats(population)
+            var classes = serie.getClassStdDeviation(4)
+            var scale = d3.scale.threshold()
+                .domain(classes)
+                .range(config.colors.jenks[attribute]);
+            return scale
+        }
+        var equalInterval = function() {
+            var serie = new geostats(population)
+            var classes = serie.getClassEqInterval(4)
+            var scale = d3.scale.threshold()
+                .domain(classes)
+                .range(config.colors.jenks[attribute]);
+            return scale
+        }
+        var jenks = function() {
+            dom = ss.jenks(population.map(function(d) {
+                return +d;
+            }), 4)
+            var scale = d3.scale.threshold()
+                .domain(dom)
+                .range(config.colors.jenks[attribute]);
+            return scale;
+        }
+        var custom = function() {
+            var serie = new geostats(population)
+            equalClasses = serie.getClassEqInterval(4)
+            scaleDomain = (customExists[attribute] == undefined) ? equalClasses : customExists[attribute]
+            var scale = d3.scale.threshold()
+                .domain(scaleDomain)
+                .range(config.colors.jenks[attribute])
+            return scale;
+        }
+        var linearHeight = function() {
+            var scale = d3.scale.linear()
+                .domain([Max, 0])
+                .range([1, _chartHeight]);
+            return scale;
+        }
+        var thresholdRadius = function() {
+            var scale = d3.scale.threshold()
+                .domain(ss.jenks(population.map(function(d) {
+                    return +d;
+                }), 4))
+                .range([2, 5, 12, 18, 29, 40]);
+            return scale
+        }
+        var linearRadius = function() {
+            var scale = d3.scale.linear()
+                .domain([0, Max])
+                .range([0, 40]);
+            return scale;
+        }
+        var outScale = ((x == 'color') && (scaleName == 'jenks')) ? jenks() : ((x == 'color') && (scaleName == 'equalInterval')) ? equalInterval() : ((x == 'color') && (scaleName == 'stdDev')) ? standardDeviation() : ((x == 'color') && (scaleName == 'custom')) ? custom() : (scaleType == 'height') ? linearHeight() : (scaleType == 'radius') ? linearRadius() : (scaleType == 'heightChange') ? changeLinearHeight() : (scaleType == 'radiusChange') ? changeRadius() : null;
+        return outScale
+    }
+
+    function typeofLayer(layer) {
+        if (layer instanceof L.TileLayer) {
+            return {
+                type: "raster",
+                name: "Tile Layer"
+            }
+        }
+        if (layer instanceof L.ImageOverlay) {
+            return {
+                type: "raster",
+                name: "Image Overlay"
+            };
+        }
+        // Marker layers
+        if (layer instanceof L.Marker) {
+            return {
+                type: "marker",
+                name: "Marker"
+            };
+        }
+        if (layer instanceof L.circleMarker) {
+            return {
+                type: "marker",
+                name: "Circle Marker"
+            };
+        }
+        // Vector layers
+        if (layer instanceof L.Rectangle) {
+            return {
+                type: "vector",
+                name: "Rectangle"
+            };
+        }
+        if (layer instanceof L.Polygon) {
+            return {
+                type: "vector",
+                name: "Polygon"
+            };
+        }
+        if (layer instanceof L.Polyline) {
+            return {
+                type: "vector",
+                name: "Polyline"
+            };
+        }
+        // MultiPolyline is removed in leaflet 0.8-dev
+        if (L.MultiPolyline && layer instanceof L.MultiPolyline) {
+            return {
+                type: "vector",
+                name: "MultiPolyline"
+            };
+        }
+        // MultiPolygon is removed in leaflet 0.8-dev
+        if (L.MultiPolygon && layer instanceof L.MultiPolygon) {
+            return {
+                type: "vector",
+                name: "MultiPolygon"
+            };
+        }
+        if (layer instanceof L.Circle) {
+            return {
+                type: "vector",
+                name: "Circle"
+            };
+        }
+        if (layer instanceof L.GeoJSON) {
+            return {
+                type: "vector",
+                name: "GeoJson"
+            };
+        }
+        // ESRI-Leaflet
+        if (layer instanceof L.esri.DynamicMapLayer) {
+            return {
+                type: "raster",
+                name: "ESRI DynamicMapLayer"
+            };
+        }
+        // layer/feature groups
+        if (layer instanceof L.LayerGroup || layer instanceof L.FeatureGroup) {
+            return {
+                type: "layer group",
+                name: "Layer Group"
+            };
+        }
+    };
+
     function _cloneLayer(layer) {
         var options = layer.options;
         // Tile layers
@@ -251,22 +411,23 @@ var print = (function() {
         };
         _map.eachLayer(function(l) {
             if (typeof l.options.layerName != "undefined") {
-                switch (l.options.layerName) {
-                    case "depth":
-                        layersToSort.depth = l;
-                        break;
-                    case "landUse":
-                        layersToSort.landUse = l;
-                        break;
-                    case "basemap":
-                        layersToSort.basemap = l;
-                        break;
-                    case "stormwater":
-                        layersToSort.stormwater = l;
-                        break;
-                    case "streams":
-                        layersToSort.streams = l;
-                        break;
+                if (l.options.layerType == "basemap") {
+                    layersToSort.basemap = l;
+                } else {
+                    switch (l.options.layerName) {
+                        case "depth":
+                            layersToSort.depth = l;
+                            break;
+                        case "landUse":
+                            layersToSort.landUse = l;
+                            break;
+                        case "stormwater":
+                            layersToSort.stormwater = l;
+                            break;
+                        case "streams":
+                            layersToSort.streams = l;
+                            break;
+                    }
                 }
             }
         });
@@ -331,6 +492,6 @@ var print = (function() {
             .on('click', _create);
     };
     return {
-       init: init
+        init: init
     }
 })();

@@ -19,19 +19,23 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// set up the app DOM, map
+app.locals.content = require('./config/content.json');
+app.locals.defaults = require('./config/defaults.json');
+app.locals.settings = require('./config/settings.json');
 
-app.locals.appdata = require('./data/appdata.json');
+// set up layers 
+app.locals.stormwaterJSON = require('./data/layers/stormwater.json');
+app.locals.chesterCreekWatershed = require('./data/layers/chesterCreek_watershed.json');
+app.locals.futureLandUse = require('./data/layers/flu_simplified.json');
 
-app.locals.stormwaterJSON = require('./data/stormwater.json');
-app.locals.allYearData = require('./data/allYearData.json');
-app.locals.dataByYear = require('./data/dataByYear.json');
-app.locals.databyID = require('./data/databyID.json');
-app.locals.fullList = require('./data/fullList.json');
-app.locals.chesterCreekWatershed = require('./data/chesterCreek_watershed.json');
-app.locals.futureLandUse = require('./data/flu_simplified.json');
-app.locals.currentLandUse_topo = require('./data/flu_topo.json'); // TO DO: change to CLU
+// get hazard data
+app.locals.allYearData = require('./data/hazards/allYearData.json');
+app.locals.dataByYear = require('./data/hazards/dataByYear.json');
+app.locals.databyID = require('./data/hazards/databyID.json');
+app.locals.fullList = require('./data/hazards/fullList.json');
+
 console.log(app.get('env'))
-
 
 app.use('/', routes);
 
@@ -49,6 +53,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
+        console.log(err);
         res.render('error', {
             message: err.message,
             error: err

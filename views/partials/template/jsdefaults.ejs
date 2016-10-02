@@ -1,37 +1,22 @@
 <script>
+		var appData = {};
 		// Assign data to default globals
-		var appdata= <%- JSON.stringify(appdata) %>
-			allYearData= <%- JSON.stringify(allYearData) %>
-			databyID=<%- JSON.stringify(databyID) %>
-			dataByYear=<%- JSON.stringify(dataByYear) %>
-			fullListJSON=<%- JSON.stringify(fullList) %>
-			stormwaterJSON=<%- JSON.stringify(stormwaterJSON) %>
-			fullList = fullListJSON.mylist
-
-			chesterCreekWatershed=<%- JSON.stringify(chesterCreekWatershed) %>
-			futureLandUse =<%- JSON.stringify(futureLandUse) %>
-			currentLandUse_topo=<%- JSON.stringify(currentLandUse_topo) %>
-
-
-			startingValues = <%- JSON.stringify(_DOM) %>
-			serverVariables = <%- JSON.stringify(variables) %>
-			loc = <%- JSON.stringify(location) %>
-
-
-		/* Globals */
-		var nE=	startingValues.nE,
-			sW=	startingValues.sW,
-			mode= serverVariables.mode,
-			damagesCurrent= serverVariables.damagesCurrent,
-			damagesCompare= serverVariables.damagesCompare,
-			showCompareFeatures=startingValues.showCompareFeatures,
-			depthGridCurrent= serverVariables.depthGridCurrent,
-			currentAttribute=startingValues.fieldSelector,
-			damageIndexWidth= serverVariables.damageIndexWidth,
-			minimumDamageIndex= serverVariables.minimumDamageIndex,
-			maximumDamageIndex= serverVariables.maximumDamageIndex,
-			compareType = startingValues.compareType
-
+		appData.content = <%- JSON.stringify(content) %>
+		// add hazard data 
+		appData.hazardData = {};
+		appData.hazardData.allYear= <%- JSON.stringify(allYearData) %>
+		appData.hazardData.byID=<%- JSON.stringify(databyID) %>
+		appData.hazardData.byYear=<%- JSON.stringify(dataByYear) %>
+		appData.hazardData.fullList =<%- JSON.stringify(fullList) %>
+		// add layer data
+		appData.layerData = {};
+		appData.layerData.stormwaterJSON=<%- JSON.stringify(stormwaterJSON) %>
+		appData.layerData.chesterCreekWatershed=<%- JSON.stringify(chesterCreekWatershed) %>
+		appData.layerData.futureLandUse =<%- JSON.stringify(futureLandUse) %>
+		// add information about default selections
+		appData.defaults = defaults;
+		// file location (see domSettings.js)
+		loc = <%- JSON.stringify(location) %>
 
 		var delay = (function(){
 		  var timer = 0;
@@ -67,6 +52,14 @@
 
 	<script src="<%=location.dirCurrent%>js/config.js"></script>
 	<script src="<%=location.dirCurrent%>js/print.js"></script>
+	<script src="<%=location.dirCurrent%>js/layers/depthGrids.js"></script>
+	<script src="<%=location.dirCurrent%>js/layers/hazards.js"></script>
+	<script src="<%=location.dirCurrent%>js/layers/landUse.js"></script>
+	<script src="<%=location.dirCurrent%>js/charts.js"></script>
+	<script src="<%=location.dirCurrent%>js/helpTour.js"></script>
+	<script src="<%=location.dirCurrent%>js/sidebar.js"></script>
+	<script src="<%=location.dirCurrent%>js/leftMenu.js"></script>
+	<script src="<%=location.dirCurrent%>js/map.js"></script>
 	<script src="<%=location.dirCurrent%>js/app.js"></script>
 	
 
