@@ -8,7 +8,14 @@
 		<!-- /.panel-heading -->
 		<div id="basemapBody" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapHeading">
 			<div class="panel-body" style="padding-top:5px; padding-bottom:5px;">
-				<!-- will be appended by jQuery -->
+				<% for(var i=0; i<appdata.basemaps.length; i++) {%>
+					<div class="radio">
+						<label>
+							<input type="radio" name="basemapRadios" value="<%=appdata.basemaps[i].value%>"<% if (appdata.basemaps[i].value==_DOM.basemapRadios){%> checked<%}%> >
+							<%= appdata.basemaps[i].text %>
+						</label>
+					</div>
+				<% } %>
 			</div>
 			<!-- /.panel-body -->
 		</div>
