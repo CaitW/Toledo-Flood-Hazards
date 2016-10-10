@@ -2592,6 +2592,11 @@ function init() {
             .on('change', function() {
                 toggleLayers($(this))
             });
+        /*CHANGES TO FEMA SUBLAYER*/
+        $('input[name="FemaCheckboxes"]').on('change', function() {
+               var activeSublayers = $('[name="FemaCheckboxes"]:checked').map(function() { return parseInt($(this).val()) }).get()
+               fema.setLayers(activeSublayers);
+        });
         $(document)
             .on("click", "#openFullAttribution", function() {
                 $("#fullAttribution")
@@ -2655,6 +2660,11 @@ function init() {
                 setTimeout(function() {
                     makeChart = (chartType == 'histogram') ? makeHistogram() : (chartType == 'pie') ? makePie() : (chartType == 'line') ? makeLine() : null
                 }, 250);
+            });
+            // Changes in FEMA Sublayer
+            $('input[name="FemaCheckboxes"]').on('change', function() {
+                   var activeSublayers = $('[name="FemaCheckboxes"]:checked').map(function() { return parseInt($(this).val()) }).get();
+                   fema.setLayers(activeSublayers);
             });
         map.on("moveend, dragstart", destroyPop);
     };
@@ -2747,7 +2757,7 @@ function init() {
     ($('[name="layerCheckboxes"]:eq(4)')
         .is(':checked')) ? config.layers.watershed.addTo(map): null;
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', config.layers.depth, config.layers.stormwater, config.layers.landUse, config.layers.watershed, config.layers.streams];
+    allLayersList = ['floods', config.layers.depth, config.layers.stormwater, config.layers.landUse, config.layers.watershed, config.layers.streams, config.layers.fema];
     // Define the Initial Attribution Text
     updateMapAttribution();
     ///////////////////

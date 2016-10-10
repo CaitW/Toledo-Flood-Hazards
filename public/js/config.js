@@ -548,5 +548,12 @@ config.layers = {
         attribution: false,
         layerName: "landUse",
         className: "landUse"
+    }),
+    fema: new L.esri.dynamicMapLayer('http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer', {
+        layers: [28, 27, 12, 20],
+        className: '3',
+        opacity: ($('[name="layerCheckboxes"]:eq(6)').is(':checked')) ? 1 :0,
+        position: "back",
+        attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
     })
 }
