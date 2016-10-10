@@ -34,19 +34,13 @@
          "value":6,
          "floodEvent":100,
          "annualChance":1,
-         "defaultValue": false
-      },
-      {
-         "value":7,
-         "floodEvent":500,
-         "annualChance":0.2,
          "defaultValue": true
       }
    ],
    "scenarios":[
       {
          "value":1,
-         "width":7,
+         "width":6,
          "dg":20,
          "compare":32,
          "compare-landuse":32,
@@ -58,7 +52,7 @@
       },
       {
          "value":2,
-         "width":7,
+         "width":6,
          "dg":46,
          "compare":47,
          "compare-landuse":47,
@@ -69,7 +63,7 @@
       },
       {
          "value":3,
-         "width":7,
+         "width":6,
          "dg":72,
          "compare":3,
          "compare-landuse":2,
@@ -80,7 +74,7 @@
       },
       {
          "value":4,
-         "width":7,
+         "width":6,
          "dg":98,
          "compare":17,
          "compare-landuse":17,
