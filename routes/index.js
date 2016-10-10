@@ -5,7 +5,7 @@ var fs = require('fs-extra');
 var archiver = require('archiver');
 var pg = require('pg')
 var _ = require('underscore')
-var conString = "postgres://floodatlas_user:phUR5Fru0@localhost/floodatlas_db";
+var conString = "postgres://toledo_user:ge2Rapa@localhost/toledo_db";
 //var floodviewConn = "postgres://floodview_user:8pust8PHEb5a@localhost/floodview_db";
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -38,7 +38,7 @@ router.get('/dataPortal', function(req, res) {
             return console.error('could not connect to postgres', err);
         }
         else {
-            var query = client.query('SELECT * FROM datafiles WHERE project = \'duluth\'');
+            var query = client.query('SELECT * FROM datafiles WHERE project = \'toledo\'');
             query.on('row', function(row, result) {
                 result.addRow(row);
             });
