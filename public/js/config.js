@@ -1,5 +1,5 @@
 var config = {
-    serviceURL: "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer",
+    serviceURL: "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer",
     colors: {
         base: {
             BldgLossUS: ['#edf8b1', '#7fcdbb', '#1d91c0', '#225ea8', '#081c55'],
