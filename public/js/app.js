@@ -472,7 +472,7 @@ var pop = null;
 ////////////
 // Map.js //
 ////////////
-var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer";
+var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer";
 var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, currentBasemap, depth, stormWater, allLayersList;
 /////////////
 // Init.js //
@@ -657,7 +657,7 @@ function toggleLayers(checkbox) {
             toggleInMap();
             break;
         case 5:
-            changeOpacity();
+            toggleInMap();
             break;
     };
 }
@@ -3399,8 +3399,6 @@ function init() {
             url: serviceURL,
             className: '2',
             layers: [0],
-            opacity: ($('[name="layerCheckboxes"]:eq(4)')
-                .is(':checked')) ? 1 : 0,
             attribution: false,
             layerName: "streams"
         }),

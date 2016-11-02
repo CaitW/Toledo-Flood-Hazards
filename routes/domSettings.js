@@ -7,7 +7,7 @@ _DOM = {
     sublayers: ["CLU", "mains", "ditches", 28, 27, 12, 20],
     basemapRadios: 1,
     fieldSelector: "BldgDmgPct",
-    floodEventRadios: 7,
+    floodEventRadios: 6,
     showCompareFeatures: false,
     sW: [46.78912989119917, -92.1701431274414],
     nE: [46.86265591336103, -92.05856323242188],
@@ -22,7 +22,7 @@ function retrieveGlobals(x) {
     _globals['depthGridCurrent'] = appData.scenarios[x.scenarioSelector].dg + x.floodEventRadios
     _globals['damageIndexWidth'] = appData.scenarios[x.scenarioSelector].width
     _globals['minimumDamageIndex'] = appData.scenarios[x.scenarioSelector].udf + appData.floods[0].value
-    _globals['maximumDamageIndex'] = appData.scenarios[x.scenarioSelector].udf + appData.floods[6].value
+    _globals['maximumDamageIndex'] = appData.scenarios[x.scenarioSelector].udf + appData.floods[5].value
     _globals['sW'] = [46.78912989119917, -92.1701431274414]
     _globals['nE'] = [46.86265591336103, -92.05856323242188]
     _globals['mode'] = 'advanced'
