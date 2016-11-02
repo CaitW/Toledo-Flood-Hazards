@@ -1,5 +1,5 @@
 var config = {
-    serviceURL: "http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer",
+    serviceURL: "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/Toledo_MapService/MapServer",
     colors: {
         base: {
             BldgLossUS: ['#edf8b1', '#7fcdbb', '#1d91c0', '#225ea8', '#081c55'],
@@ -19,9 +19,7 @@ var config = {
             BldgLossUS_change: ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"],
             BldgDmgPct_change: ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"],
         },
-        landUse: d3.scale.ordinal()
-            .domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"])
-            .range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
+        landUse: d3.scale.ordinal().domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"]).range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"])
     },
     aliases: {
         BldgLossUS: "Damages (Thousands of $) ",
@@ -54,15 +52,13 @@ var config = {
                     }
                 },
                 before: function() {
-                    openUp = ($('#sidebar-wrapper')
-                            .width() == 0) ? $('#menu-toggle')
-                        .trigger('click') : null
+                    openUp = ($('#sidebar-wrapper').width() == 0) ? $('#menu-toggle').trigger('click') : null
                 }
             },
             "scenario": {
                 selector: "#scenario-list",
                 popOptions: {
-                    content: "The report analyzed the affect of different climate / landuse scenarios on flood events in Duluth. Choose any of the scenarios listed in this menu to view that dataset on the map.",
+                    content: "The report analyzed the affect of different climate / landuse scenarios on flood events in Toledo. Choose any of the scenarios listed in this menu to view that dataset on the map.",
                     placement: "bottom",
                     title: "Changing the Scenario",
                     delay: {
@@ -72,9 +68,7 @@ var config = {
                 },
                 focusEl: "#scenario-list .list-group-item",
                 before: function() {
-                    return ($("#dataBody")
-                            .is(":visible") != true) ? $("a[href='#dataBody']")
-                        .trigger('click') : null
+                    return ($("#dataBody").is(":visible") != true) ? $("a[href='#dataBody']").trigger('click') : null
                 }
             },
             "attribute": {
@@ -90,9 +84,7 @@ var config = {
                 },
                 focusEl: "#attributeBody .list-group-item",
                 before: function() {
-                    return ($("#attributeBody")
-                            .is(":visible") != true) ? $("a[href='#attributeBody']")
-                        .trigger('click') : null
+                    return ($("#attributeBody").is(":visible") != true) ? $("a[href='#attributeBody']").trigger('click') : null
                 }
             },
             "floodevent": {
@@ -107,9 +99,7 @@ var config = {
                 },
                 focusEl: "#floodEventBody .list-group-item",
                 before: function() {
-                    return ($("#floodEventBody")
-                            .is(":visible") != true) ? $("a[href='#floodEventBody']")
-                        .trigger('click') : null
+                    return ($("#floodEventBody").is(":visible") != true) ? $("a[href='#floodEventBody']").trigger('click') : null
                 }
             },
             "basemap": {
@@ -123,11 +113,8 @@ var config = {
                     }
                 },
                 before: function() {
-                    isVisible = ($("#basemapBody")
-                            .is(":visible") != true) ? $('a[href="#basemapBody"]')
-                        .trigger('click') : null
-                    return $('#sidebar-wrapper')
-                        .scrollTo("#basemapBody")
+                    isVisible = ($("#basemapBody").is(":visible") != true) ? $('a[href="#basemapBody"]').trigger('click') : null
+                    return $('#sidebar-wrapper').scrollTo("#basemapBody")
                 }
             },
             "layer": {
@@ -141,17 +128,14 @@ var config = {
                     }
                 },
                 before: function() {
-                    isVisible = ($("#layerBody")
-                            .is(":visible") != true) ? $('a[href="#layerBody"]')
-                        .trigger('click') : null
-                    $('#sidebar-wrapper')
-                        .scrollTo("#layerBody")
+                    isVisible = ($("#layerBody").is(":visible") != true) ? $('a[href="#layerBody"]').trigger('click') : null
+                    $('#sidebar-wrapper').scrollTo("#layerBody")
                 }
             },
             "share": {
                 selector: "#shareBody",
                 popOptions: {
-                    content: "Share the findings displayed on the Duluth Flood Hazard Visualizer with the world!<br>Print or Export your custom map view",
+                    content: "Share the findings displayed on the Toledo Flood Hazard Visualizer with the world!<br>Print or Export your custom map view",
                     placement: (startingValues.mobileDevice == true) ? "top" : "left",
                     delay: {
                         "show": 1000,
@@ -159,8 +143,7 @@ var config = {
                     }
                 },
                 before: function() {
-                    $('#sidebar-wrapper')
-                        .scrollTo("#shareBody")
+                    $('#sidebar-wrapper').scrollTo("#shareBody")
                 }
             },
             "map": {
@@ -175,12 +158,9 @@ var config = {
                 },
                 before: function() {},
                 after: function() {
-                    var y = $('.tourPop')
-                        .attr('id')
-                    $('#' + y + '')
-                        .css('top', '30%')
-                    $('#' + y + ' .arrow')
-                        .addClass('invisible')
+                    var y = $('.tourPop').attr('id')
+                    $('#' + y + '').css('top', '30%')
+                    $('#' + y + ' .arrow').addClass('invisible')
                 }
             },
             "legend": {
@@ -195,9 +175,7 @@ var config = {
                 },
                 focusEl: "#hazardLegendSVG",
                 before: function() {
-                    return ($("#floodHazardsPanel")
-                            .is(":visible") != true) ? $('a[href="#floodHazardsPanel"]')
-                        .trigger('click') : null
+                    return ($("#floodHazardsPanel").is(":visible") != true) ? $('a[href="#floodHazardsPanel"]').trigger('click') : null
                 }
             },
             "zoom": {
@@ -211,19 +189,14 @@ var config = {
                     }
                 },
                 before: function() {
-                    if ($('#wrapper')
-                        .hasClass('toggled') && (startingValues.mobileDevice == true)) {
-                        $('#menu-toggle')
-                            .trigger('click')
+                    if ($('#wrapper').hasClass('toggled') && (startingValues.mobileDevice == true)) {
+                        $('#menu-toggle').trigger('click')
                     }
                 },
                 after: function() {
-                    var y = $('.popover.tourPop')
-                        .attr('id');
-                    $('.popover.tourPop #' + y + '')
-                        .css('top', '30%')
-                    $('#' + y + ' .arrow')
-                        .addClass('invisible')
+                    var y = $('.popover.tourPop').attr('id');
+                    $('.popover.tourPop #' + y + '').css('top', '30%')
+                    $('#' + y + ' .arrow').addClass('invisible')
                 }
             },
             "stat": {
@@ -238,11 +211,8 @@ var config = {
                 },
                 focusEl: "#statsBody",
                 before: function() {
-                    isVisible = ($("#statsBody")
-                            .is(":visible") != true) ? $('a[href="#statsBody"]')
-                        .trigger('click') : null
-                    return $('#sidebar-wrapper')
-                        .scrollTo("#statsBody")
+                    isVisible = ($("#statsBody").is(":visible") != true) ? $('a[href="#statsBody"]').trigger('click') : null
+                    return $('#sidebar-wrapper').scrollTo("#statsBody")
                 }
             },
             "charts": {
@@ -257,17 +227,14 @@ var config = {
                 },
                 focusEl: "#statsBody",
                 before: function() {
-                    isVisible = ($("#chartsBody")
-                            .is(":visible") != true) ? $('a[href="#chartsBody"]')
-                        .trigger('click') : null
-                    return $('#sidebar-wrapper')
-                        .scrollTo("#chartsBody")
+                    isVisible = ($("#chartsBody").is(":visible") != true) ? $('a[href="#chartsBody"]').trigger('click') : null
+                    return $('#sidebar-wrapper').scrollTo("#chartsBody")
                 }
             },
             "mode": {
                 selector: "#modeBody .list-group",
                 popOptions: {
-                    content: "The Duluth Flood Hazard Visualizer allows you to interact with the data in two different ways: <ul><li><strong>Discover</strong>&mdash; allows new users to learn more about the dataset</li><li><strong>Analyze</strong>&mdash; allows experienced users draw conclusions based on the data</li></ul> Select either option from the mode menu to change the Visualizer's settings.",
+                    content: "The Toledo Flood Hazard Visualizer allows you to interact with the data in two different ways: <ul><li><strong>Discover</strong>&mdash; allows new users to learn more about the dataset</li><li><strong>Analyze</strong>&mdash; allows experienced users draw conclusions based on the data</li></ul> Select either option from the mode menu to change the Visualizer's settings.",
                     placement: "left",
                     delay: {
                         "show": 1000,
@@ -276,8 +243,7 @@ var config = {
                 },
                 focusEl: "#modeBody .list-group",
                 before: function() {
-                    $('#sidebar-wrapper')
-                        .scrollTo("#modeBody .list-group")
+                    $('#sidebar-wrapper').scrollTo("#modeBody .list-group")
                 }
             },
             "chart": {
@@ -292,9 +258,7 @@ var config = {
                 },
                 selector_standin: "#chart",
                 before: function() {
-                    return ($("#chart")
-                            .is(":visible") != true) ? $('#dataDistributionHeading a')
-                        .trigger('click') : null
+                    return ($("#chart").is(":visible") != true) ? $('#dataDistributionHeading a').trigger('click') : null
                 }
             },
             "classbreak": {
@@ -308,14 +272,10 @@ var config = {
                     }
                 },
                 before: function() {
-                    return ($("#chart")
-                            .is(":visible") != true) ? $('#dataDistributionHeading a')
-                        .trigger('click') : null
+                    return ($("#chart").is(":visible") != true) ? $('#dataDistributionHeading a').trigger('click') : null
                 },
                 after: function() {
-                    (startingValues.mobileDevice == false) ? $('.tourPop')
-                        .css("left", ($("#chartsvg")
-                            .width() / 2)): null
+                    (startingValues.mobileDevice == false) ? $('.tourPop').css("left", ($("#chartsvg").width() / 2)): null
                 }
             },
             "bar": {
@@ -329,9 +289,7 @@ var config = {
                     }
                 },
                 before: function() {
-                    return ($("#chart")
-                            .is(":visible") != true) ? $('#dataDistributionHeading a')
-                        .trigger('click') : null
+                    return ($("#chart").is(":visible") != true) ? $('#dataDistributionHeading a').trigger('click') : null
                 }
             },
             "circle": {
@@ -345,17 +303,11 @@ var config = {
                     }
                 },
                 before: function() {
-                    t = parseInt($('.colorful.symbols[r!=0]:first')
-                        .attr('id')
-                        .split('ID_')[1])
+                    t = parseInt($('.colorful.symbols[r!=0]:first').attr('id').split('ID_')[1])
                     map.setView(databyID[t].LatLng, 14)
                 },
                 after: function() {
-                    $('.tourPop')
-                        .css("left", "" + (parseFloat($('.tourPop')
-                            .position()
-                            .left) + parseFloat($('.colorful.symbols[r!=0]:first')
-                            .attr("r"))) + "px")
+                    $('.tourPop').css("left", "" + (parseFloat($('.tourPop').position().left) + parseFloat($('.colorful.symbols[r!=0]:first').attr("r"))) + "px")
                 }
             },
             "pop": {
@@ -369,9 +321,7 @@ var config = {
                     }
                 },
                 before: function() {
-                    openPop(parseInt($('.colorful.symbols[r!=0]:eq(0)')
-                        .attr('id')
-                        .split('ID_')[1]))
+                    openPop(parseInt($('.colorful.symbols[r!=0]:eq(0)').attr('id').split('ID_')[1]))
                 },
                 after: function() {
                     drawBox('.symbolPop')
@@ -388,9 +338,7 @@ var config = {
                     }
                 },
                 before: function() {
-                    isVisible = ($("#floodHazardsPanel")
-                            .is(":visible") != true) ? $('a[href="#floodHazardsPanel"]')
-                        .trigger('click') : null
+                    isVisible = ($("#floodHazardsPanel").is(":visible") != true) ? $('a[href="#floodHazardsPanel"]').trigger('click') : null
                 }
             },
             "displayPanel": {
@@ -405,8 +353,7 @@ var config = {
                     placement: (startingValues.mobileDevice == true) ? "bottom" : "left",
                 },
                 before: function() {
-                    $('#sidebar-wrapper')
-                        .scrollTo("#displayPanel ")
+                    $('#sidebar-wrapper').scrollTo("#displayPanel ")
                 }
             },
             "analyzePanel": {
@@ -420,8 +367,7 @@ var config = {
                     placement: (startingValues.mobileDevice == true) ? "top" : "left"
                 },
                 before: function() {
-                    $('#sidebar-wrapper')
-                        .scrollTo("#analyzePanel")
+                    $('#sidebar-wrapper').scrollTo("#analyzePanel")
                 }
             },
             "dataDistBtn": {
@@ -435,8 +381,7 @@ var config = {
                     }
                 },
                 before: function() {
-                    $('#sidebar-wrapper')
-                        .scrollTo("#dataDistributionHeading")
+                    $('#sidebar-wrapper').scrollTo("#dataDistributionHeading")
                 }
             }
         },
@@ -453,7 +398,6 @@ var config = {
         icons8: "Icons made by Icons8 from <a href='http://www.flaticon.com'>www.flaticon.com</a> is licensed by <a href='http://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
     }
 }
-
 config.basemaps = {
     satellite: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         layerName: "basemap",
@@ -471,8 +415,21 @@ config.basemaps = {
         attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     })
 };
+// new L.geoJson(stormwaterJSON, {
+//         style: {
+//             "color": "#3F51B5",
+//             "weight": 2,
+//             "opacity": 1,
+//             "lineCap": "round"
+//         },
+//         position: "back",
+//         attribution: false,
+//         layerName: "stormwater",
+//         className: "stormwater",
+//         smoothFactor: 3
+//     })
 config.layers = {
-    watershed: new L.geoJson(chesterCreekWatershed, {
+    watershed: new L.geoJson(silverCreekWatershed, {
         style: {
             "color": "#673AB7",
             "weight": 5,
@@ -484,75 +441,95 @@ config.layers = {
         layerName: "watershed",
         className: "watershed"
     }),
-    stormwater: new L.geoJson(stormwaterJSON, {
-        style: {
-            "color": "#3F51B5",
-            "weight": 2,
-            "opacity": 1,
-            "lineCap": "round"
-        },
-        position: "back",
-        attribution: false,
-        layerName: "stormwater",
-        className: "stormwater",
-        smoothFactor: 3
-    }),
+    stormwater: new L.layerGroup([L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterDitches_/Tiles/{z}/{x}/{y}.png', {
+        layerName: "ditches",
+        name: 'ditches'
+    }), L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterMains_/Tiles/{z}/{x}/{y}.png', {
+        layerName: "mains",
+        name: 'mains'
+    })]),
     depth: new L.esri.dynamicMapLayer({
         url: config.serviceURL,
         className: '2',
         layers: [depthGridCurrent],
-        opacity: ($('[name="layerCheckboxes"]:eq(1)')
-            .is(':checked')) ? 1 : 0,
+        opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
         attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
         layerName: "depth"
     }),
-    streams: new L.esri.dynamicMapLayer({
-        url: config.serviceURL,
-        className: '2',
-        layers: [0],
-        opacity: ($('[name="layerCheckboxes"]:eq(4)')
-            .is(':checked')) ? 1 : 0,
-        attribution: false,
-        layerName: "streams"
-    }),
-    landUse: new L.geoJson(futureLandUse, {
-        style: function(feature) {
-            var fillColor = "";
-            switch (feature.properties.reclassifi) {
-                case "commercial":
-                    fillColor = "#838faa";
-                    break;
-                case "green space":
-                    fillColor = "#00aa00";
-                    break;
-                case "industrial":
-                    fillColor = "#4d4d4d";
-                    break;
-                case "institutional campus":
-                    fillColor = "#ffaa7f";
-                    break;
-                case "other":
-                    fillColor = "#ff8e90";
-                    break;
-                case "residential":
-                    fillColor = "#fff47b";
-                    break;
-            }
-            return {
-                fillColor: fillColor,
-                fillOpacity: 0.4,
-                fill: true,
-                weight: 0
-            };
-        },
-        attribution: false,
-        layerName: "landUse",
-        className: "landUse"
-    }),
-    fema: new L.esri.dynamicMapLayer('http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer', {
+    landUse: new L.layerGroup([new L.geoJson(topojson.feature(futureLandUse, futureLandUse.objects.LU_TYPES), {
+            style: function(feature) {
+                var fillColor = "";
+                switch (feature.properties.reclassifi) {
+                    case "commercial":
+                        fillColor = "#838faa";
+                        break;
+                    case "green space":
+                        fillColor = "#00aa00";
+                        break;
+                    case "industrial":
+                        fillColor = "#4d4d4d";
+                        break;
+                    case "institutional campus":
+                        fillColor = "#ffaa7f";
+                        break;
+                    case "other":
+                        fillColor = "#ff8e90";
+                        break;
+                    case "residential":
+                        fillColor = "#fff47b";
+                        break;
+                }
+                return {
+                    fillColor: fillColor,
+                    fillOpacity: 0.4,
+                    fill: true,
+                    weight: 0
+                };
+            },
+            attribution: false,
+            layerName: "futureLandUse",
+            className: "landUse"
+        }),
+        new L.geoJson(topojson.feature(currentLandUse, currentLandUse.objects.LU_TYPES), {
+            style: function(feature) {
+                var fillColor = "";
+                switch (feature.properties.reclassifi) {
+                    case "commercial":
+                        fillColor = "#838faa";
+                        break;
+                    case "green space":
+                        fillColor = "#00aa00";
+                        break;
+                    case "industrial":
+                        fillColor = "#4d4d4d";
+                        break;
+                    case "institutional campus":
+                        fillColor = "#ffaa7f";
+                        break;
+                    case "other":
+                        fillColor = "#ff8e90";
+                        break;
+                    case "residential":
+                        fillColor = "#fff47b";
+                        break;
+                }
+                return {
+                    fillColor: fillColor,
+                    fillOpacity: 0.4,
+                    fill: true,
+                    weight: 0
+                };
+            },
+            attribution: false,
+            layerName: "currentLandUse",
+            className: "landUse"
+        })
+    ]),
+    fema: new L.esri.dynamicMapLayer({
+        url: "http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
         layers: [28, 27, 12, 20],
         className: '3',
-        opacity: ($('[name="layerCheckboxes"]:eq(6)').is(':checked')) ? 1 :0,
+        opacity: 1,
         position: "back",
         attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
     })

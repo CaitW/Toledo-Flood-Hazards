@@ -179,6 +179,7 @@ function toggleLayers(checkbox) {
             changeOpacity();
             break;
         case 2:
+            // if($("#stormWaterSublayers"))
             toggleInMap();
             break;
         case 3:
@@ -273,7 +274,7 @@ function getLink(obj) {
     // Place export string in input box
     $(obj)
         .attr('value', function() {
-            linkPlace = (window.location.hostname === "localhost") ? "/" : "/duluthfloodhazards/"
+            linkPlace = (window.location.hostname === "localhost") ? "/" : "/toledofloodhazards/"
             return '' + location.origin + '' + linkPlace + 'mapView/' + exportString + ''
         })
         // Show link input div
@@ -684,7 +685,7 @@ function style() {
             .transition()
             .duration(500)
             .attr('opacity', 0)
-            .text("Parcels in the Chester Creek watershed")
+            .text("Parcels in the Silver Creek watershed")
             .attr("transform", function() {
                 return "translate(" + (chartWidth / 2) + "," + (chartHeight + chartMargin.top) + ")"
             })
@@ -2748,7 +2749,6 @@ function init() {
     currentBasemap.addTo(basemap);
     // add raster layers
     config.layers.depth.addTo(map);
-    config.layers.streams.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
         .is(':checked')) ? config.layers.stormwater.addTo(map): null;
@@ -2757,7 +2757,7 @@ function init() {
     ($('[name="layerCheckboxes"]:eq(4)')
         .is(':checked')) ? config.layers.watershed.addTo(map): null;
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', config.layers.depth, config.layers.stormwater, config.layers.landUse, config.layers.watershed, config.layers.streams, config.layers.fema];
+    allLayersList = ['floods', config.layers.depth, config.layers.stormwater, config.layers.landUse, config.layers.watershed, config.layers.fema];
     // Define the Initial Attribution Text
     updateMapAttribution();
     ///////////////////

@@ -19,17 +19,14 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.locals.appdata = require('./data/appdata.json');
-
-app.locals.stormwaterJSON = require('./data/stormwater.json');
 app.locals.allYearData = require('./data/allYearData.json');
 app.locals.dataByYear = require('./data/dataByYear.json');
 app.locals.databyID = require('./data/databyID.json');
 app.locals.fullList = require('./data/fullList.json');
-app.locals.chesterCreekWatershed = require('./data/chesterCreek_watershed.json');
-app.locals.futureLandUse = require('./data/flu_simplified.json');
-app.locals.currentLandUse_topo = require('./data/flu_topo.json'); // TO DO: change to CLU
+app.locals.silverCreekWatershed = require('./data/silverCreekWatershed.json');
+app.locals.futureLandUse = require('./data/FLU_Reduced.json');
+app.locals.currentLandUse = require('./data/CLU_Reduced.json');
 console.log(app.get('env'))
 
 
@@ -53,6 +50,7 @@ if (app.get('env') === 'development') {
             message: err.message,
             error: err
         });
+        console.log(err);
     });
 }
 
@@ -69,4 +67,4 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-process.title = 'Duluth Flood Map';
+process.title = 'Toledo Flood Map';
