@@ -62,7 +62,7 @@ var helpData = {
     "scenario": {
         selector: "#scenario-list",
         popOptions: {
-            content: "The report analyzed the affect of different climate / landuse scenarios on flood events in Duluth. Choose any of the scenarios listed in this menu to view that dataset on the map.",
+            content: "The report analyzed the affect of different climate / landuse scenarios on flood events in Toledo. Choose any of the scenarios listed in this menu to view that dataset on the map.",
             placement: "bottom",
             title: "Changing the Scenario",
             delay: {
@@ -151,7 +151,7 @@ var helpData = {
     "share": {
         selector: "#shareBody",
         popOptions: {
-            content: "Share the findings displayed on the Duluth Flood Hazard Visualizer with the world!<br>Print or Export your custom map view",
+            content: "Share the findings displayed on the Toledo Flood Hazard Visualizer with the world!<br>Print or Export your custom map view",
             placement: (startingValues.mobileDevice == true) ? "top" : "left",
             delay: {
                 "show": 1000,
@@ -267,7 +267,7 @@ var helpData = {
     "mode": {
         selector: "#modeBody .list-group",
         popOptions: {
-            content: "The Duluth Flood Hazard Visualizer allows you to interact with the data in two different ways: <ul><li><strong>Discover</strong>&mdash; allows new users to learn more about the dataset</li><li><strong>Analyze</strong>&mdash; allows experienced users draw conclusions based on the data</li></ul> Select either option from the mode menu to change the Visualizer's settings.",
+            content: "The Toledo Flood Hazard Visualizer allows you to interact with the data in two different ways: <ul><li><strong>Discover</strong>&mdash; allows new users to learn more about the dataset</li><li><strong>Analyze</strong>&mdash; allows experienced users draw conclusions based on the data</li></ul> Select either option from the mode menu to change the Visualizer's settings.",
             placement: "left",
             delay: {
                 "show": 1000,
@@ -472,7 +472,7 @@ var pop = null;
 ////////////
 // Map.js //
 ////////////
-var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer";
+var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/Toledo_MapServiceFinal/MapServer";
 var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, currentBasemap, depth, stormWater, allLayersList;
 /////////////
 // Init.js //
@@ -1054,7 +1054,7 @@ function getLink(obj) {
     // Place export string in input box
     $(obj)
         .attr('value', function() {
-            linkPlace = (window.location.hostname === "localhost") ? "/" : "/duluthfloodhazards/"
+            linkPlace = (window.location.hostname === "localhost") ? "/" : "/toledofloodhazards/"
             return '' + location.origin + '' + linkPlace + 'mapView/' + exportString + ''
         })
         // Show link input div
@@ -1465,7 +1465,7 @@ function style() {
             .transition()
             .duration(500)
             .attr('opacity', 0)
-            .text("Parcels in the Chester Creek watershed")
+            .text("Parcels in the Silver Creek watershed")
             .attr("transform", function() {
                 return "translate(" + (chartWidth / 2) + "," + (chartHeight + chartMargin.top) + ")"
             })
@@ -3361,82 +3361,118 @@ function init() {
         .on('change', changeBasemap);
     // Define layers
     layers = {
-        watershed: new L.geoJson(chesterCreekWatershed, {
-            style: {
-                "color": "#673AB7",
-                "weight": 5,
-                "opacity": 1,
-                "lineCap": "round",
-                "fill": false
-            },
-            attribution: false,
-            layerName: "watershed",
-            className: "watershed"
-        }),
-        stormwater: new L.geoJson(stormwaterJSON, {
-            style: {
-                "color": "#3F51B5",
-                "weight": 2,
-                "opacity": 1,
-                "lineCap": "round"
-            },
-            position: "back",
-            attribution: false,
-            layerName: "stormwater",
-            className: "stormwater",
-            smoothFactor: 3
-        }),
-        depth: new L.esri.dynamicMapLayer({
-            url: serviceURL,
-            className: '2',
-            layers: [depthGridCurrent],
-            opacity: ($('[name="layerCheckboxes"]:eq(1)')
-                .is(':checked')) ? 1 : 0,
-            attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
-            layerName: "depth"
-        }),
-        streams: new L.esri.dynamicMapLayer({
-            url: serviceURL,
-            className: '2',
-            layers: [0],
-            attribution: false,
-            layerName: "streams"
-        }),
-        landUse: new L.geoJson(futureLandUse, {
-            style: function(feature) {
-                var fillColor = "";
-                switch (feature.properties.reclassifi) {
-                    case "commercial":
-                        fillColor = "#838faa";
-                        break;
-                    case "green space":
-                        fillColor = "#00aa00";
-                        break;
-                    case "industrial":
-                        fillColor = "#4d4d4d";
-                        break;
-                    case "institutional campus":
-                        fillColor = "#ffaa7f";
-                        break;
-                    case "other":
-                        fillColor = "#ff8e90";
-                        break;
-                    case "residential":
-                        fillColor = "#fff47b";
-                        break;
-                }
-                return {
-                    fillColor: fillColor,
-                    fillOpacity: 0.4,
-                    fill: true,
-                    weight: 0
-                };
-            },
-            attribution: false,
-            layerName: "landUse",
-            className: "landUse"
-        })
-    };
+       watershed: new L.geoJson(silverCreekWatershed, {
+           style: {
+               "color": "#673AB7",
+               "weight": 5,
+               "opacity": 1,
+               "lineCap": "round",
+               "fill": false
+           },
+           attribution: false,
+           layerName: "watershed",
+           className: "watershed"
+       }),
+       stormwater: new L.geoJson(stormwaterJSON, {
+           style: {
+               "color": "#3F51B5",
+               "weight": 2,
+               "opacity": 1,
+               "lineCap": "round"
+           },
+           position: "back",
+           attribution: false,
+           layerName: "stormwater",
+           className: "stormwater",
+           smoothFactor: 3
+       }),
+       depth: new L.esri.dynamicMapLayer({
+           url: serviceURL,
+           className: '2',
+           layers: [depthGridCurrent],
+           opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
+           attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
+           layerName: "depth"
+       }),
+       landUse: new L.layerGroup([new L.geoJson(topojson.feature(futureLandUse, futureLandUse.objects.LU_TYPES), {
+               style: function(feature) {
+                   var fillColor = "";
+                   switch (feature.properties.reclassifi) {
+                       case "commercial":
+                           fillColor = "#838faa";
+                           break;
+                       case "green space":
+                           fillColor = "#00aa00";
+                           break;
+                       case "industrial":
+                           fillColor = "#4d4d4d";
+                           break;
+                       case "institutional campus":
+                           fillColor = "#ffaa7f";
+                           break;
+                       case "other":
+                           fillColor = "#ff8e90";
+                           break;
+                       case "residential":
+                           fillColor = "#fff47b";
+                           break;
+                   }
+                   return {
+                       fillColor: fillColor,
+                       fillOpacity: 0.4,
+                       fill: true,
+                       weight: 0
+                   };
+               },
+               attribution: false,
+               layerName: "futureLandUse",
+               className: "landUse"
+           }),
+           new L.geoJson(topojson.feature(currentLandUse, currentLandUse.objects.LU_TYPES), {
+               style: function(feature) {
+                   var fillColor = "";
+                   switch (feature.properties.reclassifi) {
+                       case "commercial":
+                           fillColor = "#838faa";
+                           break;
+                       case "green space":
+                           fillColor = "#00aa00";
+                           break;
+                       case "industrial":
+                           fillColor = "#4d4d4d";
+                           break;
+                       case "institutional campus":
+                           fillColor = "#ffaa7f";
+                           break;
+                       case "other":
+                           fillColor = "#ff8e90";
+                           break;
+                       case "residential":
+                           fillColor = "#fff47b";
+                           break;
+                   }
+                   return {
+                       fillColor: fillColor,
+                       fillOpacity: 0.4,
+                       fill: true,
+                       weight: 0
+                   };
+               },
+               attribution: false,
+               layerName: "currentLandUse",
+               className: "landUse"
+           })
+       ]),
+       fema: new L.esri.dynamicMapLayer({
+           url: "http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
+           layers: [28, 27, 12, 20],
+           className: '3',
+           opacity: 1,
+           position: "back",
+           attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
+       })
+   };
+
     // when our depth grids load, we want to add a class to the DOM element containing the image
     // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
     layers.depth.on("load", function() {
@@ -3450,7 +3486,6 @@ function init() {
     });
     // add raster layers
     layers.depth.addTo(map);
-    layers.streams.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
         .is(':checked')) ? layers.stormwater.addTo(map): null;
@@ -3459,7 +3494,7 @@ function init() {
     ($('[name="layerCheckboxes"]:eq(4)')
         .is(':checked')) ? layers.watershed.addTo(map): null;
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.streams];
+    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed];
     // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]')
         .on('change', function() {

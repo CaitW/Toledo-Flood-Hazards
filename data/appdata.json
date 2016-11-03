@@ -157,11 +157,6 @@
          "name":"watershed",
          "longName":"Watershed Boundary",
          "value":4
-      },
-      {
-         "name":"streams",
-         "longName":"Streams",
-         "value":5
       }
    ],
    "floodAttributes":[
