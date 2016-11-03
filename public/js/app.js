@@ -3361,117 +3361,113 @@ function init() {
         .on('change', changeBasemap);
     // Define layers
     layers = {
-       watershed: new L.geoJson(silverCreekWatershed, {
-           style: {
-               "color": "#673AB7",
-               "weight": 5,
-               "opacity": 1,
-               "lineCap": "round",
-               "fill": false
-           },
-           attribution: false,
-           layerName: "watershed",
-           className: "watershed"
-       }),
-       stormwater: new L.geoJson(stormwaterJSON, {
-           style: {
-               "color": "#3F51B5",
-               "weight": 2,
-               "opacity": 1,
-               "lineCap": "round"
-           },
-           position: "back",
-           attribution: false,
-           layerName: "stormwater",
-           className: "stormwater",
-           smoothFactor: 3
-       }),
-       depth: new L.esri.dynamicMapLayer({
-           url: serviceURL,
-           className: '2',
-           layers: [depthGridCurrent],
-           opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
-           attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
-           layerName: "depth"
-       }),
-       landUse: new L.layerGroup([new L.geoJson(topojson.feature(futureLandUse, futureLandUse.objects.LU_TYPES), {
-               style: function(feature) {
-                   var fillColor = "";
-                   switch (feature.properties.reclassifi) {
-                       case "commercial":
-                           fillColor = "#838faa";
-                           break;
-                       case "green space":
-                           fillColor = "#00aa00";
-                           break;
-                       case "industrial":
-                           fillColor = "#4d4d4d";
-                           break;
-                       case "institutional campus":
-                           fillColor = "#ffaa7f";
-                           break;
-                       case "other":
-                           fillColor = "#ff8e90";
-                           break;
-                       case "residential":
-                           fillColor = "#fff47b";
-                           break;
-                   }
-                   return {
-                       fillColor: fillColor,
-                       fillOpacity: 0.4,
-                       fill: true,
-                       weight: 0
-                   };
-               },
-               attribution: false,
-               layerName: "futureLandUse",
-               className: "landUse"
-           }),
-           new L.geoJson(topojson.feature(currentLandUse, currentLandUse.objects.LU_TYPES), {
-               style: function(feature) {
-                   var fillColor = "";
-                   switch (feature.properties.reclassifi) {
-                       case "commercial":
-                           fillColor = "#838faa";
-                           break;
-                       case "green space":
-                           fillColor = "#00aa00";
-                           break;
-                       case "industrial":
-                           fillColor = "#4d4d4d";
-                           break;
-                       case "institutional campus":
-                           fillColor = "#ffaa7f";
-                           break;
-                       case "other":
-                           fillColor = "#ff8e90";
-                           break;
-                       case "residential":
-                           fillColor = "#fff47b";
-                           break;
-                   }
-                   return {
-                       fillColor: fillColor,
-                       fillOpacity: 0.4,
-                       fill: true,
-                       weight: 0
-                   };
-               },
-               attribution: false,
-               layerName: "currentLandUse",
-               className: "landUse"
-           })
-       ]),
-       fema: new L.esri.dynamicMapLayer({
-           url: "http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
-           layers: [28, 27, 12, 20],
-           className: '3',
-           opacity: 1,
-           position: "back",
-           attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
-       })
-   };
+        watershed: new L.geoJson(silverCreekWatershed, {
+            style: {
+                "color": "#673AB7",
+                "weight": 5,
+                "opacity": 1,
+                "lineCap": "round",
+                "fill": false
+            },
+            attribution: false,
+            layerName: "watershed",
+            className: "watershed"
+        }),
+        stormwater: new L.layerGroup([L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterDitches_/Tiles/{z}/{x}/{y}.png', {
+            layerName: "ditches",
+            name: 'ditches'
+        }), L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterMains_/Tiles/{z}/{x}/{y}.png', {
+            layerName: "mains",
+            name: 'mains'
+        })]),
+        depth: new L.esri.dynamicMapLayer({
+            url: serviceURL,
+            className: '2',
+            layers: [depthGridCurrent],
+            opacity: ($('[name="layerCheckboxes"]:eq(1)').is(':checked')) ? 1 : 0,
+            attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
+            layerName: "depth"
+        }),
+        landUse: new L.layerGroup([new L.geoJson(topojson.feature(futureLandUse, futureLandUse.objects.LU_TYPES), {
+                style: function(feature) {
+                    var fillColor = "";
+                    switch (feature.properties.reclassifi) {
+                        case "commercial":
+                            fillColor = "#838faa";
+                            break;
+                        case "green space":
+                            fillColor = "#00aa00";
+                            break;
+                        case "industrial":
+                            fillColor = "#4d4d4d";
+                            break;
+                        case "institutional campus":
+                            fillColor = "#ffaa7f";
+                            break;
+                        case "other":
+                            fillColor = "#ff8e90";
+                            break;
+                        case "residential":
+                            fillColor = "#fff47b";
+                            break;
+                    }
+                    return {
+                        fillColor: fillColor,
+                        fillOpacity: 0.4,
+                        fill: true,
+                        weight: 0
+                    };
+                },
+                attribution: false,
+                layerName: "futureLandUse",
+                className: "landUse"
+            }),
+            new L.geoJson(topojson.feature(currentLandUse, currentLandUse.objects.LU_TYPES), {
+                style: function(feature) {
+                    var fillColor = "";
+                    switch (feature.properties.reclassifi) {
+                        case "commercial":
+                            fillColor = "#838faa";
+                            break;
+                        case "green space":
+                            fillColor = "#00aa00";
+                            break;
+                        case "industrial":
+                            fillColor = "#4d4d4d";
+                            break;
+                        case "institutional campus":
+                            fillColor = "#ffaa7f";
+                            break;
+                        case "other":
+                            fillColor = "#ff8e90";
+                            break;
+                        case "residential":
+                            fillColor = "#fff47b";
+                            break;
+                    }
+                    return {
+                        fillColor: fillColor,
+                        fillOpacity: 0.4,
+                        fill: true,
+                        weight: 0
+                    };
+                },
+                attribution: false,
+                layerName: "currentLandUse",
+                className: "landUse"
+            })
+        ]),
+        fema: new L.esri.dynamicMapLayer({
+            url: "http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
+            layers: [28, 27, 12, 20],
+            className: '3',
+            opacity: 1,
+            position: "back",
+            attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
+        })
+    };
+
+
 
     // when our depth grids load, we want to add a class to the DOM element containing the image
     // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers

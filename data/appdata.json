@@ -146,17 +146,76 @@
       {
          "name":"stormDrains",
          "longName":"Storm Water Network",
-         "value":2
+         "value":2,
+         "sublayerID":"stormWaterSublayers",
+         "sublayerName":"stormWaterCheckboxes",
+         "sublayers":[
+
+            {
+               "longName":"Storm Water Mains",
+               "value":"mains",
+               "type": "checkbox"
+            },
+            {
+               "longName":"Storm Water Ditches",
+               "value":"ditches",
+               "type": "checkbox"
+            }
+         ]
       },
       {
          "name":"landUse",
-         "longName":"Future Land Use",
-         "value":3
+         "longName":"Land Use",
+         "value":3,
+         "sublayerID":"landUseSublayers",
+         "sublayerName":"landUseRadios",
+         "sublayers":[
+
+            {
+               "longName":"Current Land Use",
+               "value":"CLU",
+               "type": "radio"
+            },
+            {
+               "longName":"Future Land Use",
+               "value":"FLU",
+               "type": "radio"
+            }
+         ]
       },
       {
          "name":"watershed",
          "longName":"Watershed Boundary",
-         "value":4
+         "value":5
+      },
+      {
+         "name":"fema",
+         "longName":"FEMA National Flood Hazard Layer",
+         "value":6,
+         "sublayerID":"FEMASublayers",
+         "sublayerName":"FemaCheckboxes",
+         "sublayers":[
+            {
+               "longName":"Flood Hazard Zones",
+               "value":28,
+               "type": "checkbox"
+            },
+            {
+               "longName":"Flood Hazard Boundaries",
+               "value":27,
+               "type": "checkbox"
+            },
+            {
+               "longName":"High Water Marks",
+               "value":12,
+               "type": "checkbox"
+            },
+            {
+               "longName":"Water Lines",
+               "value":20,
+               "type": "checkbox"
+            }
+         ]
       }
    ],
    "floodAttributes":[
