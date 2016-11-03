@@ -481,7 +481,7 @@ var landUseCheck, watershedCheck, stormWaterCheck;
 ////////////
 // Custom // 
 ////////////
-var layers;
+var layers, sublayers;
 var landUseColors = d3.scale.ordinal()
     .domain(["Commercial", "Green Space", "Industrial", "Institutional Campus", "Other", "Residential"])
     .range(["#838faa", "#00aa00", "#4d4d4d", "#ffaa7f", "#ff8e90", "#fff47b"]);
@@ -605,6 +605,56 @@ function changeBasemap() {
         .val();
     currentBasemap.addTo(basemap);
 }
+
+function toggleSubLayers(sublayerInput) {
+    function setStormwaterSublayers() {
+        layers.stormwater.clearLayers();
+        $("[name='stormWaterCheckboxes']").each(function(i, input) {
+            if ($(input).is(":checked")) {
+                var subLayerName = $(input).attr("value");
+                layers.stormwater.addLayer(sublayers.stormwater[subLayerName]);
+            }
+        });
+        console.log(layers.stormwater.getLayers());
+    };
+
+    function setLandUseSublayers() {
+        layers.landUse.clearLayers();
+        $("[name='landUseRadios']").each(function(i, input) {
+            if ($(input).is(":checked")) {
+                var subLayerName = $(input).attr("value");
+                layers.landUse.addLayer(sublayers.landUse[subLayerName]);
+            }
+        });
+    }
+
+    function setFemaSublayers() {
+        var sublayerArray = [];
+        $("[name='FemaCheckboxes']").each(function(i, input) {
+            if ($(input).is(":checked")) {
+                sublayerArray.push($(input).attr("value"));
+            }
+        });
+        layers.fema.setLayers(sublayerArray);
+    }
+    switch ($(sublayerInput).attr("name")) {
+        case "stormWaterCheckboxes":
+            setStormwaterSublayers();
+            break;
+        case "landUseRadios":
+            setLandUseSublayers();
+            break;
+        case "FemaCheckboxes":
+            setFemaSublayers();
+            break;
+        default:
+            setStormwaterSublayers();
+            setLandUseSublayers();
+            setFemaSublayers();
+            break;
+    }
+}
+
 // Dispatch Layer Display Changes on checkbox toggle
 function toggleLayers(checkbox) {
     var layerIndex = parseInt($(checkbox)
@@ -3373,13 +3423,7 @@ function init() {
             layerName: "watershed",
             className: "watershed"
         }),
-        stormwater: new L.layerGroup([L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterDitches_/Tiles/{z}/{x}/{y}.png', {
-            layerName: "ditches",
-            name: 'ditches'
-        }), L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterMains_/Tiles/{z}/{x}/{y}.png', {
-            layerName: "mains",
-            name: 'mains'
-        })]),
+        stormwater: new L.layerGroup(),
         depth: new L.esri.dynamicMapLayer({
             url: serviceURL,
             className: '2',
@@ -3388,41 +3432,30 @@ function init() {
             attribution: "Depth Grid &mdash; ASFPM Flood Science Center",
             layerName: "depth"
         }),
-        landUse: new L.layerGroup([new L.geoJson(topojson.feature(futureLandUse, futureLandUse.objects.LU_TYPES), {
-                style: function(feature) {
-                    var fillColor = "";
-                    switch (feature.properties.reclassifi) {
-                        case "commercial":
-                            fillColor = "#838faa";
-                            break;
-                        case "green space":
-                            fillColor = "#00aa00";
-                            break;
-                        case "industrial":
-                            fillColor = "#4d4d4d";
-                            break;
-                        case "institutional campus":
-                            fillColor = "#ffaa7f";
-                            break;
-                        case "other":
-                            fillColor = "#ff8e90";
-                            break;
-                        case "residential":
-                            fillColor = "#fff47b";
-                            break;
-                    }
-                    return {
-                        fillColor: fillColor,
-                        fillOpacity: 0.4,
-                        fill: true,
-                        weight: 0
-                    };
-                },
-                attribution: false,
-                layerName: "futureLandUse",
-                className: "landUse"
+        landUse: new L.layerGroup(),
+        fema: new L.esri.dynamicMapLayer({
+            url: "http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
+            layers: [28, 27, 12, 20],
+            className: '3',
+            opacity: 1,
+            position: "back",
+            attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
+        })
+    };
+
+    sublayers = {
+        stormwater: {
+            ditches: L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterDitches_/Tiles/{z}/{x}/{y}.png', {
+                layerName: "ditches",
+                name: 'ditches'
             }),
-            new L.geoJson(topojson.feature(currentLandUse, currentLandUse.objects.LU_TYPES), {
+            mains: L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterMains_/Tiles/{z}/{x}/{y}.png', {
+                layerName: "mains",
+                name: 'mains'
+            })
+        },
+        landUse: {
+            CLU: new L.geoJson(topojson.feature(currentLandUse, currentLandUse.objects.LU_TYPES), {
                 style: function(feature) {
                     var fillColor = "";
                     switch (feature.properties.reclassifi) {
@@ -3455,19 +3488,43 @@ function init() {
                 attribution: false,
                 layerName: "currentLandUse",
                 className: "landUse"
+            }),
+            FLU: new L.geoJson(topojson.feature(futureLandUse, futureLandUse.objects.LU_TYPES), {
+                style: function(feature) {
+                    var fillColor = "";
+                    switch (feature.properties.reclassifi) {
+                        case "commercial":
+                            fillColor = "#838faa";
+                            break;
+                        case "green space":
+                            fillColor = "#00aa00";
+                            break;
+                        case "industrial":
+                            fillColor = "#4d4d4d";
+                            break;
+                        case "institutional campus":
+                            fillColor = "#ffaa7f";
+                            break;
+                        case "other":
+                            fillColor = "#ff8e90";
+                            break;
+                        case "residential":
+                            fillColor = "#fff47b";
+                            break;
+                    }
+                    return {
+                        fillColor: fillColor,
+                        fillOpacity: 0.4,
+                        fill: true,
+                        weight: 0
+                    };
+                },
+                attribution: false,
+                layerName: "futureLandUse",
+                className: "landUse"
             })
-        ]),
-        fema: new L.esri.dynamicMapLayer({
-            url: "http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
-            layers: [28, 27, 12, 20],
-            className: '3',
-            opacity: 1,
-            position: "back",
-            attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
-        })
+        }
     };
-
-
 
     // when our depth grids load, we want to add a class to the DOM element containing the image
     // this will allow us to style it so that it always sits underneath the hazard points, but above all other layers
@@ -3489,13 +3546,18 @@ function init() {
         .is(':checked')) ? layers.landUse.addTo(map): null;
     ($('[name="layerCheckboxes"]:eq(4)')
         .is(':checked')) ? layers.watershed.addTo(map): null;
+    // add sublayers to layers
+    toggleSubLayers();
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed];
+    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.fema];
     // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]')
         .on('change', function() {
             toggleLayers($(this))
         });
+    $(".subLayer").find("input").on("change", function (e) {
+        toggleSubLayers(this);
+    });
     // Define the Initial Attribution Text
     updateMapAttribution();
     $(document)
@@ -3602,12 +3664,12 @@ function init() {
             currentAttribute = $(this)
                 .val()
             handleStyle()
-        })
+        });
     $('#fieldSelector')
         .on("change", function() {
             currentAttribute = getCurrentAttribute()
             handleStyle();
-        })
+        });
 
     function handleScenarioChanges() {
         damagesCurrent = getDamagesIndex(),
