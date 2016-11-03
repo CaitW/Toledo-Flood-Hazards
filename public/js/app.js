@@ -3458,7 +3458,7 @@ function init() {
             CLU: new L.geoJson(topojson.feature(currentLandUse, currentLandUse.objects.LU_TYPES), {
                 style: function(feature) {
                     var fillColor = "";
-                    switch (feature.properties.reclassifi) {
+                    switch (feature.properties.Lu_Sum.toLowerCase()) {
                         case "commercial":
                             fillColor = "#838faa";
                             break;
@@ -3492,7 +3492,7 @@ function init() {
             FLU: new L.geoJson(topojson.feature(futureLandUse, futureLandUse.objects.LU_TYPES), {
                 style: function(feature) {
                     var fillColor = "";
-                    switch (feature.properties.reclassifi) {
+                    switch (feature.properties.Lu_Sum.toLowerCase()) {
                         case "commercial":
                             fillColor = "#838faa";
                             break;
@@ -3535,7 +3535,9 @@ function init() {
         }
     });
     layers.landUse.on("add", function() {
-        layers.landUse.bringToBack();
+        $.each(layers.landUse.getLayers(), function (i, l) {
+            l.bringToBack();
+        });
     });
     // add raster layers
     layers.depth.addTo(map);

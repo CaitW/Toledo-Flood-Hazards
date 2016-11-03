@@ -186,12 +186,12 @@
       {
          "name":"watershed",
          "longName":"Watershed Boundary",
-         "value":5
+         "value":4
       },
       {
          "name":"fema",
          "longName":"FEMA National Flood Hazard Layer",
-         "value":6,
+         "value":5,
          "sublayerID":"FEMASublayers",
          "sublayerName":"FemaCheckboxes",
          "sublayers":[
