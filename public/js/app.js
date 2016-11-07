@@ -472,7 +472,7 @@ var pop = null;
 ////////////
 // Map.js //
 ////////////
-var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/Toledo_MapServiceFinal/MapServer";
+var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/toledo_2d_mapservice/MapServer";
 var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, currentBasemap, depth, stormWater, allLayersList;
 /////////////
 // Init.js //
