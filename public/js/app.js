@@ -1620,11 +1620,11 @@ function style() {
             })
             .attr("stroke-width", 0);
         // make sure that the smallest symbol has a stroke to make it visible on light backgrounds
-        d3.selectAll('.symbols')
-            .filter(function(d, i) {
-                return (pickData(d) != 0 && pickData(d) < breaks[1]);
-            })
-            .classed("stroke-small-symbols", true)
+        // d3.selectAll('.symbols')
+        //     .filter(function(d, i) {
+        //         return (pickData(d) != 0 && pickData(d) < breaks[1]);
+        //     })
+        //     .classed("stroke-small-symbols", true)
         makeTicks();
     }
 }
@@ -3780,6 +3780,10 @@ function init() {
             return '' + d + '-highlighter highlighter'
         })
         .on('click', endTour);
+
+    $("#helpTourEnd").on("click", function () {
+        helpTour.end();
+    });
 }
 $(document)
     .ready(function() {
