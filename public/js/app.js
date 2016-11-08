@@ -3450,7 +3450,6 @@ function init() {
     });
     // add raster layers
     layers.depth.addTo(map);
-    layers.streams.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
         .is(':checked')) ? layers.stormwater.addTo(map): null;
