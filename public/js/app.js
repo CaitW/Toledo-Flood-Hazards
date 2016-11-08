@@ -472,7 +472,7 @@ var pop = null;
 ////////////
 // Map.js //
 ////////////
-var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService_Final/MapServer";
+var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/NOAA_ECON/duluth_2d_mapservice/MapServer";
 var siteBounds, map, path, satellite, toner, terrain, basemap, basemapList, currentBasemap, depth, stormWater, allLayersList;
 /////////////
 // Init.js //
@@ -1103,7 +1103,9 @@ function ScaleEm(x, y, z) {
     var jenks = function() {
         dom = ss.jenks(population.map(function(d) {
             return +d;
-        }), 4)
+        }), 4);
+        dom[0] = 0;
+        console.log(dom);
         var scale = d3.scale.threshold()
             .domain(dom)
             .range(jenksColors[attribute]);
@@ -2164,7 +2166,7 @@ function makePie() {
 }
 
 function makeLine() {
-    floods = ['2yr', '5yr', '10yr', '25yr', '50yr', '100yr', '500yr', '2yr', '5yr', '10yr', '25yr', '50yr', '100yr', '500yr', '2yr', '5yr', '10yr', '25yr', '50yr', '100yr', '500yr', '2yr', '5yr', '10yr', '25yr', '50yr', '100yr', '500yr']
+    floods = ['2yr', '5yr', '10yr', '25yr', '50yr', '100yr', '2yr', '5yr', '10yr', '25yr', '50yr', '100yr', '2yr', '5yr', '10yr', '25yr', '50yr', '100yr','2yr', '5yr', '10yr', '25yr', '50yr', '100yr']
     chartColors = ['#fcc200', '#000080', '#14cad3', '#d1e231']
     scenarios = ['1. Current Precipitation & Land Use', '2. Future Precipitation & Land Use', '3. Current Precipitation with Green Infrastructure', '4. Future Precipitation with Green Infrastructure']
     var margin = {
@@ -2508,7 +2510,7 @@ function keepInView() {
 function popupLineChart(allPointData, popAttr) {
     popAttr = ((popAttr == undefined) || (popAttr == null)) ? currentAttribute : popAttr
     aaallPointData = allPointData
-    floods = ['2yr', '5yr', '10yr', '25yr', '50yr', '100yr', '500yr']
+    floods = ['2yr', '5yr', '10yr', '25yr', '50yr', '100yr']
     chartColors = ['#fcc200', '#000080', '#14cad3', '#d1e231']
     scenarios = ['1. Current Precip & Land Use', '2. Future Precip & Land Use', '3. Current Precip with Green Infrastructure', '4. Future Precip with Green Infrastructure']
     var margin = {
