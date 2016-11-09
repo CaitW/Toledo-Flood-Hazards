@@ -1054,7 +1054,7 @@ function getLink(obj) {
     // Place export string in input box
     $(obj)
         .attr('value', function() {
-            linkPlace = (window.location.hostname === "localhost") ? "/" : "/duluthfloodhazards/"
+            linkPlace = (window.location.hostname === "localhost") ? "/" : "/duluthfloodhazards_2d/"
             return '' + location.origin + '' + linkPlace + 'mapView/' + exportString + ''
         })
         // Show link input div

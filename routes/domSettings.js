@@ -33,17 +33,17 @@ exports.floodAtlasData = function(req) {
     var md = new MobileDetect(req.headers['user-agent']);
     var isMobile = (md.mobile() == null) ? false : true;
     x['mobileDevice'] = isMobile
-    x['theLoc'] = (req.hostname == 'localhost') ? "/" : "/asfpm/duluth_node/public/"
+    x['theLoc'] = (req.hostname == 'localhost') ? "/" : "/asfpm/duluth_node_2d/public/"
     x['params'] = req
     return x
 }
 exports.getData = function(req, queryString) {
     var md = new MobileDetect(req.headers['user-agent']);
     var isMobile = (md.mobile() == null) ? false : true;
-    var p = (req.hostname == 'localhost') ? "/" : "/asfpm/duluth_node/public/" //Setting File Locations
+    var p = (req.hostname == 'localhost') ? "/" : "/asfpm/duluth_node_2d/public/" //Setting File Locations
     // Rerouting
-    d = (req.hostname == 'localhost') ? "/dataPortal" : "/duluthfloodhazards/dataPortal"
-    a = (req.hostname == 'localhost') ? "/about" : "/duluthfloodhazards/about"
+    d = (req.hostname == 'localhost') ? "/dataPortal" : "/duluthfloodhazards_2d/dataPortal"
+    a = (req.hostname == 'localhost') ? "/about" : "/duluthfloodhazards_2d/about"
     w = {
         dirCurrent: p,
         dataPath: d,
