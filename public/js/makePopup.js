@@ -1,9 +1,4 @@
-/*
-    Created By Lizzi Slivinski, 2014 - 2015
-    eSlivinski@gmail.com
 
-    makePopup.js  Document creates popups and popupcharts
-*/
 
 function keepInView(){
 	var popPadding=10,
@@ -142,6 +137,27 @@ function popupLineChart(allPointData, popAttr){
 				var yGuides = scenarioGuideGroup.append("g")
 					.attr("class", "yGuides");
 
+				// xGuides.selectAll("circleGuides_X")
+				// 	.data(group).enter()
+				// 	.append('line')
+				// 	.attr('x1', function(d){return x(d['index'])})
+				// 	.attr('y1', height)
+				// 	.attr('x2', function(d){return x(d['index'])})
+				// 	.attr('y2', height)
+				// 	.attr("stroke", "#ddd")
+				// 	.attr("stroke-width", ".01em")
+				// 	.attr("class", "circleGuides_X")
+				// yGuides.selectAll("circleGuides_Y")
+				// 	.data(group).enter()
+				// 	.append('line')
+				// 	.attr('x1', 0)
+				// 	.attr('y1', height)
+				// 	.attr('x2', function(d){return x(d['index'])})
+				// 	.attr('y2', height)
+				// 	.attr("stroke", "black")
+				// 	.attr("stroke-width", "1px")
+				// 	.attr("class", "circleGuides_Y")
+
 				circleMarkers.selectAll(".linecircle")
 					.data(group).enter()
 					.append("circle")
@@ -261,7 +277,16 @@ function popupLineChart(allPointData, popAttr){
 			.transition().delay(1000)
 			.attr("cx",function(d){return x(d['index'])})
 			.attr("cy",function(d){return y(d[pATTR])})
+			//.transition().delay(1200)
 			.attr("r", function(d){return (d.damageId==damagesCurrent) ? 4 : 2.5; });
+		// d3.selectAll(".circleGuides_X")
+		// 	.transition().delay(1000)
+		// 	.attr("y1",function(d){return y(d[pATTR])})
+
+		// d3.selectAll(".circleGuides_Y")
+		// 	.transition().delay(1000)
+		// 	.attr("y1",function(d){return y(d[pATTR])})
+		// 	.attr("y2",function(d){return y(d[pATTR])})
 
 		$('[name="floodEventRadios"]:checked').val()
 

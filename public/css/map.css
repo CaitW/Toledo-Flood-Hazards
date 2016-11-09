@@ -196,14 +196,15 @@
 }
 .sizeLegend text{
   text-anchor: middle;
-  font-size: 14px !important;
+  font-size: 11px !important;
   FONT-FAMILY: OPEN SANS CONDENSED;
-
+  FONT-WEIGHT: bold;
 }
 .colorLegend text.halo,
 .colorLegend text.stroke{
-  font-size: 14px;
+  font-size: 12px;
   FONT-FAMILY: OPEN SANS CONDENSED;
+  FONT-WEIGHT: bold;
 }
 .colorLegend text.halo{
   stroke-width: 3;
@@ -213,12 +214,7 @@
   stroke-linejoin: round;
 }
 
- text.mainChartX, text.mainChartY{
-    font-size: 14px;
-    FONT-FAMILY: OPEN SANS CONDENSED;
-    text-transform: uppercase;
-    letter-spacing: 2px;
- }
+
 
 
 /* Chart Holder */

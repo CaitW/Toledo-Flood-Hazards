@@ -7,7 +7,7 @@
 
 
 // Site Specific Variables
-var serviceURL = "http://216.165.135.4:6080/arcgis/rest/services/Toledo_MapServiceFinal/MapServer/";
+var serviceURL = "http://69.11.243.109:6080/arcgis/rest/services/Toledo_MapServiceFinal/MapServer/";
 var siteBounds = L.latLngBounds(sW, nE);
 var maxBounds = L.latLngBounds(L.latLng(41.47668911274522, -84.12162780761719), L.latLng(41.96204305667252, -83.00926208496094)),
     fullExtent = L.latLngBounds([41.7055362786694, -83.63419532775879], [41.73378888605136, -83.49686622619629]);
@@ -76,13 +76,13 @@ var allLayersList = ['floods', depth, 'stormWater', 'xx','landUse', 'watershed',
 var stormWater = L.layerGroup().addTo(map);
 
 // Custom Tile Mile Tiles
-var stormWaterDitches = L.tileLayer('http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterDitches_/Tiles/{z}/{x}/{y}.png', {
+var stormWaterDitches = L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterDitches_/Tiles/{z}/{x}/{y}.png', {
         opacity: (($(stormWaterCheck).is(':checked'))&&($('[name="stormWaterCheckboxes"]:eq(1)')).is(':checked')) ? 1 :0,
         bounds: [[41.4126,-83.8903],[41.7342,-83.1775]],
         val: 'ditches'
     }).addTo(stormWater);
 
-var stormWaterMains = L.tileLayer('http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterMains_/Tiles/{z}/{x}/{y}.png', {
+var stormWaterMains = L.tileLayer('http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterMains_/Tiles/{z}/{x}/{y}.png', {
         opacity: (($(stormWaterCheck).is(':checked'))&&($('[name="stormWaterCheckboxes"]:eq(0)').is(':checked'))) ? 1 :0,
         bounds: [[41.5823,-83.7008],[41.7362,-83.4439]],
         val: 'mains'
@@ -290,7 +290,7 @@ function printMap(){
         // Add the active storm water layers to the storm water feature group
         $('input[name="stormWaterCheckboxes"]:checked').each(function(){
             targetLength ++
-            targetLayerURL= ($(this).val()=="mains") ? 'http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterMains/Tiles/{z}/{x}/{y}.png' : 'http://216.165.135.4/asfpm/Tiles/Toledo/StormWaterDitches/Tiles/{z}/{x}/{y}.png'
+            targetLayerURL= ($(this).val()=="mains") ? 'http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterMains/Tiles/{z}/{x}/{y}.png' : 'http://69.11.243.109/asfpm/Tiles/Toledo/StormWaterDitches/Tiles/{z}/{x}/{y}.png'
             targetLayer = L.tileLayer(targetLayerURL).on('load', test);
             stormWaterNetwork.addLayer(targetLayer);
         })
