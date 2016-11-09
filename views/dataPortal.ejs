@@ -38,83 +38,51 @@
 
 				<div class="col-md-8" role="main" >
 					<!-- #damages-section -->
-					<div id='damages-section'>
-						<h3 class="heading-text">Flood Damages</h3>
+					<% headings.forEach(function(groupTitle){%>
+						<%var group = myResult.rows.filter(function(d){ return (d.title==groupTitle)}) %>
+
+					<div id='section'>
+						<h3 class="heading-text"><%=groupTitle%></h3>
 						<ul class="media-list">
-							<%(myResult.rows).forEach(function(row){%>
-								<% if(row.format==".shp"){%>
+							<%(group).forEach(function(row){%>
+
 									<li class="media">
-										<a class="media-right media-top" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>">
-											<img class= ""src="<%=theLoc%>img/<%- (row.name).split('Scenario ')[1] %>_Symbols.png" style="margin-right:5px;border:1px solid black;height: 77px;">
+										<a class="media-right media-top" href="<%= row.link%>">
+											<img class="img-circle project-circle" src="/asfpm/floodatlasredesign/public/img/data_thumbs/<%= row.project%>/<%= row.img_src%>">
 										</a>
 										<div class="media-body">
-											<h4 class="media-heading"><%- (row.name).split('- ')[1] %>&mdash;<%= row.info %></h4>
+											<h4 class="media-heading"><%=row.subtitle%></h4>
 
 											<ul class="fa-ul">
 												<li>
-													<i class="fa fa-tag"></i>
-													<a href="#" onclick="viewMeta(<%= JSON.stringify(row) %>)" title="more info"></a>
+													<a href="#" onclick="viewMeta(<%= JSON.stringify(row) %>)" title="view metadata"><i class="fa fa-fw fa-tag"></i>&nbsp;Preview Metadata</a>
 												</li>
 												<li>
-													<i class="fa fa-download"></i>
-													<a class="fileLocation" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>" title="download file">Download </a>
+
+													<a class="fileLocation" href="<%= row.link%>" title="download file"><i class="fa fa-fw fa-download"></i>&nbsp;Download </a>
 												</li>
 											</ul>
 										</div>
 										<!-- /.media-body -->
 									</li>
 									<!-- /.media -->
-								<% } %>
 							<% }) %>
 						</ul>
 						<!-- /.media-list -->
 					</div>
-					<!-- /#damages-section -->
-					<br>
-					<!-- #depthgrid-section -->
-					<div id='depthgrid-section'>
-						<h3 class="heading-text">Depth Grids</h3>
-						<ul class="media-list">
-							<%(myResult.rows).forEach(function(row){%>
-								<% if(row.format==".tiff"){%>
-									<li class="media">
-										<a class="media-right media-top" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>">
-											<img class= ""src="<%=theLoc%>img/<%- (row.name).split('Scenario ')[1] %>_DG.png"style="margin-right:5px;border:1px solid black; height: 77px;">
-										</a>
-										<div class="media-body">
-											<h4 class="media-heading"><%- (row.name).split('- ')[1] %>&mdash;<%= row.info %></h4>
-											<ul class="fa-ul">
-												<li>
-													<i class="fa fa-tag"></i>
-													<a href="#" onclick="viewMeta(<%= JSON.stringify(row) %>)" title="view metadata"><span>View Metadata</span></a>
-												</li>
-												<li>
-													<i class="fa fa-download"></i>
-													<a class="fileLocation" href="http://floodatlas.org/asfpm/data/toledo/<%= row.path%>" title="download file">Download </a>
-												</li>
-											</ul>
-										</div>
-										<!-- /.media-body -->
-									</li>
-									<!-- /.media -->
-								<% } %>
-							<% }) %>
-						</ul>
-						<!-- /.media-list -->
-					</div>
-					<!-- /#depthgrid-section -->
+					<%})%>
 				</div>
 				<!-- /.col-md-8[role="main"] -->
 				<div class="col-md-4">
 					<div class="affix-top sidenav mobile-<%=mobileDevice%>" role="complementary">
 						<div>
-							<a class="btn btn-primary btn-block" id="downloadAll" href="http://floodatlas.org/asfpm/data/toledo/ToledoFloodHazards.zip">
+							<a class="btn btn-primary btn-block" id="downloadAll" href="http://floodatlas.org/asfpm/data/duluth/DuluthFloodHazards.zip">
 								Download All Files
 							</a>
 							<hr>
 							<ul  class="nav nav-pills nav-stacked">
 								<li>
-									<a href="http://69.11.243.109:6080/arcgis/rest/services/ToledoFloodHazards_NOAAEcon/MapServer">
+									<a href="http://216.165.135.4:6080/arcgis/rest/services/NOAA_ECON/Duluth_MapService/MapServer">
 										<i class="fa fa-fw fa-lg fa-terminal"></i>
 										Access our WMS Service
 									</a>
