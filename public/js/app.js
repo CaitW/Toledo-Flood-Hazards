@@ -2834,7 +2834,8 @@ function popupLineChart(allPointData, popAttr) {
             .attr('font-weight', 'bold')
     }
     $('.fieldToggle')
-        .on('click', function() {
+        .on('click', function(e) {
+            e.preventDefault();
             $('.fieldToggle')
                 .removeClass('nowShowing')
             $(this)
@@ -3303,7 +3304,8 @@ function init() {
         });
     // Toggling Data Distribution Chart Visibility
     $('#dataDistributionHeading a')
-        .on('click', function() {
+        .on('click', function(e) {
+            e.preventDefault();
             $(this)
                 .find('i')
                 .toggleClass('fa-eye fa-eye-slash')
@@ -3469,7 +3471,8 @@ function init() {
     // Define the Initial Attribution Text
     updateMapAttribution();
     $(document)
-        .on("click", "#openFullAttribution", function() {
+        .on("click", "#openFullAttribution", function(e) {
+            e.preventDefault();
             $("#fullAttribution")
                 .slideToggle();
         });
@@ -3479,7 +3482,10 @@ function init() {
     /* Map Export Functions */
     // Print Map
     $('.map-printer')
-        .on('click', print.create);
+        .on('click', function (e) {
+            e.preventDefault();
+            print.create();
+        });
     ///////////////////
     // Prototypes.js //
     ///////////////////
@@ -3556,7 +3562,8 @@ function init() {
             return 'translate(' + haz_m.left + ',' + haz_m.top + ')'
         });
     $(".resetBreaks")
-        .click(function() {
+        .click(function(e) {
+            e.preventDefault();
             $('#scaleSelector')
                 .selectpicker('val', 'jenks');
             handleStyle();
@@ -3604,7 +3611,8 @@ function init() {
     // Make Histogram //
     ////////////////////
     $('.chartSelector')
-        .on('click', function() {
+        .on('click', function(e) {
+            e.preventDefault();
             $('#chartHolder')
                 .empty()
             $('#helpText')
@@ -3650,7 +3658,8 @@ function init() {
             }, 250);
         });
     $('.printer')
-        .on('click', function() {
+        .on('click', function(e) {
+            e.preventDefault();
             target = $(this)
                 .attr('data')
             $(target)
@@ -3667,7 +3676,8 @@ function init() {
     /////////////////
     // Inline HTML for  skiping to help tour step
     $("[data-toggle='help']")
-        .on('click', function() {
+        .on('click', function(e) {
+            e.preventDefault();
             skipToStep((tours['advanced'])
                 .indexOf($(this)
                     .attr('data-help')))
@@ -3686,6 +3696,11 @@ function init() {
             return '' + d + '-highlighter highlighter'
         })
         .on('click', endTour);
+    // export map
+    $('#exportMap').on("click", function (e) {
+        e.preventDefault();
+        getLink($('#mapViewLink input'));
+    });
 }
 $(document)
     .ready(function() {
