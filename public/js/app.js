@@ -1105,11 +1105,11 @@ function ScaleEm(x, y, z) {
             return +d;
         }), 4);
         dom[0] = 0;
-        console.log(dom);
         var scale = d3.scale.threshold()
             .domain(dom)
             .range(jenksColors[attribute]);
         return scale;
+
     }
     var custom = function() {
         var serie = new geostats(population)
@@ -1155,9 +1155,49 @@ function ScaleEm(x, y, z) {
         //      .range([40, 0, 40]);
         //      return scale;
         // }
-    var outScale = ((x == 'color') && (scaleName == 'jenks')) ? jenks() : ((x == 'color') && (scaleName == 'equalInterval')) ? equalInterval() : ((x == 'color') && (scaleName == 'stdDev')) ? standardDeviation() : ((x == 'color') && (scaleName == 'custom')) ? custom() : (scaleType == 'height') ? linearHeight() : (scaleType == 'radius') ? linearRadius() : (scaleType == 'heightChange') ? changeLinearHeight() : (scaleType == 'radiusChange') ? changeRadius() : null;
+    var outScale;
+    if (x === 'color' && typeof scaleName !== "undefined") {
+        switch (scaleName) {
+            case 'jenks':
+                outScale = jenks();
+                break;
+            case 'equalInterval':
+                outScale = equalInterval()
+                break;
+            case 'stdDev':
+                outScale = standardDeviation()
+                break;
+            case 'custom':
+                outScale = custom();
+                break;
+            default:
+                outScale = null;
+                break;
+        }
+    } else if (typeof scaleType !== "undefined") {
+        switch (scaleType) {
+            case 'height':
+                outScale = linearHeight();
+                break;
+            case 'radius':
+                outScale = linearRadius();
+                break;
+            case 'heightChange':
+                outScale = changeLinearHeight();
+                break;
+            case 'radiusChange':
+                outScale = changeRadius();
+                break;
+            default:
+                outScale = null;
+                break;
+        }
+    } else {
+        outScale = null;
+    }
     return outScale
 }
+
 // Returns a copy of a javascript object
 function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
@@ -1545,6 +1585,9 @@ function style() {
             .attr("stroke-width", 0)
             .attr("r", function(d) {
                 d["prev"] = radiScale(pickData(d));
+                // if (getCurrentAttribute() === 'BldgLossUS') {
+                //     console.log(radiScale(pickData(d)));
+                // }
                 return ($('input[name="layerCheckboxes"]:eq(0)')
                     .is(':checked') == true) ? radiScale(pickData(d)) : 0
             })
