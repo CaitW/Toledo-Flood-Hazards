@@ -1133,11 +1133,19 @@ function ScaleEm(x, y, z) {
         //      return scale;
         // }
     var thresholdRadius = function() {
+        var thresholdDomain = ss.jenks(population.map(function(d) {
+            return +d;
+        }), 4);
+        if (thresholdDomain[0] === thresholdDomain[1]) {
+            thresholdDomain[0] = 0;
+        }
+        var range = [0, 4, 8, 12, 18, 29];
+        if(currentAttribute === 'BldgDmgPct') {
+            range = [0, 2, 5, 12, 18, 29];
+        }
         var scale = d3.scale.threshold()
-            .domain(ss.jenks(population.map(function(d) {
-                return +d;
-            }), 4))
-            .range([2, 5, 12, 18, 29, 40]);
+            .domain(thresholdDomain)
+            .range(range);
         return scale
     }
     var linearRadius = function() {
@@ -1180,7 +1188,7 @@ function ScaleEm(x, y, z) {
                 outScale = linearHeight();
                 break;
             case 'radius':
-                outScale = linearRadius();
+                outScale = thresholdRadius();
                 break;
             case 'heightChange':
                 outScale = changeLinearHeight();
@@ -1588,6 +1596,7 @@ function style() {
                 // if (getCurrentAttribute() === 'BldgLossUS') {
                 //     console.log(radiScale(pickData(d)));
                 // }
+                console.log("input",pickData(d), "output", radiScale(pickData(d)));
                 return ($('input[name="layerCheckboxes"]:eq(0)')
                     .is(':checked') == true) ? radiScale(pickData(d)) : 0
             })
@@ -1661,12 +1670,40 @@ function makeTicks() {
     d3.selectAll('.sizeLegend g')
         .sort(function(a, b) {
             return d3.descending(Math.abs(breaks[a]), Math.abs(breaks[b]))
-        })
+        });
+    // get an even breakpoint between each domain value
+    var dataBreakpoints = (function () {
+        var population = fullList.map(function(d) {
+                return +d[attribute];
+            }); 
+        population.sort(d3.ascending);
+        var dom = ss.jenks(population.map(function(d) {
+                return +d;
+        }), 4);
+        dom[0] = 0;
+        var breakpoints = [];
+        $.each(dom, function (index, value) {
+            if(index === (dom.length)) {
+                return false;
+            } else {
+                breakpoints.push(value + 1);
+            }
+        });
+        return breakpoints;
+    })();
+    var circleIndex = dataBreakpoints.length - 1;
     d3.selectAll('.sizeLegend circle')
         .transition()
         .duration(600)
         .attr('r', function(d) {
-            return (rScale(evenBreaks[d]) > 3) ? rScale(evenBreaks[d]) : 3
+            var radiusValue;
+            if(typeof dataBreakpoints[circleIndex] != "undefined") {
+                radiusValue = rScale(dataBreakpoints[circleIndex]);
+                circleIndex--;
+            } else {
+                radiusValue = 3; // default if something goes wrong
+            }
+            return radiusValue;
         })
         .attr('fill', function(d) {
             return colorScale(breaks[d])
