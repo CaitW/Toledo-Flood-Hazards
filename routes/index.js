@@ -38,7 +38,7 @@ router.get('/dataPortal', function(req, res) {
             return console.error('could not connect to postgres', err);
         }
         else {
-            var query = client.query('SELECT * FROM datafiles WHERE project = \'toledo\'');
+            var query = client.query('SELECT * FROM datafiles WHERE project = \'toledo_2d\'');
             query.on('row', function(row, result) {
                 result.addRow(row);
             });
