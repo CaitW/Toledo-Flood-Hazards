@@ -29,6 +29,9 @@ app.locals.fullList = require('./data/fullList.json');
 app.locals.silverCreekWatershed = require('./data/silverCreekWatershed.json');
 app.locals.futureLandUse = require('./data/FLU_Reduced.json');
 app.locals.currentLandUse = require('./data/CLU_Reduced.json');
+app.locals.appStatistics = require('./data/statistics.json');
+app.locals.smallResults = require('./data/remainingResults.json');
+
 console.log(app.get('env'))
 
 

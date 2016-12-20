@@ -1126,14 +1126,9 @@ function ScaleEm(x, y, z) {
     attribute = (((y == undefined) || (y == null)) && (showCompareFeatures == false)) ? currentAttribute : (((y == undefined) || (y == null)) && (showCompareFeatures == true)) ? String(currentAttribute) + '_change' : y
     scaleName = ((z == undefined) || (z == null)) ? $('#scaleSelector option:selected')
         .val() : z
-    population = fullList.map(function(d) {
-            return +d[attribute];
-        }) //(showCompareFeatures==false)? fullList.map(function(d) { return + d[attribute] ; }) : changeList
-    population.sort(d3.ascending)
+    population = appStatistics.population[attribute];
     pop = population
-    var Max = d3.max(fullList, function(d, i) {
-        return fullList[i][attribute]
-    })
+    var Max = appStatistics.max[attribute];
     var standardDeviation = function() {
         var serie = new geostats(population)
         var classes = serie.getClassStdDeviation(4)
@@ -1151,12 +1146,11 @@ function ScaleEm(x, y, z) {
         return scale
     }
     var jenks = function() {
-        dom = ss.jenks(population.map(function(d) {
-            return +d;
-        }), 4)
+        dom = appStatistics.breaks[attribute];
         var scale = d3.scale.threshold()
             .domain(dom)
             .range(jenksColors[attribute]);
+        console.log(scale);
         return scale;
     }
     var custom = function() {
@@ -1181,10 +1175,9 @@ function ScaleEm(x, y, z) {
         //      return scale;
         // }
     var thresholdRadius = function() {
+        var dom = appStatistics.breaks[attribute];
         var scale = d3.scale.threshold()
-            .domain(ss.jenks(population.map(function(d) {
-                return +d;
-            }), 4))
+            .domain(dom)
             .range([2, 5, 12, 18, 29, 40]);
         return scale
     }
@@ -1227,6 +1220,7 @@ function getCurrent(x, y) {
     cur = function(d) {
         return (d[damagesCurrent] != 0) ? d[damagesCurrent].attributes[x] : 0
     }
+    console.log("damages current", damagesCurrent);
     return (showCompareFeatures == true) ? comp : cur
 }
 // Move svg element in front of siblings
@@ -1449,7 +1443,22 @@ function createSymbols(data) {
 
 function style() {
     // Defines function to expose the current data (ie. the dataset according the current scenario, flood event, and attribute selected)
-    var pickData = getCurrent()
+    var pickData = getCurrent();
+    // update small results layer
+    layers.smallResults.clearLayers();
+    console.log("changing to " + damagesCurrent);
+    layers.smallResults.addLayer(L.geoJson(smallResults[damagesCurrent], {
+        pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, {
+                radius: 3,
+                fillColor: "#ffeda0",
+                weight: 0,
+                fillOpacity: 1,
+                clickable: false,
+                pointerEvents: 'none'
+            });
+        }
+    }));
         // changeList=(showCompareFeatures==true) ? ($(allYearData.features).map(function(){return pickData(this)}).get()).sort(d3.descending) :[]
         // changeList.sort(d3.descending)
     var selectedData = d3.selectAll('.bars')
@@ -1868,9 +1877,7 @@ function setIndexValues(x) {
 function makeHistogram() {
     var Max = null
     var stdPopulation = function() {
-        Max = d3.max(fullList, function(d, i) {
-            return fullList[i][currentAttribute]
-        });
+        Max = appStatistics.max[currentAttribute];
         return (allYearData.features)
             .filter(function(d, i) {
                 return d[damagesCurrent] != 0
@@ -2830,9 +2837,7 @@ function popupLineChart(allPointData, popAttr) {
     stylePop(popAttr)
 
     function stylePop(pATTR) {
-        y.domain([0, d3.max(fullList, function(d) {
-            return +d[pATTR]
-        })]);
+        y.domain([0, appStatistics.max[pATTR]]);
         d3.selectAll('.popupChart .y.axis')
             .remove()
         svg.append("g")
@@ -3440,7 +3445,8 @@ function init() {
             opacity: 1,
             position: "back",
             attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
-        })
+        }),
+        smallResults: new L.layerGroup()
     };
 
     sublayers = {
@@ -3541,6 +3547,7 @@ function init() {
     });
     // add raster layers
     layers.depth.addTo(map);
+    layers.smallResults.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
         .is(':checked')) ? layers.stormwater.addTo(map): null;
@@ -3551,7 +3558,7 @@ function init() {
     // add sublayers to layers
     toggleSubLayers();
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.fema];
+    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.fema, layers.smallResults];
     // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]')
         .on('change', function() {
