@@ -1485,19 +1485,20 @@ function style() {
     var pickData = getCurrent();
     // update small results layer
     layers.smallResults.clearLayers();
-    console.log("changing to " + damagesCurrent);
-    layers.smallResults.addLayer(L.geoJson(smallResults[damagesCurrent], {
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, {
-                radius: 3,
-                fillColor: "#ffeda0",
-                weight: 0,
-                fillOpacity: 1,
-                clickable: false,
-                pointerEvents: 'none'
-            });
-        }
-    }));
+    if ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') === true) {
+        layers.smallResults.addLayer(L.geoJson(smallResults[damagesCurrent], {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 3,
+                    fillColor: "#ffeda0",
+                    weight: 0,
+                    fillOpacity: 1,
+                    clickable: false,
+                    pointerEvents: 'none'
+                });
+            }
+        }));        
+    }
         // changeList=(showCompareFeatures==true) ? ($(allYearData.features).map(function(){return pickData(this)}).get()).sort(d3.descending) :[]
         // changeList.sort(d3.descending)
     var selectedData = d3.selectAll('.bars')
@@ -3633,7 +3634,7 @@ function init() {
     /* Map Export Functions */
     // Print Map
     $('.map-printer')
-        .on('click', , function (e) {
+        .on('click', function (e) {
             e.preventDefault();
             print.create();
         });
