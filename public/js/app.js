@@ -1196,7 +1196,46 @@ function ScaleEm(x, y, z) {
         //      .range([40, 0, 40]);
         //      return scale;
         // }
-    var outScale = ((x == 'color') && (scaleName == 'jenks')) ? jenks() : ((x == 'color') && (scaleName == 'equalInterval')) ? equalInterval() : ((x == 'color') && (scaleName == 'stdDev')) ? standardDeviation() : ((x == 'color') && (scaleName == 'custom')) ? custom() : (scaleType == 'height') ? linearHeight() : (scaleType == 'radius') ? linearRadius() : (scaleType == 'heightChange') ? changeLinearHeight() : (scaleType == 'radiusChange') ? changeRadius() : null;
+    var outScale;
+    if (x === 'color' && typeof scaleName !== "undefined") {
+        switch (scaleName) {
+            case 'jenks':
+                outScale = jenks();
+                break;
+            case 'equalInterval':
+                outScale = equalInterval()
+                break;
+            case 'stdDev':
+                outScale = standardDeviation()
+                break;
+            case 'custom':
+                outScale = custom();
+                break;
+            default:
+                outScale = null;
+                break;
+        }
+    } else if (typeof scaleType !== "undefined") {
+        switch (scaleType) {
+            case 'height':
+                outScale = linearHeight();
+                break;
+            case 'radius':
+                outScale = linearRadius();
+                break;
+            case 'heightChange':
+                outScale = changeLinearHeight();
+                break;
+            case 'radiusChange':
+                outScale = changeRadius();
+                break;
+            default:
+                outScale = null;
+                break;
+        }
+    } else {
+        outScale = null;
+    }
     return outScale
 }
 // Returns a copy of a javascript object
