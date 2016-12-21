@@ -1693,8 +1693,19 @@ function makeTicks() {
         .transition()
         .duration(500)
         .text(function(d) {
-            return (breaks[d + 1] != undefined) ? (d3.round(breaks[d]) + ' - ' + (d3.round(breaks[d + 1]) - 1) + '%') : (d3.round(breaks[d]) + "% +")
+            if (getCurrentAttribute() == 'BldgLossUS') {
+                var ret = "";
+                var notLastValue = breaks[d + 1] != undefined;
+                if (notLastValue) {
+                    return '< $' + d3.round(breaks[d + 1]).toString();
+                } else {
+                    return '$' + d3.round(breaks[d]).toString() + '+';
+                }
+            } else {
+                return (breaks[d + 1] != undefined) ? (d3.round(breaks[d]) + ' - ' + (d3.round(breaks[d + 1]) - 1) + '%') : (d3.round(breaks[d]) + "% +");
+            }
         });
+
     d3.selectAll('.legendHeading')
         .transition()
         .delay(500)
@@ -1852,7 +1863,7 @@ function getDGIndex() {
 }
 
 function getCurrentAttribute() {
-    return $('#fieldSelector option:selected')
+    return $("input[name='fieldRadios']:checked")
         .val();
 }
 
@@ -3677,10 +3688,10 @@ function init() {
     //////////////////////
     $('input[name="fieldRadios"]')
         .on('change', function() {
-            currentAttribute = $(this)
-                .val()
-            handleStyle()
+            currentAttribute = getCurrentAttribute();
+            handleStyle();
         });
+
     $('#fieldSelector')
         .on("change", function() {
             currentAttribute = getCurrentAttribute()
