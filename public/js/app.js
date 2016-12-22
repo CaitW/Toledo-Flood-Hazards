@@ -1568,8 +1568,8 @@ function style() {
         //  .attr('opacity', function(){return (showCompareFeatures==false)?0:1});
         // Update main chart labels
         d3.selectAll('.mainChartY')
-            .transition()
-            .duration(500)
+            //.transition()
+            //.duration(500)
             .attr('opacity', 0)
             .text(function() {
                 return (showCompareFeatures == false) ? "Flood Damages" : "Change in Flood Damages"
@@ -1582,16 +1582,16 @@ function style() {
             .duration(1000)
             .attr('opacity', 1);
         d3.selectAll('.mainChartX')
-            .transition()
-            .duration(500)
+            //.transition()
+            //.duration(500)
             .attr('opacity', 0)
             .text("Parcels in the Silver Creek watershed")
             .attr("transform", function() {
                 return "translate(" + (chartWidth / 2) + "," + (chartHeight + chartMargin.top) + ")"
             })
-            .transition()
-            .delay(2000)
-            .duration(1000)
+            //.transition()
+            //.delay(2000)
+            //.duration(1000)
             .attr('opacity', 1);
         d3.selectAll('.bars')
             .sort(function(a, b) {
@@ -1610,8 +1610,8 @@ function style() {
             .attr('height', function(d) {
                 return (showCompareFeatures != true) ? (chartHeight - linearHeight(pickData(d))) : (Math.abs(linearHeight(pickData(d)) - linearHeight(0)))
             })
-            .transition()
-            .duration(2000)
+            //.transition()
+            //.duration(2000)
             .attr("fill", function(d) {
                 return colorScale(pickData(d))
             })
@@ -1619,8 +1619,8 @@ function style() {
             .attr('y', function(d) {
                 return (showCompareFeatures != true) ? linearHeight(pickData(d)) : linearHeight(Math.max(0, pickData(d)))
             })
-            .transition()
-            .duration(1000) //.delay(1000)
+            //.transition()
+            //.duration(1000) //.delay(1000)
             .attr('width', function() {
                 return maxWidth
             })
@@ -1631,8 +1631,8 @@ function style() {
             .filter(function(d, i) {
                 return pickData(d) == 0
             })
-            .transition()
-            .duration(1000)
+            //.transition()
+            //.duration(1000)
             .attr('width', 0)
             .attr('height', 0)
             .transition()
@@ -1738,14 +1738,14 @@ function makeTicks() {
             return d3.descending(Math.abs(breaks[a]), Math.abs(breaks[b]))
         });
     // get an even breakpoint between each domain value
-    var dataBreakpoints = (function () {
-        if(currentAttribute === "BldgDmgPct") {
+    var dataBreakpoints = (function() {
+        if (currentAttribute === "BldgDmgPct") {
             var dom = appStatistics.equalInterval[currentAttribute];
         } else {
             var dom = appStatistics.breaks[currentAttribute];
         }
         var breakpoints = [];
-        $.each(dom, function (index, value) {
+        $.each(dom, function(index, value) {
             if (index === (dom.length)) {
                 return false;
             } else if (index === (dom.length - 1)) {
@@ -1754,9 +1754,10 @@ function makeTicks() {
                 var newBreakpoint = (dom[index] + dom[index + 1]) / 2;
                 breakpoints.push(newBreakpoint);
             }
-            });
+        });
         return breakpoints;
     })();
+
     var circleIndex = dataBreakpoints.length - 1;
     d3.selectAll('.sizeLegend circle')
         .transition()
