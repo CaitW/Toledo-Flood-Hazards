@@ -1138,19 +1138,21 @@ function ScaleEm(x, y, z) {
         return scale
     }
     var equalInterval = function() {
-        var serie = new geostats(population)
-        var classes = serie.getClassEqInterval(4)
+        var classes = appStatistics.equalInterval[currentAttribute];
         var scale = d3.scale.threshold()
             .domain(classes)
             .range(jenksColors[attribute]);
         return scale
     }
     var jenks = function() {
-        dom = appStatistics.breaks[attribute];
+        if(currentAttribute === "BldgDmgPct") {
+            dom = appStatistics.equalInterval[attribute];
+        } else {
+             dom = appStatistics.breaks[attribute];
+        }
         var scale = d3.scale.threshold()
             .domain(dom)
             .range(jenksColors[attribute]);
-        console.log(scale);
         return scale;
     }
     var custom = function() {
@@ -1175,12 +1177,20 @@ function ScaleEm(x, y, z) {
         //      return scale;
         // }
     var thresholdRadius = function() {
-        var dom = appStatistics.breaks[attribute];
+        if(currentAttribute === "BldgDmgPct") {
+            var dom = appStatistics.equalInterval[attribute];
+        } else {
+            var dom = appStatistics.breaks[attribute];
+        }
+
+        range = [0, 4, 7, 12, 20, 33];
+
         var scale = d3.scale.threshold()
             .domain(dom)
-            .range([2, 5, 12, 18, 29, 40]);
+            .range(range);
         return scale
     }
+
     var linearRadius = function() {
             var scale = d3.scale.linear()
                 .domain([0, Max])
@@ -1221,7 +1231,7 @@ function ScaleEm(x, y, z) {
                 outScale = linearHeight();
                 break;
             case 'radius':
-                outScale = linearRadius();
+                outScale = thresholdRadius();
                 break;
             case 'heightChange':
                 outScale = changeLinearHeight();
@@ -1259,7 +1269,6 @@ function getCurrent(x, y) {
     cur = function(d) {
         return (d[damagesCurrent] != 0) ? d[damagesCurrent].attributes[x] : 0
     }
-    console.log("damages current", damagesCurrent);
     return (showCompareFeatures == true) ? comp : cur
 }
 // Move svg element in front of siblings
@@ -1484,21 +1493,28 @@ function style() {
     // Defines function to expose the current data (ie. the dataset according the current scenario, flood event, and attribute selected)
     var pickData = getCurrent();
     // update small results layer
-    layers.smallResults.clearLayers();
-    if ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') === true) {
-        layers.smallResults.addLayer(L.geoJson(smallResults[damagesCurrent], {
-            pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, {
-                    radius: 3,
-                    fillColor: "#ffeda0",
-                    weight: 0,
-                    fillOpacity: 1,
-                    clickable: false,
-                    pointerEvents: 'none'
-                });
-            }
-        }));        
-    }
+    // layers.smallResults.clearLayers();
+    // if ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') === true) {
+    //     layers.smallResults.addLayer(L.geoJson(smallResults[damagesCurrent][getCurrentAttribute()], {
+    //         pointToLayer: function (feature, latlng) {
+    //             var color;
+    //             if(currentAttribute === "BldgLossUS") {
+    //                 color = '#edf8b1';
+    //             } else {
+    //                 color = '#ffeda0';
+    //             }
+    //             return L.circleMarker(latlng, {
+    //                 radius: 4,
+    //                 fillColor: color,
+    //                 weight: 1,
+    //                 color: "#cccccc",
+    //                 fillOpacity: 1,
+    //                 clickable: false,
+    //                 pointerEvents: 'none'
+    //             });
+    //         }
+    //     }));        
+    // }
         // changeList=(showCompareFeatures==true) ? ($(allYearData.features).map(function(){return pickData(this)}).get()).sort(d3.descending) :[]
         // changeList.sort(d3.descending)
     var selectedData = d3.selectAll('.bars')
@@ -1508,6 +1524,11 @@ function style() {
         })
         .filter(function(d) {
             return d != 0
+            // if(getCurrentAttribute() === "BldgDmgPct") {
+            //     return d > appStatistics.equalInterval["BldgDmgPct"][1];
+            // } else {
+            //     return d > appStatistics.breaks["BldgLossUS"][1];
+            // }
         })
         .sort(function(a, b) {
             return d3.descending(Math.abs(a), Math.abs(b))
@@ -1626,7 +1647,7 @@ function style() {
             })
             .sort()
             .sort(function(a, b) {
-                return d3.descending(Math.abs(pickData(a)), Math.abs(pickData(b)))
+                return d3.ascending(Math.abs(pickData(a)), Math.abs(pickData(b)))
             })
             .attr("stroke", function(d) {
                 return (d.prev < radiScale(pickData(d))) ? "white" : d3.lab(d3.select(this)
@@ -1715,12 +1736,40 @@ function makeTicks() {
     d3.selectAll('.sizeLegend g')
         .sort(function(a, b) {
             return d3.descending(Math.abs(breaks[a]), Math.abs(breaks[b]))
-        })
+        });
+    // get an even breakpoint between each domain value
+    var dataBreakpoints = (function () {
+        if(currentAttribute === "BldgDmgPct") {
+            var dom = appStatistics.equalInterval[currentAttribute];
+        } else {
+            var dom = appStatistics.breaks[currentAttribute];
+        }
+        var breakpoints = [];
+        $.each(dom, function (index, value) {
+            if (index === (dom.length)) {
+                return false;
+            } else if (index === (dom.length - 1)) {
+                breakpoints.push(value + 1);
+            } else {
+                var newBreakpoint = (dom[index] + dom[index + 1]) / 2;
+                breakpoints.push(newBreakpoint);
+            }
+            });
+        return breakpoints;
+    })();
+    var circleIndex = dataBreakpoints.length - 1;
     d3.selectAll('.sizeLegend circle')
         .transition()
         .duration(600)
         .attr('r', function(d) {
-            return (rScale(evenBreaks[d]) > 3) ? rScale(evenBreaks[d]) : 3
+            var radiusValue;
+            if(typeof dataBreakpoints[circleIndex] != "undefined") {
+                radiusValue = rScale(dataBreakpoints[circleIndex]);
+                circleIndex--;
+            } else {
+                radiusValue = 3; // default if something goes wrong
+            }
+            return radiusValue;
         })
         .attr('fill', function(d) {
             return colorScale(breaks[d])
@@ -1818,12 +1867,13 @@ function handleStyle() {
 }
 // Creates Summary Stats for the population
 function updateStatistics(x) {
-    population = (x == undefined) ? d3.values(dataByYear[damagesCurrent])
-        .map(function(d) {
-            return d.attributes[currentAttribute]
-        }) : x.map(function(d) {
-            return d[damagesCurrent].attributes[currentAttribute]
-        })
+    var scenarioStatistics = appStatistics.scenarios[damagesCurrent][currentAttribute];
+    // population = (x == undefined) ? d3.values(dataByYear[damagesCurrent])
+    //     .map(function(d) {
+    //         return d.attributes[currentAttribute]
+    //     }) : x.map(function(d) {
+    //         return d[damagesCurrent].attributes[currentAttribute]
+    //     })
     form = (currentAttribute == "BldgDmgPct") ? d3.format('%') : d3.format('$,')
     math = (currentAttribute == "BldgDmgPct") ? function(x) {
         return x / 100
@@ -1831,10 +1881,10 @@ function updateStatistics(x) {
         return x * 1000
     }
     stats = {
-        mean: form(math(d3.round(d3.mean(population)))),
-        median: form(math(d3.round(d3.median(population)))),
-        sum: form(math(d3.round(d3.sum(population)))),
-        n: String(population.length)
+        mean: form(math(d3.round(scenarioStatistics.mean))),
+        median: form(math(d3.round(scenarioStatistics.median))),
+        sum: form(math(d3.round(scenarioStatistics.sum))),
+        n: String(scenarioStatistics.n)
     }
     $('.stats-target')
         .each(function() {
@@ -1929,17 +1979,7 @@ function makeHistogram() {
     var Max = null
     var stdPopulation = function() {
         Max = appStatistics.max[currentAttribute];
-        return (allYearData.features)
-            .filter(function(d, i) {
-                return d[damagesCurrent] != 0
-            })
-            .filter(function(d, i) {
-                return d[damagesCurrent].attributes[currentAttribute] > 0
-            })
-            .map(function(d) {
-                return d[damagesCurrent].attributes[currentAttribute]
-            })
-            .sort(d3.ascending)
+        return appStatistics.scenarios[damagesCurrent][currentAttribute].population;
     }
     pickData = getCurrent()
     comparePopulation = function() {
@@ -3600,7 +3640,7 @@ function init() {
     });
     // add raster layers
     layers.depth.addTo(map);
-    layers.smallResults.addTo(map);
+    // layers.smallResults.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
         .is(':checked')) ? layers.stormwater.addTo(map): null;
@@ -3611,7 +3651,7 @@ function init() {
     // add sublayers to layers
     toggleSubLayers();
     //All possible Overlay Layers--XX=Stand-in to maintain layer indexes
-    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.fema, layers.smallResults];
+    allLayersList = ['floods', layers.depth, layers.stormwater, layers.landUse, layers.watershed, layers.fema];
     // Change in Layer checkbox event listener
     $('input[name="layerCheckboxes"]')
         .on('change', function() {
