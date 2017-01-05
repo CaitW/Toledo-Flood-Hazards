@@ -3416,7 +3416,7 @@ function init() {
     // Map Definition
     map = L.map('map', {
             zoomControl: false,
-            maxZoom: 16,
+            maxZoom: 14,
             minZoom: 2,
             // maxBounds: maxBounds,
             attributionControl: false,
