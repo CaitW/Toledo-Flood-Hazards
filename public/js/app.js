@@ -1666,12 +1666,12 @@ function style() {
                 return 0
             })
             .attr("stroke-width", 0);
-        // make sure that the smallest symbol has a stroke to make it visible on light backgrounds
-        // d3.selectAll('.symbols')
-        //     .filter(function(d, i) {
-        //         return (pickData(d) != 0 && pickData(d) < breaks[1]);
-        //     })
-        //     .classed("stroke-small-symbols", true)
+            //make sure that the smallest symbol has a stroke to make it visible on light backgrounds
+            d3.selectAll('.symbols')
+                .filter(function(d, i) {
+                    return (pickData(d) != 0 && pickData(d) < breaks[1]);
+                })
+                .classed("stroke-small-symbols", true)
         makeTicks();
     }
 }
@@ -3448,7 +3448,7 @@ function init() {
     // Map Definition
     map = L.map('map', {
             zoomControl: false,
-            maxZoom: 16,
+            maxZoom: 14,
             minZoom: 2,
             // maxBounds: maxBounds,
             attributionControl: false,

@@ -29,7 +29,7 @@
 .stroke-small-symbols:not(:hover) {
   stroke-width: 1;
   stroke: #000;
-  stroke-opacity: 0.2;
+  stroke-opacity: 0.1;
 }
 
 /* Bars */
