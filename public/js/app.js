@@ -1492,29 +1492,6 @@ function createSymbols(data) {
 function style() {
     // Defines function to expose the current data (ie. the dataset according the current scenario, flood event, and attribute selected)
     var pickData = getCurrent();
-    // update small results layer
-    // layers.smallResults.clearLayers();
-    // if ($('input[name="layerCheckboxes"]:eq(0)').is(':checked') === true) {
-    //     layers.smallResults.addLayer(L.geoJson(smallResults[damagesCurrent][getCurrentAttribute()], {
-    //         pointToLayer: function (feature, latlng) {
-    //             var color;
-    //             if(currentAttribute === "BldgLossUS") {
-    //                 color = '#edf8b1';
-    //             } else {
-    //                 color = '#ffeda0';
-    //             }
-    //             return L.circleMarker(latlng, {
-    //                 radius: 4,
-    //                 fillColor: color,
-    //                 weight: 1,
-    //                 color: "#cccccc",
-    //                 fillOpacity: 1,
-    //                 clickable: false,
-    //                 pointerEvents: 'none'
-    //             });
-    //         }
-    //     }));        
-    // }
         // changeList=(showCompareFeatures==true) ? ($(allYearData.features).map(function(){return pickData(this)}).get()).sort(d3.descending) :[]
         // changeList.sort(d3.descending)
     var selectedData = d3.selectAll('.bars')
@@ -3539,8 +3516,7 @@ function init() {
             opacity: 1,
             position: "back",
             attribution: "<br><a href='http://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer'>National Flood Hazard Layer</a> &mdash; FEMA RiskMap CDS"
-        }),
-        smallResults: new L.layerGroup()
+        })
     };
 
     sublayers = {
@@ -3641,7 +3617,6 @@ function init() {
     });
     // add raster layers
     layers.depth.addTo(map);
-    // layers.smallResults.addTo(map);
     // determine whether to add vector layers
     ($('[name="layerCheckboxes"]:eq(2)')
         .is(':checked')) ? layers.stormwater.addTo(map): null;
