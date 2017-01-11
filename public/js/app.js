@@ -1105,6 +1105,10 @@ function ScaleEm(x, y, z) {
             return +d;
         }), 4);
         dom[0] = 0;
+        // increase the range of the smallest category 
+        // (by increasing the lower limit of the next category)
+        // in order to improve the map display 
+        dom[1]++;
         var scale = d3.scale.threshold()
             .domain(dom)
             .range(jenksColors[attribute]);
@@ -1139,9 +1143,13 @@ function ScaleEm(x, y, z) {
         if (thresholdDomain[0] === thresholdDomain[1]) {
             thresholdDomain[0] = 0;
         }
+        // increase the range of the smallest category 
+        // (by increasing the lower limit of the next category)
+        // in order to improve the map display 
+        thresholdDomain[1]++;
         var range = [0, 4, 8, 12, 18, 29];
         if(currentAttribute === 'BldgDmgPct') {
-            range = [0, 2, 5, 12, 18, 29];
+            range = [0, 4, 6, 12, 18, 29];
         }
         var scale = d3.scale.threshold()
             .domain(thresholdDomain)
